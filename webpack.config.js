@@ -11,13 +11,32 @@ module.exports = ({ production, analyzer }) => {
 
 	return {
 		mode: production ? "production" : "development",
-		entry: path.resolve(__dirname, 'client', 'client.js'),
+		entry: path.resolve(__dirname, 'client', 'client.jsx'),
 		output: {
 			path: path.resolve(__dirname, 'public'),
-			filename: '[name].[chunkhash].js'
+			filename: '[name].[chunkhash].js',
+			sourceMapFilename: '[name].[chunkhash].js.map'
 		},
+		devtool: 'source-map',
 		resolve: {
 			extensions: ['.js', '.jsx']
+		},
+		module: {
+			rules: [
+				{
+					test: /\.(js|jsx)$/,
+					exclude: /(node_modules)/,
+					use: [
+						{
+							loader: 'babel-loader',
+							options: {
+								presets: ['@babel/preset-env', '@babel/preset-react'],
+								plugins: ['react-loadable/babel', '@babel/plugin-syntax-dynamic-import']
+							}
+						}
+					]
+				}
+			]
 		},
 		plugins: [
 			new CleanWebpackPlugin({
