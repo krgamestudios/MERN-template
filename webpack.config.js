@@ -17,7 +17,7 @@ module.exports = ({ production, analyzer }) => {
 			filename: '[name].[chunkhash].js',
 			sourceMapFilename: '[name].[chunkhash].js.map'
 		},
-		devtool: 'source-map',
+		devtool: 'eval-source-map',
 		resolve: {
 			extensions: ['.js', '.jsx']
 		},
@@ -53,6 +53,43 @@ module.exports = ({ production, analyzer }) => {
 			new BundleAnalyzerPlugin({
 				analyzerMode: analyzer ? 'server' : 'disabled'
 			})
-		]
-	};
+		],
+		devServer: {
+			contentBase: path.resolve(__dirname, 'public'),
+			compress: true,
+			port: 3001,
+			proxy: {
+				'/api/': 'http://localhost:3000/'
+			},
+			overlay: {
+				errors: true
+			},
+			stats: {
+				colors: true,
+				hash: false,
+				version: false,
+				timings: false,
+				assets: false,
+				chunks: false,
+				modules: false,
+				reasons: false,
+				children: false,
+				source: false,
+				errors: true,
+				errorDetails: false,
+				warnings: true,
+				publicPath: false
+			},
+			host: '0.0.0.0',
+			disableHostCheck: true,
+			clientLogLevel: 'silent',
+			historyApiFallback: true,
+			hot: true,
+			injectHot: true
+		},
+		watchOptions: {
+			ignored: /(node_modules)/
+		}
+	}
 };
+
