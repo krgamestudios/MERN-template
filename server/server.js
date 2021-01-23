@@ -16,11 +16,11 @@ app.use(formidable());
 app.use('/api/accounts', require('./accounts'));
 
 //send static files
-app.use('/', express.static(path.resolve('../public')));
+app.use('/', express.static(path.resolve(__dirname, 'public')));
 
 //fallback to the index file
 app.get('*', (req, res) => {
-	res.sendFile(path.resolve(`../public/index.html`));
+	res.sendFile(path.resolve(__dirname, 'public' , 'index.html'));
 });
 
 //startup

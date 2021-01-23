@@ -9,7 +9,7 @@
     "build:server": "exit 0",
     "build:client": "webpack --env=production --config webpack.config.js",
     "dev": "concurrently npm:watch:server npm:watch:client",
-    "watch:server": "nodemon server/server.js --ext js,jsx,json",
+    "watch:server": "nodemon . --ext js,jsx,json --ignore 'node_modules/*'",
     "watch:client": "webpack serve --env=development --config webpack.config.js",
     "analyzer": "webpack --env=production --analyzer --config webpack.config.js"
   },
