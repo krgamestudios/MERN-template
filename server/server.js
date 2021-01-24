@@ -12,6 +12,9 @@ const formidable = require('express-formidable');
 
 app.use(formidable());
 
+//database connection
+const database = require('./database');
+
 //account management
 app.use('/api/accounts', require('./accounts'));
 

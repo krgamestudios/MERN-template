@@ -29,8 +29,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
+    "mariadb": "^2.5.2",
+    "nodemailer": "^6.4.17",
     "regenerator-runtime": "^0.13.7",
-    "sendmail": "^1.6.1"
+    "sequelize": "^6.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

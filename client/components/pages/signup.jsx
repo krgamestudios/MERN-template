@@ -15,7 +15,7 @@ const SignUp = props => {
 				evt => {
 					evt.preventDefault();
 					handleSubmit(emailElement.value, usernameElement.value, passwordElement.value, retypeElement.value)
-						.then(res => alert(res))
+						.then(res => res ? alert(res) : null)
 						.then(() => emailElement.value = usernameElement.value = passwordElement.value = retypeElement.value = '') //clear input
 						.catch(e => console.error(e))
 					;
@@ -54,19 +54,18 @@ const handleSubmit = async (email, username, password, retype) => {
 	const err = handleValidation(email, username, password, retype);
 	
 	if (err) {
-		alert(err);
-		return;
+		return err;
 	}
 
 	//generate a new formdata payload
 	let formData = new FormData();
-	
+
 	formData.append('email', email);
 	formData.append('username', username);
 	formData.append('password', password);
 
 	const result = await fetch('/api/accounts/signup', { method: 'POST', body: formData });
-	
+
 	if (result.ok) {
 		return result.text();
 	} else {
@@ -79,19 +78,19 @@ const handleValidation = (email, username, password, retype) => {
 	if (!validateEmail(email)) {
 		return 'invalid email';
 	}
-	
+
 	if (!validateUsername(username)) {
 		return 'invalid username';
 	}
-	
+
 	if (password.length < 8) {
 		return 'invalid password (Must be at least 8 characters long)';
 	}
-	
+
 	if (password !== retype) {
 		return 'passwords do not match';
 	}
-	
+
 	return null;
 };
 

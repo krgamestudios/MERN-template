@@ -1,1 +1,11 @@
-WEB_PORT=8080
+WEB_PROTOCOL=http
+WEB_ADDRESS=localhost
+WEB_PORT=3000
+
+MAIL_SMTP=smtp.example.com
+MAIL_USERNAME=foobar@example.com
+MAIL_PASSWORD=foobar
+
+DB_DATABASE=template
+DB_USERNAME=template
+DB_PASSWORD=pikachu
