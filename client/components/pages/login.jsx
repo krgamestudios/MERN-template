@@ -25,7 +25,7 @@ const LogIn = props => {
 					handleSubmit(emailElement.value, passwordElement.value)
 						.then(res => res ? alert(res) : null)
 						.then(() => emailElement.value = passwordElement.value = '') //clear input
-						.then(() => props.history.push('/'))
+						.then(() => { window.location.reload(true); }) //BUFGIX: force reload of the header element
 						.catch(e => console.error(e))
 					;
 				}

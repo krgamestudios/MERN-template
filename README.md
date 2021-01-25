@@ -22,7 +22,7 @@ This should get the template working in development mode.
 	- ~~sign up~~
 	- ~~validate email~~
 	- ~~login (with cookies)~~
-	- logout (with cookies)
+	- ~~logout (with cookies)~~
 	- account deletion and management
 	- annoying "This site uses cookies" message
 - Administration Panel
