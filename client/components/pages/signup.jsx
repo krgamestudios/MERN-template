@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 //utilities
 const validateEmail = require('../../../common/utilities/validate-email.js');
 const validateUsername = require('../../../common/utilities/validate-username.js');
 
 const SignUp = props => {
+	const [cookies, setCookie] = useCookies(['loggedin']);
+
+	//check for logged in redirect
+	if (cookies['loggedin']) {
+		return <Redirect to='/' />;
+	}
+
 	//refs
 	let emailElement, usernameElement, passwordElement, retypeElement;
 
@@ -17,6 +26,7 @@ const SignUp = props => {
 					handleSubmit(emailElement.value, usernameElement.value, passwordElement.value, retypeElement.value)
 						.then(res => res ? alert(res) : null)
 						.then(() => emailElement.value = usernameElement.value = passwordElement.value = retypeElement.value = '') //clear input
+						.then(() => props.history.push('/'))
 						.catch(e => console.error(e))
 					;
 				}

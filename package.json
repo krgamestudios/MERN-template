@@ -25,12 +25,15 @@
   "homepage": "https://github.com/KRGameStudios/MERN-template#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
     "core-js": "^3.8.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
+    "express-session": "^1.17.1",
     "mariadb": "^2.5.2",
     "nodemailer": "^6.4.17",
+    "react-cookie": "^4.0.3",
     "regenerator-runtime": "^0.13.7",
     "sequelize": "^6.4.0"
   },

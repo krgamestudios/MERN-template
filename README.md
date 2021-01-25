@@ -1,5 +1,10 @@
 # MERN-template
+
 A website template using the MERN stack.
+
+# Legalities
+
+Please be aware that this template uses cookies. Yes, I know, it's annoying to show that message to the end user, but it's the law, at least in some places.
 
 # Setup Development
 
@@ -19,6 +24,7 @@ This should get the template working in development mode.
 	- login (with cookies)
 	- logout
 	- account deletion and management
+	- annoying "This site uses cookies" message
 - Administration Panel
 	- Exclusive to admin accounts
 	- ban/unban accounts
