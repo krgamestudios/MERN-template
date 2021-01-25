@@ -14,5 +14,5 @@ module.exports = sequelize.define('pendingSignups', {
 
 	hash: 'varchar(100)', //for passwords
 
-	verify: Sequelize.INTEGER(11)
+	token: Sequelize.INTEGER(11)
 });

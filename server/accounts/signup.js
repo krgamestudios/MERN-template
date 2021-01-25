@@ -9,7 +9,6 @@ const { bannedEmails, accounts, pendingSignups } = require('../database/models')
 //utilities
 const validateEmail = require('../../common/utilities/validate-email.js');
 const validateUsername = require('../../common/utilities/validate-username.js');
-const sequelize = require('../database');
 
 //api/accounts/signup
 const route = async (req, res) => {
@@ -24,16 +23,16 @@ const route = async (req, res) => {
 	const hash = await bcrypt.hash(req.fields.password, salt);
 
 	//generate the validation field
-	const verify = Math.floor(Math.random() * 2000000000);
+	const token = Math.floor(Math.random() * 2000000000);
 
 	//register signup
-	const signupErr = await registerPendingSignup(req.fields, hash, verify);
+	const signupErr = await registerPendingSignup(req.fields, hash, token);
 	if (signupErr) {
 		return res.status(500).send(signupErr);
 	}
 
 	//send the validation email
-	const emailErr = await sendValidationEmail(req.fields.email, verify);
+	const emailErr = await sendValidationEmail(req.fields.email, req.fields.username, token);
 	if (emailErr) {
 		return res.status(500).send(emailErr);
 	}
@@ -97,20 +96,20 @@ const validateDetails = async (fields) => {
 	return null;
 };
 
-const registerPendingSignup = async (fields, hash, verify) => {
+const registerPendingSignup = async (fields, hash, token) => {
 	const record = await pendingSignups.upsert({
 		email: fields.email,
 		username: fields.username,
 		hash: hash,
-		verify: verify
+		token: token
 	});
 
 	return null;
 };
 
-const sendValidationEmail = async (email, verify) => {
-	const addr = `${process.env.WEB_PROTOCOL}://${process.env.WEB_ADDRESS}/api/verify?verify=${verify}`;
-	const msg = `Hello! Please visit the following address to verify your account: ${addr}`;
+const sendValidationEmail = async (email, username, token) => {
+	const addr = `${process.env.WEB_PROTOCOL}://${process.env.WEB_ADDRESS}/api/accounts/validation?username=${username}&token=${token}`;
+	const msg = `Hello! Please visit the following address to validate your account: ${addr}`;
 
 	//what exactly is a transport?
 	let transporter = nodemailer.createTransport({

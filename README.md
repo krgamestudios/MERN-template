@@ -15,7 +15,7 @@ This should get the template working in development mode.
 
 - Account system
 	- ~~sign up~~
-	- verify email
+	- ~~validate email~~
 	- login (with cookies)
 	- logout
 	- account deletion and management
@@ -26,6 +26,8 @@ This should get the template working in development mode.
 - News blog system
 	- access an external news feed
 	- build the microservice to provide the news feed
+- Chat system
+- Achievements?
 
 # Email settings
 

@@ -28,7 +28,7 @@ module.exports = sequelize.define('accounts', {
 
 	hash: 'varchar(100)', //for passwords
 
-	expiry: {
+	deletion: {
 		type: 'DATETIME',
 		allowNull: true,
 		defaultValue: null
