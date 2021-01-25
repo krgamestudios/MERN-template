@@ -21,8 +21,8 @@ This should get the template working in development mode.
 - Account system
 	- ~~sign up~~
 	- ~~validate email~~
-	- login (with cookies)
-	- logout
+	- ~~login (with cookies)~~
+	- logout (with cookies)
 	- account deletion and management
 	- annoying "This site uses cookies" message
 - Administration Panel
