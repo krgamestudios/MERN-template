@@ -22,7 +22,7 @@ const Member = () => {
 };
 
 const logout = async () => {
-	await fetch('/api/accounts/logout')
+	await fetch('/api/accounts/logout', { method: 'POST' })
 		.catch(e => console.error(e))
 	;
 };

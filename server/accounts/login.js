@@ -24,12 +24,16 @@ const route = async (req, res) => {
 		}
 	});
 
+	if (!account) {
+		return res.status(401).send('incorrect email or password');
+	}
+
 	//compare passwords
 	const compare = utils.promisify(bcrypt.compare);
 	const match = await compare(req.fields.password, account.hash);
 
 	if (!match) {
-		return res.status(401).send('passwords don\'t match');
+		return res.status(401).send('incorrect email or password');
 	}
 
 	//save the session and cookie data

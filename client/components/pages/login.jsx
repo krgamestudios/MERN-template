@@ -23,9 +23,12 @@ const LogIn = props => {
 				evt => {
 					evt.preventDefault();
 					handleSubmit(emailElement.value, passwordElement.value)
-						.then(res => res ? alert(res) : null)
-						.then(() => emailElement.value = passwordElement.value = '') //clear input
-						.then(() => { window.location.reload(true); }) //BUFGIX: force reload of the header element
+						.then(([res, ok]) => {
+							alert(res);
+							if (ok) {
+								window.location.reload(true); //BUFGIX: force reload of the header element
+							}
+						})
 						.catch(e => console.error(e))
 					;
 				}
@@ -64,9 +67,9 @@ const handleSubmit = async (email, password) => {
 	const result = await fetch('/api/accounts/login', { method: 'POST', body: formData });
 
 	if (result.ok) {
-		return result.text();
+		return [await result.text(), true];
 	} else {
-		return result.text();
+		return [await result.text(), false];
 	}
 };
 
