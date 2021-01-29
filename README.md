@@ -24,7 +24,7 @@ This should get the template working in development mode.
 	- ~~login (with cookies)~~
 	- ~~logout (with cookies)~~
 	- ~~account deletion~~
-	- annoying "This site uses cookies" message
+	- ~~annoying "This site uses cookies" message~~
 	- CSS template?
 - Administration Panel
 	- Exclusive to admin accounts
