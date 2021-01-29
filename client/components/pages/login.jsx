@@ -18,7 +18,7 @@ const LogIn = props => {
 
 	return (
 		<div className='page'>
-			<h1 className='middle centered'>Login</h1>
+			<h1 className='centered'>Login</h1>
 			<form className='constricted' onSubmit={
 				evt => {
 					evt.preventDefault();

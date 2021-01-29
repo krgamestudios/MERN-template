@@ -23,8 +23,9 @@ This should get the template working in development mode.
 	- ~~validate email~~
 	- ~~login (with cookies)~~
 	- ~~logout (with cookies)~~
-	- account deletion and management
+	- ~~account deletion~~
 	- annoying "This site uses cookies" message
+	- CSS template?
 - Administration Panel
 	- Exclusive to admin accounts
 	- ban/unban accounts

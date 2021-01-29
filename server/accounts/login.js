@@ -40,6 +40,13 @@ const route = async (req, res) => {
 	req.session.account = account;
 	res.cookie('loggedin', process.env.WEB_ADDRESS);
 
+	//cancel deletion if any
+	await accounts.update({ deletion: null }, {
+		where: {
+			id: account.id
+		}
+	});
+
 	//finally
 	res.status(200).send('login succeeded');
 };

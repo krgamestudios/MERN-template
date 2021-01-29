@@ -19,7 +19,7 @@ const SignUp = props => {
 
 	return (
 		<div className='page'>
-			<h1 className='middle centered'>Signup</h1>
+			<h1 className='centered'>Signup</h1>
 			<form className='constricted' onSubmit={
 				evt => {
 					evt.preventDefault();
