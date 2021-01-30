@@ -11,3 +11,5 @@ DB_DATABASE=template
 DB_USERNAME=template
 DB_PASSWORD=pikachu
 DB_TIMEZONE=Australia/Sydney
+
+SESSION_SECRET=secret

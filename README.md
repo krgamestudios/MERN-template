@@ -16,6 +16,14 @@ To set up this template, please ensure mariadb is running on the host computer, 
 
 This should get the template working in development mode.
 
+# Microservices
+
+There are external components to this template referred to as "microservices". These can be omitted entirely by simply removing the React component that accesses them.
+
+* News Server: https://github.com/krgamestudios/news-server
+
+TODO: more info.
+
 # TODO list
 
 - Account system
@@ -25,15 +33,18 @@ This should get the template working in development mode.
 	- ~~logout (with cookies)~~
 	- ~~account deletion~~
 	- ~~annoying "This site uses cookies" message~~
-	- CSS template?
+- News blog system (microservice)
+	- ~~build the microservice to provide the news feed~~
+	- access an external news feed
+	- built-in panel for publishing and editing news (admin panel)
 - Administration Panel
 	- Exclusive to admin accounts
 	- ban/unban accounts
 	- inspect user data
-- News blog system
-	- access an external news feed
-	- build the microservice to provide the news feed
-- Chat system
+- Chat system (microservice?)
+	- Based on usernames
+	- Chat logs
+	- Direct Messages & rooms
 - Achievements?
 
 # Email settings

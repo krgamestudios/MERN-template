@@ -14,7 +14,7 @@ const session = require('express-session');
 
 app.use(formidable());
 app.use(cookieParser());
-app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }));
+app.use(session({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
 
 //database connection
 const database = require('./database');
