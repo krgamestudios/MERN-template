@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const { bannedEmails, accounts } = require('../database/models');
 
 const route = async (req, res) => {
+	//TODO: move to middleware
 	//make sure the account is an admin
 	if (req.cookies['admin'] !== process.env.SESSION_ADMIN) {
 		return res.status(401).send('invalid admin status');
@@ -33,7 +34,7 @@ const route = async (req, res) => {
 		.catch(e => console.error(e))
 	;
 
-	res.status(200).json(data);
+	return res.status(200).json(data);
 };
 
 module.exports = route;
