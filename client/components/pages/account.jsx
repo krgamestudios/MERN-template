@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import DeleteAccount from '../panels/delete-account';
 
 const Account = props => {
-	const [cookies, setCookie] = useCookies(['loggedin']);
+	const [cookies, setCookie] = useCookies();
 
 	//check for logged in redirect
 	if (!cookies['loggedin']) {

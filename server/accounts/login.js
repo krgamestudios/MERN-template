@@ -40,6 +40,10 @@ const route = async (req, res) => {
 	req.session.account = account;
 	res.cookie('loggedin', process.env.WEB_ADDRESS);
 
+	if (account.privilege == 'administrator') {
+		res.cookie('admin', process.env.SESSION_ADMIN);
+	}
+
 	//cancel deletion if any
 	await accounts.update({ deletion: null }, {
 		where: {

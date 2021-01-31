@@ -22,6 +22,9 @@ const database = require('./database');
 //account management
 app.use('/api/accounts', require('./accounts'));
 
+//administration
+app.use('/api/admin', require('./admin'));
+
 //send static files
 app.use('/', express.static(path.resolve(__dirname, 'public')));
 

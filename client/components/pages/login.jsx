@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 const validateEmail = require('../../../common/utilities/validate-email.js');
 
 const LogIn = props => {
-	const [cookies, setCookie] = useCookies(['loggedin']);
+	const [cookies, setCookie] = useCookies();
 
 	//check for logged in redirect
 	if (cookies['loggedin']) {

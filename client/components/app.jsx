@@ -38,11 +38,13 @@ const App = props => {
 				<Header />
 				<Switch>
 					<LazyRoute exact path='/' component={() => import('./pages/homepage')} />
-					
+
 					<LazyRoute path='/signup' component={() => import('./pages/signup')} />
 					<LazyRoute path='/login' component={() => import('./pages/login')} />
 					<LazyRoute path='/account' component={() => import('./pages/account')} />
-					
+
+					<LazyRoute path='/admin' component={() => import('./pages/admin')} />
+
 					<LazyRoute path='*' component={() => import('./pages/not-found')} />
 				</Switch>
 				<Footer />
