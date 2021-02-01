@@ -30,25 +30,26 @@ TODO: more info.
 
 # TODO list
 
-- Account system
+- ~~Account system~~
 	- ~~sign up~~
 	- ~~validate email~~
 	- ~~login (with cookies)~~
 	- ~~logout (with cookies)~~
 	- ~~account deletion~~
 	- ~~annoying "This site uses cookies" message~~
+- Administration Panel
+	- ~~Exclusive to admin accounts~~
+	- inspect aggregate user data
 - News blog system (microservice)
 	- ~~build the microservice to provide the news feed~~
-	- access an external news feed
-	- built-in panel for publishing and editing news (admin panel)
-- Administration Panel
-	- Exclusive to admin accounts
-	- ban/unban accounts
-	- inspect user data
-- Chat system (microservice?)
+	- ~~access an external news feed~~
+	- admin panel for publishing and editing news
+	- "created at" and "updated at" in the response
+- Chat system (microservice)
 	- Based on usernames
 	- Chat logs
 	- Direct Messages & rooms
+	- admin panel banning/unbanning (currently borked)
 - Achievements?
 - Privacy policy & data collection notice
 
