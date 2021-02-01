@@ -2,12 +2,6 @@ const { Op } = require('sequelize');
 const { bannedEmails, accounts } = require('../database/models');
 
 const route = async (req, res) => {
-	//TODO: move to middleware
-	//make sure the account is an admin
-	if (req.cookies['admin'] !== process.env.SESSION_ADMIN) {
-		return res.status(401).send('invalid admin status');
-	}
-
 	//merge the banned accounts with the account data, if any
 	const data = await bannedEmails.findAll()
 		.then(bans => bans.map(async ban => {

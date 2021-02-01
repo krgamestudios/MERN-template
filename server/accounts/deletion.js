@@ -39,7 +39,6 @@ const route = async (req, res) => {
 
 //actually delete the accounts
 cron.schedule('0 * * * *', () => {
-	console.log('wiping accounts');
 	accounts.destroy({
 		where: {
 			deletion: {

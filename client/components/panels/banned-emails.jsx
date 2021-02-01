@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 const BannedEmails = props => {
 	const [data, setData] = useState(null);
-	let usernameElement, emailElement, dateElement, reasonElement;
+	let usernameElement, emailElement, expiryElement, reasonElement;
 	let unbanElement;
 
-	fetch('/api/admin/banned', { method: 'POST' })
+	fetch('/api/admin/banned', { method: 'GET' })
 		.then(banned => banned.json())
 		.then(banned => !data ? setData(banned) : null)
 		.catch(e => console.error(e))
@@ -30,7 +30,7 @@ const BannedEmails = props => {
 						<td>{entry.username}</td>
 						<td>{entry.email}</td>
 						<td>{entry.privilege}</td>
-						<td>{entry.expiry}</td>
+						<td>{entry.expiry ? (new Date(entry.expiry)).toISOString() : null}</td>
 						<td>{entry.reason}</td>
 					</tr>
 					)}
@@ -38,24 +38,24 @@ const BannedEmails = props => {
 			</table>
 
 			<h2>Ban</h2>
-			<form onSubmit={async e => { e.preventDefault(); await handleBan(usernameElement.value, emailElement.value, dateElement.value, reasonElement.value); }}>
+			<form onSubmit={async e => { e.preventDefault(); await handleBan(usernameElement.value, emailElement.value, expiryElement.value, reasonElement.value); }}>
 				<div>
-					<label htmlFor='username'>Username:</label>
+					<label htmlFor='username'>Username: </label>
 					<input type='text' name='username' ref={e => usernameElement = e} />
 				</div>
 
 				<div>
-					<label htmlFor='email'>Email:</label>
+					<label htmlFor='email'>Email: </label>
 					<input type='email' name='email' ref={e => emailElement = e} />
 				</div>
 
 				<div>
-					<label htmlFor='expiry'>Expiry:</label>
-					<input type='date' name='expiry' ref={e => dateElement = e} />
+					<label htmlFor='expiry'>Expiry: </label>
+					<input type='date' name='expiry' ref={e => expiryElement = e} />
 				</div>
 
 				<div>
-					<label htmlFor='reason'>Reason:</label>
+					<label htmlFor='reason'>Reason: </label>
 					<textarea rows='4' cols='50' name='reason' ref={e => reasonElement = e} />
 				</div>
 
@@ -65,8 +65,8 @@ const BannedEmails = props => {
 			<h2>Unban</h2>
 			<form onSubmit={async e => { e.preventDefault(); await handleUnban(unbanElement.value); }}>
 				<div>
-					<label htmlFor='username'>Unban User</label>
-					<input type='text' name='username' ref={e => unbanElement = e} />
+					<label htmlFor='entry'>Unban User: </label>
+					<input type='text' name='entry' ref={e => unbanElement = e} />
 				</div>
 
 				<button type='submit'>Release From Horny Jail</button>
@@ -75,7 +75,7 @@ const BannedEmails = props => {
 	);
 };
 
-const handleBan = async (username, email, date, reason) => {
+const handleBan = async (username, email, expiry, reason) => {
 	username = username.trim();
 	email = email.trim();
 	reason = reason.trim();
@@ -85,7 +85,7 @@ const handleBan = async (username, email, date, reason) => {
 
 	formData.append('username', username);
 	formData.append('email', email);
-	formData.append('date', date);
+	formData.append('expiry', expiry);
 	formData.append('reason', reason);
 
 	const result = await fetch('/api/admin/ban', { method: 'POST', body: formData });
@@ -93,12 +93,12 @@ const handleBan = async (username, email, date, reason) => {
 	alert(await result.text());
 };
 
-const handleUnban = async (username) => {
-	username = username.trim();
+const handleUnban = async (entry) => {
+	entry = entry.trim();
 
 	let formData = new FormData();
 
-	formData.append('username', username);
+	formData.append('entry', entry);
 
 	const result = await fetch('/api/admin/unban', { method: 'POST', body: formData });
 
