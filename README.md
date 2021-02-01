@@ -16,6 +16,10 @@ To set up this template, please ensure mariadb is running on the host computer, 
 
 This should get the template working in development mode.
 
+# Deployment
+
+When deploying your project, please ensure that you're using HTTPS protocol. It's not hard to set up using certbot.
+
 # Microservices
 
 There are external components to this template referred to as "microservices". These can be omitted entirely by simply removing the React component that accesses them.
@@ -46,6 +50,7 @@ TODO: more info.
 	- Chat logs
 	- Direct Messages & rooms
 - Achievements?
+- Privacy policy & data collection notice
 
 # Email settings
 
