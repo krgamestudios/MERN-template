@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import dateFormat from 'dateformat';
 
 //DOCS: props.uri is the address of a live news-server
 const NewsFeed = props => {
@@ -25,8 +26,11 @@ const NewsFeed = props => {
 					<div key={index}>
 						<hr />
 						<h2>{article.title}</h2>
-						<h3>{article.author}</h3>
-						{ article.edits > 0 ? <p><em>{`${article.edits} edit${article.edits > 1 ? 's': ''}`}</em></p> : null }
+						<p>Written by <strong>{article.author}</strong>, {
+							article.edits > 0 ?
+							<span>Last Updated {dateFormat(articles.updatedAt, 'fullDate')} ({`${article.edits} edit${article.edits > 1 ? 's': ''}`})</span> :
+							<span>Published {dateFormat(articles.createdAt, 'fullDate')}</span>
+						}</p>
 						<p>{article.body}</p>
 					</div>
 				);
