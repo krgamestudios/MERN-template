@@ -1,4 +1,5 @@
 //plugins
+const { DefinePlugin } = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -39,11 +40,17 @@ module.exports = ({ production, analyzer }) => {
 			]
 		},
 		plugins: [
+			new DefinePlugin({
+				'process.env': {
+					'NEWS_URI': '"http://dev-news.eggtrainer.com:3100/news"',
+					'NEWS_KEY': '"key"',
+				}
+			}),
 			new CleanWebpackPlugin({
 				cleanOnceBeforeBuildPatterns: ['*', '!content*']
 			}),
 			new HtmlWebpackPlugin({
-				template: "./client/template.html",
+				template: './client/template.html',
 				minify: {
 					collapseWhitespace: production,
 					removeComments: production,

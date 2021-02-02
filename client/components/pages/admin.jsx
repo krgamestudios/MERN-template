@@ -16,7 +16,7 @@ const Admin = props => {
 	return (
 		<div className='page'>
 			<h1 className='centered'>Administration</h1>
-			<NewsPublisher />
+			<NewsPublisher uri={process.env.NEWS_URI} newsKey={process.env.NEWS_KEY} />
 		</div>
 	);
 };

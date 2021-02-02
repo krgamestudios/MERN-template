@@ -7,7 +7,7 @@ const HomePage = props => {
 	return (
 		<div className='page'>
 			<p>This is the MERN template homepage.</p>
-			<NewsFeed uri='http://dev-news.eggtrainer.com:3100/news' />
+			<NewsFeed uri={process.env.NEWS_URI} />
 		</div>
 	);
 };
