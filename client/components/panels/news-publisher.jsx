@@ -1,5 +1,7 @@
 import React from 'react';
 
+//DOCS: props.uri is the address of a live news-server
+//DOCS: props.newsKey is the key of the live news-server
 const NewsPublisher = props => {
 	let titleElement, authorElement, bodyElement;
 

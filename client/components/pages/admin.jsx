@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 
 //import BannedEmails from '../panels/banned-emails';
 import NewsPublisher from '../panels/news-publisher';
+import NewsEditor from '../panels/news-editor';
 
 const Admin = props => {
 	const [cookies, setCookie] = useCookies();
@@ -17,6 +18,7 @@ const Admin = props => {
 		<div className='page'>
 			<h1 className='centered'>Administration</h1>
 			<NewsPublisher uri={process.env.NEWS_URI} newsKey={process.env.NEWS_KEY} />
+			<NewsEditor uri={process.env.NEWS_URI} newsKey={process.env.NEWS_KEY} />
 		</div>
 	);
 };

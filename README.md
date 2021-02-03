@@ -40,17 +40,16 @@ TODO: more info.
 - Administration Panel
 	- ~~Exclusive to admin accounts~~
 	- inspect aggregate user data
-- News blog system (microservice)
+- ~~News blog system (microservice)~~
 	- ~~build the microservice to provide the news feed~~
 	- ~~access an external news feed~~
-	- admin panel for publishing and editing news
-	- "created at" and "updated at" in the response
+	- ~~admin panel for publishing and editing news~~
+	- ~~"created at" and "updated at" in the response~~
 - Chat system (microservice)
 	- Based on usernames
 	- Chat logs
 	- Direct Messages & rooms
 	- admin panel banning/unbanning (currently borked)
-- Achievements?
 - Privacy policy & data collection notice
 
 # Email settings

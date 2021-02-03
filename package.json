@@ -36,6 +36,7 @@
     "node-cron": "^2.0.3",
     "nodemailer": "^6.4.17",
     "react-cookie": "^4.0.3",
+    "react-dropdown-select": "^4.7.3",
     "regenerator-runtime": "^0.13.7",
     "sequelize": "^6.4.0"
   },

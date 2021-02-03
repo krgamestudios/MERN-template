@@ -20,7 +20,7 @@ const NewsFeed = props => {
 
 	return (
 		<div>
-			<h2 className='centered'>News Feed</h2>
+			<h1 className='centered'>News Feed</h1>
 			{(articles || []).map((article, index) => {
 				return (
 					<div key={index}>
@@ -31,7 +31,7 @@ const NewsFeed = props => {
 							<span>Last Updated {dateFormat(articles.updatedAt, 'fullDate')} ({`${article.edits} edit${article.edits > 1 ? 's': ''}`})</span> :
 							<span>Published {dateFormat(articles.createdAt, 'fullDate')}</span>
 						}</p>
-						<p>{article.body}</p>
+						<p style={{whiteSpace: 'pre-wrap'}}>{article.body}</p>
 					</div>
 				);
 			})}
