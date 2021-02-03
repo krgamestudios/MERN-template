@@ -18,7 +18,7 @@ This should get the template working in development mode.
 
 # Deployment
 
-When deploying your project, please ensure that you're using HTTPS protocol. It's not hard to set up using certbot.
+When deploying your project, please ensure that you're using HTTPS protocol. It's not hard to set up using [certbot](https://certbot.eff.org/).
 
 # Microservices
 
@@ -51,6 +51,17 @@ TODO: more info.
 	- Direct Messages & rooms
 	- admin panel banning/unbanning (currently borked)
 - Privacy policy & data collection notice
+- configuration script
+- Docker, docker, docker.
+- Start here page
+
+Eventually, a clean install will be this easy:
+
+```
+git clone template-url
+npm run configure
+npm start
+```
 
 # Email settings
 
