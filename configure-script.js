@@ -42,17 +42,18 @@ const question = (prompt, def) => {
 	const databaseTimeZone = await question('Database Timezone', 'Australia/Sydney');
 
 	//traefic configuration
-	const supportEmail = await question('Support Email', 'postmaster@example.com');
+	const supportEmail = await question('Support Email', projectMailUser);
 
 const yml = `
+version: "3.6"
 services:
   ${projectName}:
     build: .
     ports:
-      - "3000:3000"
+      - "3000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.${projectName}router.rule=Host('${projectWebAddress}')"
+      - "traefik.http.routers.${projectName}router.rule=Host(\`${projectWebAddress}\`)"
       - "traefik.http.routers.${projectName}router.entrypoints=websecure"
       - "traefik.http.routers.${projectName}router.tls.certresolver=myresolver"
       - "traefik.http.routers.${projectName}router.service=${projectName}service@docker"
@@ -82,10 +83,10 @@ services:
   ${newsName}:
     image: krgamestudios/news-server:v1.0.0
     ports:
-      - "3100:3100"
+      - "3100"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.${newsName}router.rule=Host('${newsWebAddress}')"
+      - "traefik.http.routers.${newsName}router.rule=Host(\`${newsWebAddress}\`)"
       - "traefik.http.routers.${newsName}router.entrypoints=websecure"
       - "traefik.http.routers.${newsName}router.tls.certresolver=myresolver"
       - "traefik.http.routers.${newsName}router.service=newsservice@docker"
@@ -123,7 +124,8 @@ services:
   traefik:
     image: "traefik:v2.4"
     container_name: "traefik"
-    command: >
+    command:
+      - "--log.level=ERROR"
       - "--api.insecure=false"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
@@ -131,6 +133,7 @@ services:
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=${supportEmail}"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - " traefik.docker.network=app-network"
     ports:
       - "80:80"
       - "443:443"

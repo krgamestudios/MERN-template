@@ -110,6 +110,7 @@ public/*.css
 public/*.map
 public/*.gz
 
+letsencrypt/
 mysql/
 Dockerfile
 docker-compose.yml
