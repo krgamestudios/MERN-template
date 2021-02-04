@@ -109,4 +109,9 @@ public/*.js
 public/*.css
 public/*.map
 public/*.gz
+
+mysql/
+Dockerfile
 docker-compose.yml
+startup.sql
+

@@ -42,8 +42,8 @@ module.exports = ({ production, analyzer }) => {
 		plugins: [
 			new DefinePlugin({
 				'process.env': {
-					'NEWS_URI': production ? `${process.env.NEWS_KEY}` : '"http://dev-news.eggtrainer.com:3100/news"',
-					'NEWS_KEY': production ? `${process.env.NEWS_KEY}` : 'key',
+					'NEWS_URI': production ? `"${process.env.NEWS_URI}"` : '"http://dev-news.eggtrainer.com:3100/news"',
+					'NEWS_KEY': production ? `"${process.env.NEWS_KEY}"` : '"key"',
 				}
 			}),
 			new CleanWebpackPlugin({

@@ -26,11 +26,11 @@ app.use('/api/accounts', require('./accounts'));
 app.use('/api/admin', require('./admin'));
 
 //send static files
-app.use('/', express.static(path.resolve(__dirname, 'public')));
+app.use('/', express.static(path.resolve(__dirname, '..', 'public')));
 
 //fallback to the index file
 app.get('*', (req, res) => {
-	res.sendFile(path.resolve(__dirname, 'public' , 'index.html'));
+	res.sendFile(path.resolve(__dirname, '..', 'public' , 'index.html'));
 });
 
 //startup
