@@ -109,3 +109,4 @@ public/*.js
 public/*.css
 public/*.map
 public/*.gz
+docker-compose.yml

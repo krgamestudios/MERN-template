@@ -16,9 +16,15 @@ To set up this template, please ensure mariadb is running on the host computer, 
 
 This should get the template working in development mode.
 
-# Deployment
+# Setup Deployment
 
-When deploying your project, please ensure that you're using HTTPS protocol. It's not hard to set up using [certbot](https://certbot.eff.org/).
+Eventually, a clean install will be this easy:
+
+```
+git clone template-url
+npm run configure
+docker-compose up
+```
 
 # Microservices
 
@@ -54,14 +60,7 @@ TODO: more info.
 - configuration script
 - Docker, docker, docker.
 - Start here page
-
-Eventually, a clean install will be this easy:
-
-```
-git clone template-url
-npm run configure
-npm start
-```
+- LICENSE
 
 # Email settings
 

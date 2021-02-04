@@ -6,7 +6,7 @@ MAIL_SMTP=smtp.example.com
 MAIL_USERNAME=foobar@example.com
 MAIL_PASSWORD=foobar
 
-DB_HOSTADDR=127.0.0.1
+DB_HOSTNAME=127.0.0.1
 DB_DATABASE=template
 DB_USERNAME=template
 DB_PASSWORD=pikachu
