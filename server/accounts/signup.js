@@ -111,24 +111,36 @@ const sendValidationEmail = async (email, username, token) => {
 	const addr = `${process.env.WEB_PROTOCOL}://${process.env.WEB_ADDRESS}/api/accounts/validation?username=${username}&token=${token}`;
 	const msg = `Hello! Please visit the following address to validate your account: ${addr}`;
 
+	let transporter, info;
+
 	//what exactly is a transport?
-	let transporter = nodemailer.createTransport({
-		host: process.env.MAIL_SMTP,
-		port: 465,
-		secure: true,
-		auth: {
-		  user: process.env.MAIL_USERNAME,
-		  pass: process.env.MAIL_PASSWORD
-		},
-	});
-	
+	try {
+		transporter = nodemailer.createTransport({
+			host: process.env.MAIL_SMTP,
+			port: 465,
+			secure: true,
+			auth: {
+			  user: process.env.MAIL_USERNAME,
+			  pass: process.env.MAIL_PASSWORD
+			},
+		});
+	}
+	catch(e) {
+		return `failed to create transport: ${e}`;
+	}
+
 	// send mail with defined transport object
-	let info = await transporter.sendMail({
-		from: `signup@${process.env.WEB_ADDRESS}`, //WARNING: google overwrites this
-		to: email,
-		subject: 'Email Validation',
-		text: msg
-	});
+	try {
+		info = await transporter.sendMail({
+			from: `signup@${process.env.WEB_ADDRESS}`, //WARNING: google overwrites this
+			to: email,
+			subject: 'Email Validation',
+			text: msg
+		});
+	}
+	catch(e) {
+		return `failed to send mail ${e}`;
+	}
 
 	if (info.accepted[0] != email) {
 		return 'validation email failed';
