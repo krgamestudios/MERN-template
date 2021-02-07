@@ -6,7 +6,13 @@ const NewsFeed = props => {
 	const [articles, setArticles] = useState(null);
 
 	if (!articles) {
-		fetch(props.uri, { method: 'GET' })
+		fetch(props.uri, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+		})
 			.then(a => {
 				if (!a.ok) {
 					throw `Network error ${a.status}: ${a.statusText} ${a.url}`;

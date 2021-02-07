@@ -72,7 +72,7 @@ services:
       - DB_TIMEZONE=${databaseTimeZone}
       - SESSION_SECRET=secret
       - SESSION_ADMIN=adminsecret
-      - NEWS_URI=http://${newsWebAddress}:3100/news
+      - NEWS_URI=https://${newsWebAddress}/news
       - NEWS_KEY=${newsKey}
     networks:
       - app-network

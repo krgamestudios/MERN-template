@@ -9,7 +9,13 @@ const NewsEditor = props => {
 	const [index, setIndex] = useState(null);
 
 	if (!articles) {
-		fetch(`${props.uri}/titles?limit=999`, { method: 'GET' })
+		fetch(`${props.uri}/titles?limit=999`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+		})
 			.then(a => {
 				if (!a.ok) {
 					throw `Network error ${a.status}: ${a.statusText} ${a.url}`;
