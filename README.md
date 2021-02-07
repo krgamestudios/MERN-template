@@ -29,9 +29,9 @@ This should get the template working in development mode.
 Eventually, a clean install will be this easy:
 
 ```
-git clone template-url
+git clone https://github.com/krgamestudios/MERN-template.git
 npm run configure
-docker-compose up
+docker-compose up --build
 ```
 
 # Microservices
