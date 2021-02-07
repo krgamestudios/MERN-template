@@ -1,3 +1,11 @@
+# WARNING
+
+It's not ready yet.
+
+There are legal requirements that will cover both KR Game Studios and the developers who use this - I need to address these, still.
+
+Also, there's a lot of features still missing (see [TODO list](#TODO-list)), and I'm working as hard as I can on this.
+
 # MERN-template
 
 A website template using the MERN stack.
@@ -31,18 +39,23 @@ docker-compose up
 There are external components to this template referred to as "microservices". These can be omitted entirely by simply removing the React component that accesses them.
 
 * News Server: https://github.com/krgamestudios/news-server
-
-TODO: more info.
+* Chat Server: Coming soon...
 
 # TODO list
 
+- Legal Requirements:
+	- Physical Mailing Address Config (for emails)
+	- Opt-out option (for emails)
+	- Information about legal requirements of the developers using this template
+	- Privacy policy & data collection notices
+	- LICENSE file
+	- ~~annoying "This site uses cookies" message~~
 - ~~Account system~~
 	- ~~sign up~~
 	- ~~validate email~~
 	- ~~login (with cookies)~~
 	- ~~logout (with cookies)~~
 	- ~~account deletion~~
-	- ~~annoying "This site uses cookies" message~~
 - Administration Panel
 	- ~~Exclusive to admin accounts~~
 	- inspect aggregate user data
@@ -56,11 +69,10 @@ TODO: more info.
 	- Chat logs
 	- Direct Messages & rooms
 	- admin panel banning/unbanning (currently borked)
-- Privacy policy & data collection notice
-- configuration script
-- Docker, docker, docker.
+- Configuraton Script:
+	- Default UUID keys
+	- ~~Docker, docker, docker.~~
 - Start here page
-- LICENSE
 
 # Email settings
 
