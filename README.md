@@ -46,7 +46,6 @@ There are external components to this template referred to as "microservices". T
 - Legal Requirements:
 	- ~~Physical Mailing Address Config (for emails)~~
 	- ~~Opt-out option (for emails)~~
-	- Information about legal requirements of the developers using this template
 	- Privacy policy & data collection notices
 	- LICENSE file
 	- ~~annoying "This site uses cookies" message~~
@@ -79,6 +78,7 @@ There are external components to this template referred to as "microservices". T
 	- Security holes
 		- HTTPS
 		- Default admin account
+	- Information about legal requirements of the developers using this template
 
 # Email settings
 
