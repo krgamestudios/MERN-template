@@ -151,14 +151,12 @@ networks:
 	const dockerfile = `
 FROM node:15
 WORKDIR "/app"
-WORKDIR "/app"
 COPY package*.json ./
 RUN npm install
 RUN apt-get update
 RUN apt-get install -y mariadb-client
 COPY . /app
 EXPOSE 3000
-
 
 ENTRYPOINT ["bash", "-c"]
 CMD ["mysql --host=database --user=root --password=${databaseRootPassword} < ./startup.sql && npm start"]

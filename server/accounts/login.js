@@ -56,8 +56,8 @@ const route = async (req, res) => {
 };
 
 const validateDetails = async (fields) => {
-	//basic formatting
-	if (!validateEmail(fields.email)) {
+	//basic formatting (with an exception for the default admin account)
+	if (!validateEmail(fields.email) && fields.email != `admin@${process.env.WEB_ADDRESS}`) {
 		return 'invalid email';
 	}
 

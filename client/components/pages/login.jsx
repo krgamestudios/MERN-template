@@ -49,14 +49,9 @@ const LogIn = props => {
 	);
 };
 
+//DOCS: returns two values: response and OK
 const handleSubmit = async (email, password) => {
 	email = email.trim();
-
-	const err = handleValidation(email, password);
-
-	if (err) {
-		return err;
-	}
 
 	//generate a new formdata payload
 	let formData = new FormData();
@@ -71,19 +66,6 @@ const handleSubmit = async (email, password) => {
 	} else {
 		return [await result.text(), false];
 	}
-};
-
-//returns an error message, or null on success
-const handleValidation = (email, password) => {
-	if (!validateEmail(email)) {
-		return 'invalid email';
-	}
-
-	if (password.length < 8) {
-		return 'invalid password (Must be at least 8 characters long)';
-	}
-
-	return null;
 };
 
 export default LogIn;

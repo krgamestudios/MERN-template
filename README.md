@@ -57,6 +57,7 @@ There are external components to this template referred to as "microservices". T
 	- ~~logout (with cookies)~~
 	- ~~account deletion~~
 - Administration Panel
+	- ~~Default admin account~~
 	- ~~Exclusive to admin accounts~~
 	- inspect aggregate user data
 - ~~News blog system (microservice)~~
@@ -72,7 +73,12 @@ There are external components to this template referred to as "microservices". T
 - Configuraton Script:
 	- Default UUID keys
 	- ~~Docker, docker, docker.~~
-- Start here page
+- Better compression for client files
+- Full tutorial for setting up and using the site
+	- Start here page
+	- Security holes
+		- HTTPS
+		- Default admin account
 
 # Email settings
 
