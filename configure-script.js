@@ -1,8 +1,11 @@
 //setup
 const readline = require('readline');
 const fs = require('fs');
+const crypto = require("crypto");
 
-var rl = readline.createInterface({
+const uuid = (bytes = 16) => crypto.randomBytes(bytes).toString("hex");
+
+const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
 	terminal: false
@@ -25,7 +28,7 @@ const question = (prompt, def) => {
 	const projectMailSMTP = await question('Project Mail SMTP', 'smtp.example.com');
 	const projectMailUser = await question('Project Mail Username', 'foobar@example.com');
 	const projectMailPass = await question('Project Mail Password', 'foobar');
-	const projectMailPhysical = await question('Project Physical Mailing Address', '[Unknown]');
+	const projectMailPhysical = await question('Project Physical Mailing Address', '');
 	const projectDBUser = await question('Project Database Username', projectName);
 	const projectDBPass = await question('Project Database Password', 'pikachu');
 
@@ -34,7 +37,7 @@ const question = (prompt, def) => {
 	const newsWebAddress = await question('News Web Address', 'news.example.com');
 	const newsDBUser = await question('News Database Username', newsName);
 	const newsDBPass = await question('News Database Password', 'charizard');
-	const newsKey = await question('News Query Key', 'key');
+	const newsKey = await question('News Query Key', uuid());
 
 	//TODO: chat configuration
 
@@ -44,6 +47,10 @@ const question = (prompt, def) => {
 
 	//traefic configuration
 	const supportEmail = await question('Support Email', projectMailUser);
+
+	//other random values
+	const sessionSecret = uuid(); //for session randomness
+	const sessionAdmin = uuid(128); //for checking if user is admin
 
 const yml = `
 version: "3.6"
@@ -65,15 +72,15 @@ services:
       - WEB_PORT=3000
       - MAIL_SMTP=${projectMailSMTP}
       - MAIL_USERNAME=${projectMailUser}
-	  - MAIL_PASSWORD=${projectMailPass}
-	  - MAIL_PHYSICAL=${projectMailPhysical}
+      - MAIL_PASSWORD=${projectMailPass}
+      - MAIL_PHYSICAL=${projectMailPhysical}
       - DB_HOSTNAME=database
       - DB_DATABASE=${projectName}
       - DB_USERNAME=${projectDBUser}
       - DB_PASSWORD=${projectDBPass}
       - DB_TIMEZONE=${databaseTimeZone}
-      - SESSION_SECRET=secret
-      - SESSION_ADMIN=adminsecret
+      - SESSION_SECRET=${sessionSecret}
+      - SESSION_ADMIN=${sessionAdmin}
       - NEWS_URI=https://${newsWebAddress}/news
       - NEWS_KEY=${newsKey}
     networks:

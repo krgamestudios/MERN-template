@@ -69,8 +69,8 @@ There are external components to this template referred to as "microservices". T
 	- Chat logs
 	- Direct Messages & rooms
 	- admin panel banning/unbanning (currently borked)
-- Configuraton Script:
-	- Default UUID keys
+- ~~Configuraton Script:~~
+	- ~~Default UUID keys~~
 	- ~~Docker, docker, docker.~~
 - Better compression for client files
 - Full tutorial for setting up and using the site
