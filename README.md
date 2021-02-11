@@ -43,10 +43,10 @@ There are external components to this template referred to as "microservices". T
 
 # TODO list
 
-- Legal Requirements:
+- ~~Legal Requirements:~~
 	- ~~Physical Mailing Address Config (for emails)~~
 	- ~~Opt-out option (for emails)~~
-	- Privacy policy & data collection notices
+	- ~~Privacy policy & data collection notices~~
 	- ~~LICENSE file~~
 	- ~~annoying "This site uses cookies" message~~
 - ~~Account system~~
@@ -79,6 +79,7 @@ There are external components to this template referred to as "microservices". T
 		- HTTPS
 		- Default admin account
 	- Information about legal requirements of the developers using this template
+		- Privacy policy & data collection notices
 
 # Email settings
 

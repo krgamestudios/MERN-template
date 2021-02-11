@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 
 //library components
 import LazyRoute from './lazy-route';
+import Markdown from './panels/markdown';
 
 //styling
 //TODO: styling import
@@ -44,6 +45,9 @@ const App = props => {
 					<LazyRoute path='/account' component={() => import('./pages/account')} />
 
 					<LazyRoute path='/admin' component={() => import('./pages/admin')} />
+
+					<LazyRoute path='/privacypolicy' component={async () => () => <Markdown content={require('../markdown/privacy-policy.md').default} />} />
+					<LazyRoute path='/credits' component={async () => () => <Markdown content={require('../markdown/credits.md').default} />} />
 
 					<LazyRoute path='*' component={() => import('./pages/not-found')} />
 				</Switch>

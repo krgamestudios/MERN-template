@@ -36,7 +36,15 @@ module.exports = ({ production, analyzer }) => {
 							}
 						}
 					]
-				}
+				},
+				{
+					test: /\.(md)$/,
+					use: [
+						{
+							loader: 'raw-loader'
+						},
+					],
+				},
 			]
 		},
 		plugins: [
