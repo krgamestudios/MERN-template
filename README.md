@@ -47,7 +47,7 @@ There are external components to this template referred to as "microservices". T
 	- ~~Physical Mailing Address Config (for emails)~~
 	- ~~Opt-out option (for emails)~~
 	- Privacy policy & data collection notices
-	- LICENSE file
+	- ~~LICENSE file~~
 	- ~~annoying "This site uses cookies" message~~
 - ~~Account system~~
 	- ~~sign up~~
