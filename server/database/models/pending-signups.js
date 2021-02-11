@@ -14,5 +14,11 @@ module.exports = sequelize.define('pendingSignups', {
 
 	hash: 'varchar(100)', //for passwords
 
+	contact: {
+		type: Sequelize.BOOLEAN,
+		allowNull: false,
+		defaultValue: false
+	},
+
 	token: Sequelize.INTEGER(11)
 });

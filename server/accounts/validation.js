@@ -29,7 +29,8 @@ const route = async (req, res) => {
 	accounts.create({
 		email: info.email,
 		username: info.username,
-		hash: info.hash
+		hash: info.hash,
+		contact: info.contact
 	});
 
 	//finally

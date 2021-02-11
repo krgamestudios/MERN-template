@@ -37,7 +37,7 @@ const route = async (req, res) => {
 	}
 
 	//save the session and cookie data
-	req.session.account = account;
+	req.session.account = JSON.parse(JSON.stringify(account.dataValues));
 	res.cookie('loggedin', process.env.WEB_ADDRESS);
 
 	if (account.privilege == 'administrator') {

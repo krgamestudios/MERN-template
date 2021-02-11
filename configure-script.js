@@ -25,6 +25,7 @@ const question = (prompt, def) => {
 	const projectMailSMTP = await question('Project Mail SMTP', 'smtp.example.com');
 	const projectMailUser = await question('Project Mail Username', 'foobar@example.com');
 	const projectMailPass = await question('Project Mail Password', 'foobar');
+	const projectMailPhysical = await question('Project Physical Mailing Address', '[Unknown]');
 	const projectDBUser = await question('Project Database Username', projectName);
 	const projectDBPass = await question('Project Database Password', 'pikachu');
 
@@ -64,7 +65,8 @@ services:
       - WEB_PORT=3000
       - MAIL_SMTP=${projectMailSMTP}
       - MAIL_USERNAME=${projectMailUser}
-      - MAIL_PASSWORD=${projectMailPass}
+	  - MAIL_PASSWORD=${projectMailPass}
+	  - MAIL_PHYSICAL=${projectMailPhysical}
       - DB_HOSTNAME=database
       - DB_DATABASE=${projectName}
       - DB_USERNAME=${projectDBUser}

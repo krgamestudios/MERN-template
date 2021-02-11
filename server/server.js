@@ -11,19 +11,29 @@ const path = require('path');
 const formidable = require('express-formidable');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-
-app.use(formidable());
-app.use(cookieParser());
-app.use(session({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 //database connection
 const database = require('./database');
+const models = require('./database/models'); //invoke all models
+
+app.use(formidable());
+app.use(cookieParser());
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	resave: true,
+	saveUninitialized: true,
+	store: new SequelizeStore({
+		db: database
+	})
+}));
 
 //account management
 app.use('/api/accounts', require('./accounts'));
 
 //administration
 app.use('/api/admin', require('./admin'));
+require('./admin/bookkeeper')(); //BUGFIX
 
 //send static files
 app.use('/', express.static(path.resolve(__dirname, '..', 'public')));

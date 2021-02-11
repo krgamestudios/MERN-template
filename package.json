@@ -26,6 +26,7 @@
   "homepage": "https://github.com/KRGameStudios/MERN-template#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-session-sequelize": "^7.1.0",
     "cookie-parser": "^1.4.5",
     "core-js": "^3.8.3",
     "dateformat": "^4.5.1",

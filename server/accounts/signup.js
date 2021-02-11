@@ -101,6 +101,7 @@ const registerPendingSignup = async (fields, hash, token) => {
 		email: fields.email,
 		username: fields.username,
 		hash: hash,
+		contact: fields.contact,
 		token: token
 	});
 
@@ -109,7 +110,12 @@ const registerPendingSignup = async (fields, hash, token) => {
 
 const sendValidationEmail = async (email, username, token) => {
 	const addr = `${process.env.WEB_PROTOCOL}://${process.env.WEB_ADDRESS}/api/accounts/validation?username=${username}&token=${token}`;
-	const msg = `Hello! Please visit the following address to validate your account: ${addr}`;
+	const msg = `Hello ${username}!
+
+Please visit the following link to validate your account: ${addr}
+
+You can contact us directly at our physical mailing address here: ${process.env.MAIL_PHYSICAL}
+`;
 
 	let transporter, info;
 
@@ -143,7 +149,7 @@ const sendValidationEmail = async (email, username, token) => {
 	}
 
 	if (info.accepted[0] != email) {
-		return 'validation email failed';
+		return 'validation email failed to send';
 	}
 
 	return null;

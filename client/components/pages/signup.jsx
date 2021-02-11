@@ -15,7 +15,7 @@ const SignUp = props => {
 	}
 
 	//refs
-	let emailElement, usernameElement, passwordElement, retypeElement;
+	let emailElement, usernameElement, passwordElement, retypeElement, contactElement;
 
 	return (
 		<div className='page'>
@@ -23,32 +23,38 @@ const SignUp = props => {
 			<form className='constricted' onSubmit={
 				evt => {
 					evt.preventDefault();
-					handleSubmit(emailElement.value, usernameElement.value, passwordElement.value, retypeElement.value)
+					handleSubmit(emailElement.value, usernameElement.value, passwordElement.value, retypeElement.value, contactElement.checked)
 						.then(res => res ? alert(res) : null)
 						.then(() => emailElement.value = usernameElement.value = passwordElement.value = retypeElement.value = '') //clear input
+						.then(() => contactElement.checked = false)
 						.then(() => props.history.push('/'))
 						.catch(e => console.error(e))
 					;
 				}
 			}>
 				<div>
-					<label htmlFor="email">Email:</label>
-					<input type="email" name="email" ref={e => emailElement = e} />
+					<label htmlFor='email'>Email:</label>
+					<input type='email' name='email' ref={e => emailElement = e} />
 				</div>
 
 				<div>
-					<label htmlFor="username">Username:</label>
-					<input type="text" name="username" ref={e => usernameElement = e} />
+					<label htmlFor='username'>Username:</label>
+					<input type='text' name='username' ref={e => usernameElement = e} />
 				</div>
 
 				<div>
-					<label htmlFor="password">Password:</label>
-					<input type="password" name="password" ref={e => passwordElement = e} />
+					<label htmlFor='password'>Password:</label>
+					<input type='password' name='password' ref={e => passwordElement = e} />
 				</div>
 
 				<div>
-					<label htmlFor="retype">Retype Password:</label>
-					<input type="password" name="retype" ref={e => retypeElement = e} />
+					<label htmlFor='retype'>Retype Password:</label>
+					<input type='password' name='retype' ref={e => retypeElement = e} />
+				</div>
+
+				<div>
+					<label htmlFor='contact'>Allow Promotional Emails:</label>
+					<input type='checkbox' name='contact' ref={e => contactElement = e} />
 				</div>
 
 				<button type='submit'>Signup</button>
@@ -57,12 +63,12 @@ const SignUp = props => {
 	);
 };
 
-const handleSubmit = async (email, username, password, retype) => {
+const handleSubmit = async (email, username, password, retype, contact) => {
 	email = email.trim();
 	username = username.trim();
 
 	const err = handleValidation(email, username, password, retype);
-	
+
 	if (err) {
 		return err;
 	}
@@ -73,6 +79,7 @@ const handleSubmit = async (email, username, password, retype) => {
 	formData.append('email', email);
 	formData.append('username', username);
 	formData.append('password', password);
+	formData.append('contact', contact)
 
 	const result = await fetch('/api/accounts/signup', { method: 'POST', body: formData });
 

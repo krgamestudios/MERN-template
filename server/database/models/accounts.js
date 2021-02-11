@@ -28,6 +28,12 @@ module.exports = sequelize.define('accounts', {
 
 	hash: 'varchar(100)', //for passwords
 
+	contact: {
+		type: Sequelize.BOOLEAN,
+		allowNull: false,
+		defaultValue: false
+	},
+
 	deletion: {
 		type: 'DATETIME',
 		allowNull: true,

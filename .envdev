@@ -5,6 +5,7 @@ WEB_PORT=3000
 MAIL_SMTP=smtp.example.com
 MAIL_USERNAME=foobar@example.com
 MAIL_PASSWORD=foobar
+MAIL_PHYSICAL=42 Placeholder Ave, Placeholder, 0000, USA
 
 DB_HOSTNAME=127.0.0.1
 DB_DATABASE=template

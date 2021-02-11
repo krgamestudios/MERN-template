@@ -5,13 +5,13 @@ const DeleteAccount = props => {
 	const [open, setOpen] = useState(false);
 
 	if (!open) {
-		return <button onClick={() => setOpen(true)}>Delete Account</button>
+		return <button onClick={() => setOpen(true)} className={props.className}>Delete Account</button>
 	}
 
 	let passwordElement;
 
 	return (
-		<form className='constricted' onSubmit={async evt => {
+		<form className={props.className} onSubmit={async evt => {
 			evt.preventDefault();
 			const password = passwordElement.value;
 			passwordElement.value = '';
@@ -34,7 +34,7 @@ const handleSubmit = async (password) => {
 
 	formData.append('password', password);
 
-	const result = await fetch('/api/accounts/deletion', { method: 'POST', body: formData });
+	const result = await fetch('/api/accounts/deletion', { method: 'DELETE', body: formData });
 
 	if (!result.ok) {
 		alert(await result.text());

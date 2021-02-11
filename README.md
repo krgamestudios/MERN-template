@@ -44,8 +44,8 @@ There are external components to this template referred to as "microservices". T
 # TODO list
 
 - Legal Requirements:
-	- Physical Mailing Address Config (for emails)
-	- Opt-out option (for emails)
+	- ~~Physical Mailing Address Config (for emails)~~
+	- ~~Opt-out option (for emails)~~
 	- Information about legal requirements of the developers using this template
 	- Privacy policy & data collection notices
 	- LICENSE file
