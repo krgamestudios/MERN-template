@@ -1,18 +1,6 @@
-# WARNING
-
-It's not ready yet.
-
-There are legal requirements that will cover both KR Game Studios and the developers who use this - I need to address these, still.
-
-Also, there's a lot of features still missing (see [TODO list](#TODO-list)), and I'm working as hard as I can on this.
-
 # MERN-template
 
 A website template using the MERN stack.
-
-# Legalities
-
-Please be aware that this template uses cookies. Yes, I know, it's annoying to show that message to the end user, but it's the law, at least in some places.
 
 # Setup Development
 
