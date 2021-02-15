@@ -37,12 +37,13 @@ There are external components to this template referred to as "microservices". T
 	- ~~Privacy policy & data collection notices~~
 	- ~~LICENSE file~~
 	- ~~annoying "This site uses cookies" message~~
-- ~~Account system~~
+- Account system
 	- ~~sign up~~
 	- ~~validate email~~
 	- ~~login (with cookies)~~
 	- ~~logout (with cookies)~~
 	- ~~account deletion~~
+	- Change passwords
 - Administration Panel
 	- ~~Default admin account~~
 	- ~~Exclusive to admin accounts~~
