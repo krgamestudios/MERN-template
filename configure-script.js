@@ -90,7 +90,7 @@ services:
       - traefik
 
   ${newsName}:
-    image: krgamestudios/news-server:v1.0.0
+    image: krgamestudios/news-server:latest
     ports:
       - "3100"
     labels:
