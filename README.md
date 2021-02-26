@@ -43,7 +43,7 @@ There are external components to this template referred to as "microservices". T
 	- ~~login (with cookies)~~
 	- ~~logout (with cookies)~~
 	- ~~account deletion~~
-	- Change passwords
+	- ~~Change passwords~~
 - Administration Panel
 	- ~~Default admin account~~
 	- ~~Exclusive to admin accounts~~
