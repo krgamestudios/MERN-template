@@ -31,6 +31,9 @@ app.use(session({
 //account management
 app.use('/api/accounts', require('./accounts'));
 
+//chat management
+app.use('/api/chat', require('./chat'));
+
 //administration
 app.use('/api/admin', require('./admin'));
 require('./admin/bookkeeper')(); //BUGFIX

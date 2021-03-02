@@ -39,7 +39,12 @@ const question = (prompt, def) => {
 	const newsDBPass = await question('News Database Password', 'charizard');
 	const newsKey = await question('News Query Key', uuid());
 
-	//TODO: chat configuration
+	//chat configuration
+	const chatName = await question('Chat Name', 'chat');
+	const chatWebAddress = await question('Chat Web Address', 'chat.example.com');
+	const chatDBUser = await question('Chat Database Username', chatName);
+	const chatDBPass = await question('Chat Database Password', 'blastoise');
+	const chatKey = await question('Chat Reservation Key', uuid());
 
 	//database configuration
 	const databaseRootPassword = await question('Database Root Password', 'password');
@@ -51,6 +56,8 @@ const question = (prompt, def) => {
 	//other random values
 	const sessionSecret = uuid(); //for session randomness
 	const sessionAdmin = uuid(128); //for checking if user is admin
+
+	//TODO: Implement chat-server as a docker container
 
 const yml = `
 version: "3.6"
@@ -83,6 +90,8 @@ services:
       - SESSION_ADMIN=${sessionAdmin}
       - NEWS_URI=https://${newsWebAddress}/news
       - NEWS_KEY=${newsKey}
+      - CHAT_URI=https://${chatWebAddress}/chat
+      - CHAT_KEY=${chatKey}
     networks:
       - app-network
     depends_on:
@@ -179,6 +188,10 @@ GRANT ALL PRIVILEGES ON ${projectName}.* TO '${projectDBUser}'@'%';
 CREATE DATABASE IF NOT EXISTS ${newsName};
 CREATE USER IF NOT EXISTS '${newsDBUser}'@'%' IDENTIFIED BY '${newsDBPass}';
 GRANT ALL PRIVILEGES ON ${newsName}.* TO '${newsDBUser}'@'%';
+
+CREATE DATABASE IF NOT EXISTS ${chatName};
+CREATE USER IF NOT EXISTS '${chatDBUser}'@'%' IDENTIFIED BY '${chatDBPass}';
+GRANT ALL PRIVILEGES ON ${chatName}.* TO '${chatDBUser}'@'%';
 
 FLUSH PRIVILEGES;
 `;

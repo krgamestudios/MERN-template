@@ -43,6 +43,7 @@ const App = props => {
 					<LazyRoute path='/signup' component={() => import('./pages/signup')} />
 					<LazyRoute path='/login' component={() => import('./pages/login')} />
 					<LazyRoute path='/account' component={() => import('./pages/account')} />
+					<LazyRoute path='/chat' component={() => import('./pages/chat')} />
 
 					<LazyRoute path='/admin' component={() => import('./pages/admin')} />
 

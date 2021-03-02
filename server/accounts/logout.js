@@ -3,6 +3,7 @@ const route = (req, res) => {
 	req.session.account = null;
 	res.clearCookie('loggedin');
 	res.clearCookie('admin');
+	res.clearCookie('pseudonym');
 
 	return res.status(200).end();
 };
