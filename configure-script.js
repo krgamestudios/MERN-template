@@ -59,7 +59,7 @@ const question = (prompt, def) => {
 
 	//TODO: Implement chat-server as a docker container
 
-const yml = `
+const ymlfile = `
 version: "3.6"
 services:
   ${projectName}:
@@ -135,7 +135,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${databaseRootPassword}
     volumes:
-      - ./mysql:/var/lib/mysql
+      - "./mysql:/var/lib/mysql"
+	  - "./startup.sql:/docker-entrypoint-initdb.d/startup.sql:ro"
     networks:
       - app-network
 
@@ -171,16 +172,13 @@ FROM node:15
 WORKDIR "/app"
 COPY package*.json ./
 RUN npm install
-RUN apt-get update
-RUN apt-get install -y mariadb-client
 COPY . /app
 EXPOSE 3000
-
 ENTRYPOINT ["bash", "-c"]
-CMD ["mysql --host=database --user=root --password=${databaseRootPassword} < ./startup.sql && npm start"]
+CMD ["npm start"]
 `;
 
-	const scriptfile = `
+	const sqlfile = `
 CREATE DATABASE IF NOT EXISTS ${projectName};
 CREATE USER IF NOT EXISTS '${projectDBUser}'@'%' IDENTIFIED BY '${projectDBPass}';
 GRANT ALL PRIVILEGES ON ${projectName}.* TO '${projectDBUser}'@'%';
@@ -196,9 +194,9 @@ GRANT ALL PRIVILEGES ON ${chatName}.* TO '${chatDBUser}'@'%';
 FLUSH PRIVILEGES;
 `;
 
-	fs.writeFileSync('docker-compose.yml', yml);
+	fs.writeFileSync('docker-compose.yml', ymlfile);
 	fs.writeFileSync('Dockerfile', dockerfile);
-	fs.writeFileSync('startup.sql', scriptfile);
+	fs.writeFileSync('startup.sql', sqlfile);
 })()
 	.then(() => rl.close())
 	.catch(e => console.error(e))
