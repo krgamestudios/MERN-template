@@ -53,6 +53,7 @@ There are external components to this template referred to as "microservices". T
 - inventory 
 - stats
 - shop
+- currency
 - random events
 - Dcumentation and tutorials
 - Server-side actions to allow offline progress or progress on spotty internet connections
