@@ -48,7 +48,14 @@ There are external components to this template referred to as "microservices". T
 - Better compression for client files
 - Some form of bot/alt account detection?
 - A payment system
+- Backend for energy systems
 - Backend for trading and leaderboards
+- inventory 
+- stats
+- shop
+- currency
+- random events
+- Dcumentation and tutorials
 - Server-side actions to allow offline progress or progress on spotty internet connections
 - Full tutorial for setting up and using the site
 	- Start here page
