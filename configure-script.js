@@ -136,7 +136,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${databaseRootPassword}
     volumes:
       - "./mysql:/var/lib/mysql"
-	  - "./startup.sql:/docker-entrypoint-initdb.d/startup.sql:ro"
+      - "./startup.sql:/docker-entrypoint-initdb.d/startup.sql:ro"
     networks:
       - app-network
 
@@ -175,7 +175,7 @@ RUN npm install
 COPY . /app
 EXPOSE 3000
 ENTRYPOINT ["bash", "-c"]
-CMD ["npm start"]
+CMD ["sleep 10 && npm start"]
 `;
 
 	const sqlfile = `

@@ -1,9 +1,12 @@
 //DOCS: this whole file is just a big bugfix
 //DOCS: ensure that there is at least one administration account
 const bcrypt = require('bcryptjs');
+const sequelize = require('../database');
 const { accounts } = require('../database/models');
 
 const defaultAdminAccount = async () => {
+	await sequelize.sync(); //this whole file is just one big BUGFIX
+
 	const admin = await accounts.findOne({
 		where: {
 			privilege: 'administrator'

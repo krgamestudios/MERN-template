@@ -4,7 +4,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME
 	host: process.env.DB_HOSTNAME,
 	dialect: 'mariadb',
 	timezone: process.env.DB_TIMEZONE,
-	logging: false
+//	logging: false
 });
 
 sequelize.sync();

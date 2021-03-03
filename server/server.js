@@ -15,8 +15,8 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 //database connection
 const database = require('./database');
-const models = require('./database/models'); //invoke all models
 
+//setup the app middleware
 app.use(formidable());
 app.use(cookieParser());
 app.use(session({
@@ -27,6 +27,9 @@ app.use(session({
 		db: database
 	})
 }));
+
+//invoke all models
+const models = require('./database/models');
 
 //account management
 app.use('/api/accounts', require('./accounts'));
@@ -47,6 +50,7 @@ app.get('*', (req, res) => {
 });
 
 //startup
-server.listen(process.env.WEB_PORT || 3000, (err) => {
+server.listen(process.env.WEB_PORT || 3000, async (err) => {
+	await database.sync();
 	console.log(`listening to localhost:${process.env.WEB_PORT || 3000}`);
 });
