@@ -13,7 +13,7 @@ const route = async (req, res) => {
 
 	try {
 		//reserve the UUID with the chat server (hop 1)
-		const result = await fetch(`http://${process.env.CHAT_URI}/reserve`, { method: 'POST', body: form });
+		const result = await fetch(`http${process.env.PRODUCTION ? 's' : ''}://${process.env.CHAT_URI}/reserve`, { method: 'POST', body: form });
 
 		if (result.status == 200) {
 			const json = await result.json();

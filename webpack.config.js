@@ -50,6 +50,7 @@ module.exports = ({ production, analyzer }) => {
 		plugins: [
 			new DefinePlugin({
 				'process.env': {
+					'PRODUCTION': production,
 					'NEWS_URI': production ? `"${process.env.NEWS_URI}"` : '"http://dev-news.eggtrainer.com:3100/news"',
 					/* TODO: (1) NEWS_KEY needs to be set in the server, and auth'd via admin accounts, NOT embedded in the client */
 					'NEWS_KEY': production ? `"${process.env.NEWS_KEY}"` : '"key"',
