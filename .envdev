@@ -14,6 +14,7 @@ DB_PASSWORD=pikachu
 DB_TIMEZONE=Australia/Sydney
 
 CHAT_URI=http://example.com:3200/chat
+CHAT_KEY=chattychattybangbang
 
 SESSION_SECRET=secret
 SESSION_ADMIN=adminsecret
