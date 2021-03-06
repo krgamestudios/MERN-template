@@ -21,6 +21,7 @@ const defaultAdminAccount = async () => {
 			hash: await bcrypt.hash('password', await bcrypt.genSalt(11))
 		});
 
+		//TODO: (1) Replace this default admin account password with UUID
 		console.log(`Created default admin account (email: admin@${process.env.WEB_ADDRESS}; password: password)`);
 	}
 };

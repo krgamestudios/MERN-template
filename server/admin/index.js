@@ -4,7 +4,7 @@ const router = express.Router();
 //middleware
 router.use((req, res, next) => {
 	//make sure the account is an admin
-	if (req.cookies['admin'] !== process.env.SESSION_ADMIN) {
+	if (req.cookies['admin'] !== process.env.SESSION_ADMIN) { //TODO: Eew not good.
 		return res.status(401).send('invalid admin status');
 	} else {
 		next();

@@ -27,12 +27,13 @@ docker-compose up --build
 There are external components to this template referred to as "microservices". These can be omitted entirely by simply removing the React component that accesses them.
 
 * News Server: https://github.com/krgamestudios/news-server
+* Auth Server: https://github.com/krgamestudios/auth-server
 * Chat Server: https://github.com/krgamestudios/chat-server
 
 # TODO list
 
 - Account system
-	- A separate user settings page
+	- A separate authentication server
 - Administration Panel
 	- inspect aggregate user data
 	- Moderation tools for banning, suspending, or chat-banning users
