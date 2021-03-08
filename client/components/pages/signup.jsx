@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 //utilities
 const validateEmail = require('../../../common/utilities/validate-email.js');
@@ -8,7 +8,11 @@ const SignUp = props => {
 	//TODO: redirect if logged in
 
 	//refs
-	let emailElement, usernameElement, passwordElement, retypeElement, contactElement;
+	const emailRef = useRef();
+	const usernameRef = useRef();
+	const passwordRef = useRef();
+	const retypeRef = useRef();
+	const contactRef = useRef();
 
 	return (
 		<div className='page'>
@@ -17,14 +21,14 @@ const SignUp = props => {
 				async evt => {
 					//on submit
 					evt.preventDefault();
-					const [redirect, result] = await handleSubmit(emailElement.value, usernameElement.value, passwordElement.value, retypeElement.value, contactElement.checked);
+					const [redirect, result] = await handleSubmit(emailRef.current.value, usernameRef.current.value, passwordRef.current.value, retypeRef.current.value, contactRef.current.checked);
 					if (result) {
 						alert(result);
 					}
 
 					//cleanup & redirect
-					emailElement.value = usernameElement.value = passwordElement.value = retypeElement.value = ''; //clear input
-					contactElement.checked = false;
+					emailRef.current.value = usernameRef.current.value = passwordRef.current.value = retypeRef.current.value = ''; //clear input
+					contactRef.current.checked = false;
 
 					if (redirect) {
 						props.history.push('/');
@@ -33,27 +37,27 @@ const SignUp = props => {
 			}>
 				<div>
 					<label htmlFor='email'>Email:</label>
-					<input type='email' name='email' ref={e => emailElement = e} />
+					<input type='email' name='email' ref={emailRef} />
 				</div>
 
 				<div>
 					<label htmlFor='username'>Username:</label>
-					<input type='text' name='username' ref={e => usernameElement = e} />
+					<input type='text' name='username' ref={usernameRef} />
 				</div>
 
 				<div>
 					<label htmlFor='password'>Password:</label>
-					<input type='password' name='password' ref={e => passwordElement = e} />
+					<input type='password' name='password' ref={passwordRef} />
 				</div>
 
 				<div>
 					<label htmlFor='retype'>Retype Password:</label>
-					<input type='password' name='retype' ref={e => retypeElement = e} />
+					<input type='password' name='retype' ref={retypeRef} />
 				</div>
 
 				<div>
 					<label htmlFor='contact'>Allow Promotional Emails:</label>
-					<input type='checkbox' name='contact' ref={e => contactElement = e} />
+					<input type='checkbox' name='contact' ref={contactRef} />
 				</div>
 
 				<button type='submit'>Signup</button>
