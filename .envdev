@@ -1,20 +1,9 @@
-WEB_PROTOCOL=http
-WEB_ADDRESS=localhost
 WEB_PORT=3000
 
-MAIL_SMTP=smtp.example.com
-MAIL_USERNAME=foobar@example.com
-MAIL_PASSWORD=foobar
-MAIL_PHYSICAL=42 Placeholder Ave, Placeholder, 0000, USA
-
-DB_HOSTNAME=127.0.0.1
+DB_HOSTNAME=database
 DB_DATABASE=template
 DB_USERNAME=template
 DB_PASSWORD=pikachu
 DB_TIMEZONE=Australia/Sydney
 
-CHAT_URI=http://example.com:3200/chat
-CHAT_KEY=chattychattybangbang
-
-SESSION_SECRET=secret
-SESSION_ADMIN=adminsecret
+SECRET_ACCESS=access

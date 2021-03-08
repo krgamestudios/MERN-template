@@ -1,3 +1,5 @@
+//TODO: update this file
+
 //setup
 const readline = require('readline');
 const fs = require('fs');
@@ -107,12 +109,12 @@ services:
       - "traefik.http.routers.${newsName}router.rule=Host(\`${newsWebAddress}\`)"
       - "traefik.http.routers.${newsName}router.entrypoints=websecure"
       - "traefik.http.routers.${newsName}router.tls.certresolver=myresolver"
-      - "traefik.http.routers.${newsName}router.service=newsservice@docker"
+      - "traefik.http.routers.${newsName}router.service=${newsName}service@docker"
       - "traefik.http.services.${newsName}service.loadbalancer.server.port=3100"
     environment:
       - WEB_PORT=3100
       - DB_HOSTNAME=database
-      - DB_DATABASE=news
+      - DB_DATABASE=${newsName}
       - DB_USERNAME=${newsDBUser}
       - DB_PASSWORD=${newsDBPass}
       - DB_TIMEZONE=${databaseTimeZone}

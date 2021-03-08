@@ -1,6 +1,8 @@
+//TODO: move this to the wiki?
+
 # Setup Tutorial
 
-Last Updated February 15th 2020
+Last Updated February 15th 2021
 
 Hello! This is the tutorial for setting up the MERN-template. If you haven't already, I recommend you download the MERN-template from here:
 

@@ -1,45 +1,20 @@
 //environment variables
 require('dotenv').config();
 
+//libraries
+const path = require('path');
+
 //create the server
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
+const bodyParser = require('body-parser');
 
-//libraries used here
-const path = require('path');
-const formidable = require('express-formidable');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const SequelizeStore = require("connect-session-sequelize")(session.Store);
+//config
+app.use(bodyParser.json());
 
 //database connection
 const database = require('./database');
-
-//setup the app middleware
-app.use(formidable());
-app.use(cookieParser());
-app.use(session({
-	secret: process.env.SESSION_SECRET,
-	resave: true,
-	saveUninitialized: true,
-	store: new SequelizeStore({
-		db: database
-	})
-}));
-
-//invoke all models
-const models = require('./database/models');
-
-//account management
-app.use('/api/accounts', require('./accounts'));
-
-//chat management
-app.use('/api/chat', require('./chat'));
-
-//administration
-app.use('/api/admin', require('./admin'));
-require('./admin/bookkeeper')(); //BUGFIX
 
 //send static files
 app.use('/', express.static(path.resolve(__dirname, '..', 'public')));

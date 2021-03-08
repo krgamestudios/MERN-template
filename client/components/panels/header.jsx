@@ -1,12 +1,12 @@
 import React from 'react';
-import { useCookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
 
 const Visitor = () => {
 	return (
 		<div>
-			<a href='/signup'>Sign Up</a>
+			<Link to='/signup'>Sign Up</Link>
 			<em> - </em>
-			<a href='/login'>Log In</a>
+			<Link to='/login'>Log In</Link>
 		</div>
 	);
 };
@@ -14,34 +14,26 @@ const Visitor = () => {
 const Member = () => {
 	return (
 		<div>
-			<a href='/account'>Account</a>
+			<Link to='/account'>Account</Link>
 			<em> - </em>
-			<a href='/' onClick={logout}>Log out</a>
+			<Link to='/' onClick={logout}>Log out</Link>
 		</div>
 	);
 };
 
 const logout = async () => {
+	//TODO: update API
 	await fetch('/api/accounts/logout', { method: 'POST' })
 		.catch(e => console.error(e))
 	;
 };
 
 const Header = () => {
-	const [cookies, setCookie] = useCookies(['loggedin']);
-
-	let Options;
-
-	//check for logged in/out status
-	if (cookies['loggedin']) {
-		Options = Member;
-	} else {
-		Options = Visitor;
-	}
+	let Options = Visitor;
 
 	return (
 		<header>
-			<h1><a href='/'>MERN Template</a></h1>
+			<h1><Link to='/'>MERN Template</Link></h1>
 			<Options />
 		</header>
 	);
