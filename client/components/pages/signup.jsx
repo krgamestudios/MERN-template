@@ -1,11 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import { Redirect } from 'react-router-dom';
+
+import { getToken } from '../../utilities/token-client';
 
 //utilities
 const validateEmail = require('../../../common/utilities/validate-email.js');
 const validateUsername = require('../../../common/utilities/validate-username.js');
 
 const SignUp = props => {
-	//TODO: redirect if logged in
+	//if logged in
+	const [tok, setTok] = useState(null)
+
+	getToken()
+		.then(token => setTok(token))
+		.catch(e => console.error(e))
+	;
+
+	if (tok) {
+		return <Redirect to='/' />;
+	}
 
 	//refs
 	const emailRef = useRef();
@@ -18,18 +31,14 @@ const SignUp = props => {
 		<div className='page'>
 			<h1 className='centered'>Signup</h1>
 			<form className='constricted' onSubmit={
-				async evt => {
-					//on submit
+				async evt => { //on submit
 					evt.preventDefault();
-					const [redirect, result] = await handleSubmit(emailRef.current.value, usernameRef.current.value, passwordRef.current.value, retypeRef.current.value, contactRef.current.checked);
+					const [result, redirect] = await handleSubmit(emailRef.current.value, usernameRef.current.value, passwordRef.current.value, retypeRef.current.value, contactRef.current.checked);
 					if (result) {
 						alert(result);
 					}
 
-					//cleanup & redirect
-					emailRef.current.value = usernameRef.current.value = passwordRef.current.value = retypeRef.current.value = ''; //clear input
-					contactRef.current.checked = false;
-
+					//redirect
 					if (redirect) {
 						props.history.push('/');
 					}
@@ -94,10 +103,10 @@ const handleSubmit = async (email, username, password, retype, contact) => {
 	if (!result.ok) {
 		const err = `${result.status}: ${await result.text()}`;
 		console.error(err);
-		return [false, err];
+		return [err, false];
 	}
 
-	return [true, await result.text()];
+	return [await result.text(), true];
 };
 
 //returns an error message, or null on success
