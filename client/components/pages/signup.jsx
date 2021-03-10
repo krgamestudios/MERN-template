@@ -1,22 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { getToken } from '../../utilities/token-client';
+import { TokenContext } from '../utilities/token-provider';
 
 //utilities
 const validateEmail = require('../../../common/utilities/validate-email.js');
 const validateUsername = require('../../../common/utilities/validate-username.js');
 
 const SignUp = props => {
-	//if logged in
-	const [tok, setTok] = useState(null)
+	//context
+	const authTokens = useContext(TokenContext);
 
-	getToken()
-		.then(token => setTok(token))
-		.catch(e => console.error(e))
-	;
-
-	if (tok) {
+	//misplaced?
+	if (authTokens.accessToken) {
 		return <Redirect to='/' />;
 	}
 

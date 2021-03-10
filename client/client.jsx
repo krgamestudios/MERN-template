@@ -5,8 +5,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './components/app';
+import TokenProvider from './components/utilities/token-provider';
 
 ReactDOM.render(
-	<App />,
+	<TokenProvider>
+		<App />
+	</TokenProvider>,
 	document.querySelector('#root')
 );

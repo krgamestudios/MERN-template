@@ -1,18 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { setToken, getToken } from '../../utilities/token-client';
+import { TokenContext } from '../utilities/token-provider';
 
 const LogIn = props => {
-	//if logged in
-	const [tok, setTok] = useState(null);
+	//context
+	const authTokens = useContext(TokenContext);
 
-	getToken()
-		.then(token => setTok(token))
-		.catch(e => console.error(e))
-	;
-
-	if (tok) {
+	//misplaced?
+	if (authTokens.accessToken) {
 		return <Redirect to='/' />;
 	}
 
@@ -27,13 +23,16 @@ const LogIn = props => {
 				async evt => {
 					//on submit
 					evt.preventDefault();
-					const [result, redirect] = await handleSubmit(emailRef.current.value, passwordRef.current.value);
-					if (result) {
-						alert(result);
+					const [err, newTokens] = await handleSubmit(emailRef.current.value, passwordRef.current.value);
+					if (err) {
+						alert(err);
 					}
 
-					//redirect
-					if (redirect) {
+					//save auth tokens and redirect
+					if (newTokens) {
+						authTokens.setAccessToken(newTokens.accessToken);
+						authTokens.setRefreshToken(newTokens.refreshToken);
+
 						props.history.push('/');
 					}
 				}
@@ -71,18 +70,16 @@ const handleSubmit = async (email, password) => {
 		})
 	});
 
+	//handle errors
 	if (!result.ok) {
 		const err = `${result.status}: ${await result.text()}`;
 		console.error(err);
 		return [err, false];
 	}
 
-	//save the auth tokens
-	const authTokens = await result.json();
-
-	await setToken(authTokens.accessToken, authTokens.refreshToken);
-
-	return [null, true];
+	//return the new auth tokens
+	const newTokens = await result.json();
+	return [null, newTokens];
 };
 
 export default LogIn;
