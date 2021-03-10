@@ -47,13 +47,12 @@ const TokenProvider = props => {
 			//save the new auth stuff (setting bearer as well)
 			const newAuth = await response.json();
 
-			setAccess(newAuth.accessToken);
-			setRefresh(newAuth.refreshToken);
+			setAccessToken(newAuth.accessToken);
+			setRefreshToken(newAuth.refreshToken);
 			bearer = newAuth.accessToken;
 
 			//BUGFIX: logging out correctly requires the new refresh token
 			if (url == `${process.env.AUTH_URI}/logout`) {
-				console.log(`logging out with refresh token: ${newAuth.refreshToken}`)
 				return fetch(`${process.env.AUTH_URI}/logout`, {
 					method: 'DELETE',
 					headers: {
