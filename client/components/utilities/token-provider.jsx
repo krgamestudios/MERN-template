@@ -11,12 +11,12 @@ const TokenProvider = props => {
 	useEffect(() => {
 		setAccessToken(localStorage.getItem("accessToken") || '');
 		setRefreshToken(localStorage.getItem("refreshToken") || '');
-	  }, [])
-	
-	  React.useEffect(() => {
+	}, [])
+
+	useEffect(() => {
 		localStorage.setItem("accessToken", accessToken);
 		localStorage.setItem("refreshToken", refreshToken);
-	  }, [accessToken, refreshToken]);
+	}, [accessToken, refreshToken]);
 
 	//wrap the default fetch function
 	const tokenFetch = async (url, options) => {
