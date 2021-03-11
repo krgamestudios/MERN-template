@@ -1,0 +1,128 @@
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import Select from 'react-dropdown-select';
+
+import { TokenContext } from '../utilities/token-provider';
+
+const NewsEditor = props => {
+	//context
+	const authTokens = useContext(TokenContext);
+
+	//refs
+	const titleRef = useRef();
+	const authorRef = useRef();
+	const bodyRef = useRef();
+
+	//state
+	const [articles, setArticles] = useState([]);
+	const [index, setIndex] = useState(null);
+
+	//run once
+	useEffect(async () => {
+		const result = await fetch(`${process.env.NEWS_URI}/metadata?limit=999`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+		});
+
+		if (!result.ok) {
+			const err = `${result.status}: ${await result.text()}`;
+			console.log(err);
+			alert(err);
+		} else {
+			setArticles(await result.json());
+		}
+	}, []);
+
+	return (
+		<div>
+			<h2 className='centered'>News Editor</h2>
+			<div>
+				<label htmlFor='article'>Article: </label>
+				<Select
+					options={(articles).map(article => { return { label: article.title, value: article.index }; })}
+					onChange={async values => {
+						//fetch this article
+						const index = values[0].value;
+
+						const result = await fetch(`${process.env.NEWS_URI}/archive/${index}`, {
+							headers: {
+								'Access-Control-Allow-Origin': '*'
+							}
+						});
+
+						if (!result.ok) {
+							const err = `${result.status}: ${await result.text()}`;
+							console.log(err);
+							alert(err);
+						} else {
+							const article = await result.json();
+							titleRef.current.value = article.title;
+							authorRef.current.value = article.author;
+							bodyRef.current.value = article.body;
+							setIndex(index);
+						}
+					}}
+				/>
+			</div>
+
+			<form onSubmit={async evt => {
+				//onSubmit
+				evt.preventDefault();
+				const [err] = await handleSubmit(titleRef.current.value, authorRef.current.value, bodyRef.current.value, index, authTokens.tokenFetch);
+				if (err) {
+					alert(err);
+				} else {
+					titleRef.current.value = authorRef.current.value = bodyRef.current.value = '';
+					alert(`Edited as article index ${index}`);
+				}
+			}}>
+				<div>
+					<label htmlFor='title'>Title: </label>
+					<input type='text' name='title' ref={titleRef} />
+				</div>
+
+				<div>
+					<label htmlFor='author'>Author: </label>
+					<input type='text' name='author' ref={authorRef} />
+				</div>
+
+				<div>
+					<label htmlFor='body'>Body: </label>
+					<textarea name='body' rows='10' cols='150' ref={bodyRef} />
+				</div>
+
+				<button type='submit'>Update</button>
+			</form>
+		</div>
+	);
+};
+
+const handleSubmit = async (title, author, body, index, tokenFetch) => {
+	title = title.trim();
+	author = author.trim();
+	body = body.trim();
+
+	//fetch POST json data
+	const result = await tokenFetch(`${process.env.NEWS_URI}/${index}`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*'
+		},
+		body: JSON.stringify({
+			title,
+			author,
+			body
+		})
+	});
+
+	if (!result.ok) {
+		return [`${result.status}: ${await result.text()}`];
+	}
+
+	return [null];
+};
+
+export default NewsEditor;

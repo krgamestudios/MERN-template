@@ -53,7 +53,7 @@ const LogIn = props => {
 	);
 };
 
-//DOCS: returns two values: response and OK
+//DOCS: returns two values: err and authTokens
 const handleSubmit = async (email, password) => {
 	email = email.trim(); //TODO: validate email on login
 

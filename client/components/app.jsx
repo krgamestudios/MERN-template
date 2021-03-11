@@ -25,6 +25,8 @@ const App = props => {
 					<LazyRoute path='/login' component={() => import('./pages/login')} />
 					<LazyRoute path='/account' component={() => import('./pages/account')} />
 
+					<LazyRoute path='/admin' component={() => import('./pages/admin')} />
+
 					<LazyRoute path='/privacypolicy' component={async () => () => <Markdown content={require('../markdown/privacy-policy.md').default} />} />
 					<LazyRoute path='/credits' component={async () => () => <Markdown content={require('../markdown/credits.md').default} />} />
 

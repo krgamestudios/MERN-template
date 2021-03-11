@@ -78,7 +78,7 @@ const TokenProvider = props => {
 	};
 
 	return (
-		<TokenContext.Provider value={{ accessToken, refreshToken, setAccessToken, setRefreshToken, tokenFetch }}>
+		<TokenContext.Provider value={{ accessToken, refreshToken, setAccessToken, setRefreshToken, tokenFetch, getPayload: () => decode(accessToken) }}>
 			{props.children}
 		</TokenContext.Provider>
 	)
