@@ -41,7 +41,7 @@ const NewsEditor = props => {
 			<div>
 				<label htmlFor='article'>Article: </label>
 				<Select
-					options={(articles).map(article => { return { label: article.title, value: article.index }; })}
+					options={articles.map(article => { return { label: article.title, value: article.index }; })}
 					onChange={async values => {
 						//fetch this article
 						const index = values[0].value;

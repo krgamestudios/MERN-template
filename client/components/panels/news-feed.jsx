@@ -3,7 +3,7 @@ import dateFormat from 'dateformat';
 
 //DOCS: props.uri is the address of a live news-server
 const NewsFeed = props => {
-	const [articles, setArticles] = useState(null);
+	const [articles, setArticles] = useState([]);
 
 	useEffect(async () => {
 		const result = await fetch(props.uri, {
@@ -26,7 +26,7 @@ const NewsFeed = props => {
 	return (
 		<div>
 			<h1 className='centered'>News Feed</h1>
-			{(articles || []).map((article, index) => {
+			{articles.map((article, index) => {
 				return (
 					<div key={index}>
 						<hr />
