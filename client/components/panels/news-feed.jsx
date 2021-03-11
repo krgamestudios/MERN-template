@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dateFormat from 'dateformat';
 
 //DOCS: props.uri is the address of a live news-server
 const NewsFeed = props => {
 	const [articles, setArticles] = useState(null);
 
-	if (!articles) {
-		fetch(props.uri, {
+	useEffect(async () => {
+		const result = await fetch(props.uri, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*'
 			},
-		})
-			.then(blob => blob.json())
-			.then(a => setArticles(a))
-			.catch(e => console.error(e))
-		;
-	}
+		});
+
+		if (!result.ok) {
+			const err = `${result.status}: ${await result.text()}`;
+			console.log(err);
+			alert(err);
+		} else {
+			setArticles(await result.json());
+		}
+	}, []);
 
 	return (
 		<div>
