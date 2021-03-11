@@ -1,60 +1,68 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+
+import { TokenContext } from '../utilities/token-provider';
 
 //utilities
 const validateEmail = require('../../../common/utilities/validate-email.js');
 const validateUsername = require('../../../common/utilities/validate-username.js');
 
 const SignUp = props => {
-	const [cookies, setCookie] = useCookies();
+	//context
+	const authTokens = useContext(TokenContext);
 
-	//check for logged in redirect
-	if (cookies['loggedin']) {
+	//misplaced?
+	if (authTokens.accessToken) {
 		return <Redirect to='/' />;
 	}
 
 	//refs
-	let emailElement, usernameElement, passwordElement, retypeElement, contactElement;
+	const emailRef = useRef();
+	const usernameRef = useRef();
+	const passwordRef = useRef();
+	const retypeRef = useRef();
+	const contactRef = useRef();
 
 	return (
 		<div className='page'>
 			<h1 className='centered'>Signup</h1>
 			<form className='constricted' onSubmit={
-				evt => {
+				async evt => { //on submit
 					evt.preventDefault();
-					handleSubmit(emailElement.value, usernameElement.value, passwordElement.value, retypeElement.value, contactElement.checked)
-						.then(res => res ? alert(res) : null)
-						.then(() => emailElement.value = usernameElement.value = passwordElement.value = retypeElement.value = '') //clear input
-						.then(() => contactElement.checked = false)
-						.then(() => props.history.push('/'))
-						.catch(e => console.error(e))
-					;
+					const [result, redirect] = await handleSubmit(emailRef.current.value, usernameRef.current.value, passwordRef.current.value, retypeRef.current.value, contactRef.current.checked);
+					if (result) {
+						alert(result);
+					}
+
+					//redirect
+					if (redirect) {
+						props.history.push('/');
+					}
 				}
 			}>
 				<div>
 					<label htmlFor='email'>Email:</label>
-					<input type='email' name='email' ref={e => emailElement = e} />
+					<input type='email' name='email' ref={emailRef} />
 				</div>
 
 				<div>
 					<label htmlFor='username'>Username:</label>
-					<input type='text' name='username' ref={e => usernameElement = e} />
+					<input type='text' name='username' ref={usernameRef} />
 				</div>
 
 				<div>
 					<label htmlFor='password'>Password:</label>
-					<input type='password' name='password' ref={e => passwordElement = e} />
+					<input type='password' name='password' ref={passwordRef} />
 				</div>
 
 				<div>
 					<label htmlFor='retype'>Retype Password:</label>
-					<input type='password' name='retype' ref={e => retypeElement = e} />
+					<input type='password' name='retype' ref={retypeRef} />
 				</div>
 
 				<div>
 					<label htmlFor='contact'>Allow Promotional Emails:</label>
-					<input type='checkbox' name='contact' ref={e => contactElement = e} />
+					<input type='checkbox' name='contact' ref={contactRef} />
 				</div>
 
 				<button type='submit'>Signup</button>
@@ -73,21 +81,28 @@ const handleSubmit = async (email, username, password, retype, contact) => {
 		return err;
 	}
 
-	//generate a new formdata payload
-	let formData = new FormData();
+	//send to the auth server
+	const result = await fetch(`${process.env.AUTH_URI}/signup`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*'
+		},
+		body: JSON.stringify({
+			email,
+			username,
+			password,
+			contact
+		})
+	});
 
-	formData.append('email', email);
-	formData.append('username', username);
-	formData.append('password', password);
-	formData.append('contact', contact)
-
-	const result = await fetch('/api/accounts/signup', { method: 'POST', body: formData });
-
-	if (result.ok) {
-		return result.text();
-	} else {
-		return result.text();
+	if (!result.ok) {
+		const err = `${result.status}: ${await result.text()}`;
+		console.error(err);
+		return [err, false];
 	}
+
+	return [await result.text(), true];
 };
 
 //returns an error message, or null on success

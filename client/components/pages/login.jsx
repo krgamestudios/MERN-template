@@ -1,46 +1,50 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 
-//utilities
-const validateEmail = require('../../../common/utilities/validate-email.js');
+import { TokenContext } from '../utilities/token-provider';
 
 const LogIn = props => {
-	const [cookies, setCookie] = useCookies();
+	//context
+	const authTokens = useContext(TokenContext);
 
-	//check for logged in redirect
-	if (cookies['loggedin']) {
+	//misplaced?
+	if (authTokens.accessToken) {
 		return <Redirect to='/' />;
 	}
 
 	//refs
-	let emailElement, passwordElement;
+	const emailRef = useRef();
+	const passwordRef = useRef();
 
 	return (
 		<div className='page'>
 			<h1 className='centered'>Login</h1>
 			<form className='constricted' onSubmit={
-				evt => {
+				async evt => {
+					//on submit
 					evt.preventDefault();
-					handleSubmit(emailElement.value, passwordElement.value)
-						.then(([res, ok]) => {
-							alert(res);
-							if (ok) {
-								window.location.reload(true); //BUFGIX: force reload of the header element
-							}
-						})
-						.catch(e => console.error(e))
-					;
+					const [err, newTokens] = await handleSubmit(emailRef.current.value, passwordRef.current.value);
+					if (err) {
+						alert(err);
+					}
+
+					//save auth tokens and redirect
+					if (newTokens) {
+						authTokens.setAccessToken(newTokens.accessToken);
+						authTokens.setRefreshToken(newTokens.refreshToken);
+
+						props.history.push('/');
+					}
 				}
 			}>
 				<div>
 					<label htmlFor="email">Email:</label>
-					<input type="email" name="email" ref={e => emailElement = e} />
+					<input type="email" name="email" ref={emailRef} />
 				</div>
 
 				<div>
 					<label htmlFor="password">Password:</label>
-					<input type="password" name="password" ref={e => passwordElement = e} />
+					<input type="password" name="password" ref={passwordRef} />
 				</div>
 
 				<button type='submit'>Login</button>
@@ -49,23 +53,33 @@ const LogIn = props => {
 	);
 };
 
-//DOCS: returns two values: response and OK
+//DOCS: returns two values: err and authTokens
 const handleSubmit = async (email, password) => {
-	email = email.trim();
+	email = email.trim(); //TODO: validate email on login
 
-	//generate a new formdata payload
-	let formData = new FormData();
+	//send to the auth server
+	const result = await fetch(`${process.env.AUTH_URI}/login`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*'
+		},
+		body: JSON.stringify({
+			email,
+			password,
+		})
+	});
 
-	formData.append('email', email);
-	formData.append('password', password);
-
-	const result = await fetch('/api/accounts/login', { method: 'POST', body: formData });
-
-	if (result.ok) {
-		return [await result.text(), true];
-	} else {
-		return [await result.text(), false];
+	//handle errors
+	if (!result.ok) {
+		const err = `${result.status}: ${await result.text()}`;
+		console.error(err);
+		return [err, false];
 	}
+
+	//return the new auth tokens
+	const newTokens = await result.json();
+	return [null, newTokens];
 };
 
 export default LogIn;

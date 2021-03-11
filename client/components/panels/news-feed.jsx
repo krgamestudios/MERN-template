@@ -13,12 +13,7 @@ const NewsFeed = props => {
 				'Access-Control-Allow-Origin': '*'
 			},
 		})
-			.then(a => {
-				if (!a.ok) {
-					throw `Network error ${a.status}: ${a.statusText} ${a.url}`;
-				}
-				return a.json();
-			})
+			.then(blob => blob.json())
 			.then(a => setArticles(a))
 			.catch(e => console.error(e))
 		;

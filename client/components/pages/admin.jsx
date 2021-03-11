@@ -1,24 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 
-//import BannedEmails from '../panels/banned-emails';
+import { TokenContext } from '../utilities/token-provider';
+
 import NewsPublisher from '../panels/news-publisher';
 import NewsEditor from '../panels/news-editor';
 
 const Admin = props => {
-	const [cookies, setCookie] = useCookies();
+	//context
+	const authTokens = useContext(TokenContext);
 
-	//check for logged in redirect
-	if (!cookies['admin']) {
+	//misplaced? (admin only)
+	if (!authTokens.accessToken || !authTokens.getPayload().privilege == 'administrator') {
 		return <Redirect to='/' />;
 	}
 
 	return (
 		<div className='page'>
 			<h1 className='centered'>Administration</h1>
-			<NewsPublisher uri={process.env.NEWS_URI} newsKey={process.env.NEWS_KEY} />
-			<NewsEditor uri={process.env.NEWS_URI} newsKey={process.env.NEWS_KEY} />
+			<NewsPublisher />
+			<NewsEditor />
 		</div>
 	);
 };

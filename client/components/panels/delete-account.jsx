@@ -1,51 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useRef } from 'react';
+
+import { TokenContext } from '../utilities/token-provider';
 
 //DOCS: isolated the delete account button into it's own panel, so it can be easily moved as needed
 const DeleteAccount = props => {
+	const authTokens = useContext(TokenContext);
 	const [open, setOpen] = useState(false);
+	const passwordRef = useRef();
 
 	if (!open) {
 		return <button onClick={() => setOpen(true)} className={props.className}>Delete Account</button>
 	}
 
-	let passwordElement;
-
 	return (
 		<form className={props.className} onSubmit={async evt => {
 			evt.preventDefault();
-			const password = passwordElement.value;
-			passwordElement.value = '';
-			await handleSubmit(password);
+			const [err] = await handleSubmit(passwordRef.current.value, authTokens);
+			if (err) {
+				alert(err);
+			}
 		}}>
 			<div>
 				<label htmlFor="password">Password:</label>
-				<input type="password" name="password" ref={e => passwordElement = e} />
+				<input type="password" name="password" ref={passwordRef} />
 			</div>
 
 			<button type='submit'>Delete Account</button>
-			<button type='cancel' onClick={() => { passwordElement.value = ''; setOpen(false); }}>Cancel</button>
+			<button type='cancel' onClick={() => { passwordRef.current.value = ''; setOpen(false); }}>Cancel</button>
 		</form>
 	);
 };
 
-const handleSubmit = async (password) => {
-	//generate a new formdata payload
-	let formData = new FormData();
-
-	formData.append('password', password);
-
-	const result = await fetch('/api/accounts/deletion', { method: 'DELETE', body: formData });
+const handleSubmit = async (password, authTokens) => {
+	//schedule a deletion
+	const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/deletion`, {
+		method: 'DELETE',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			password
+		})
+	});
 
 	if (!result.ok) {
-		alert(await result.text());
-	} else {
-		//force logout
-		fetch('/api/accounts/logout', { method: 'POST' })
-			.then(alert(await result.text()))
-			.then(() => window.location.reload(true)) //BUFGIX: force reload of the header element
-			.catch(e => console.error(e))
-		;
+		return [`${await result.status}: ${await result.text()}`];
 	}
+
+	//force a logout
+	const result2 = await authTokens.tokenFetch(`${process.env.AUTH_URI}/logout`, {
+		method: 'DELETE',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			token: authTokens.refreshToken
+		})
+	});
+
+	if (!result2.ok) {
+		return [`${await result2.status}: ${await result2.text()}`];
+	}
+
+	authTokens.setAccessToken('');
+	authTokens.setRefreshToken('');
+
+	return [null];
 };
 
 export default DeleteAccount;

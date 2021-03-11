@@ -1,48 +1,57 @@
-import React from 'react';
-import { useCookies } from 'react-cookie';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+
+import { TokenContext } from '../utilities/token-provider';
 
 const Visitor = () => {
 	return (
 		<div>
-			<a href='/signup'>Sign Up</a>
+			<Link to='/signup'>Sign Up</Link>
 			<em> - </em>
-			<a href='/login'>Log In</a>
+			<Link to='/login'>Log In</Link>
 		</div>
 	);
 };
 
 const Member = () => {
+	const authTokens = useContext(TokenContext);
+
 	return (
 		<div>
-			<a href='/account'>Account</a>
+			<Link to='/account'>Account</Link>
 			<em> - </em>
-			<a href='/' onClick={logout}>Log out</a>
+			{ /* Logout button logs you out of the server too */ }
+			<Link to='/' onClick={async () => {
+				const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/logout`, { //NOTE: this gets overwritten as a bugfix
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*'
+					},
+					body: JSON.stringify({
+						token: authTokens.refreshToken
+					})
+				});
+
+				//any problems?
+				if (!result.ok) {
+					console.error(await result.text());
+				} else {
+					authTokens.setAccessToken('');
+					authTokens.setRefreshToken('');
+				}
+			}}>Log out</Link>
 		</div>
 	);
 };
 
-const logout = async () => {
-	await fetch('/api/accounts/logout', { method: 'POST' })
-		.catch(e => console.error(e))
-	;
-};
-
 const Header = () => {
-	const [cookies, setCookie] = useCookies(['loggedin']);
-
-	let Options;
-
-	//check for logged in/out status
-	if (cookies['loggedin']) {
-		Options = Member;
-	} else {
-		Options = Visitor;
-	}
+	const authTokens = useContext(TokenContext);
 
 	return (
 		<header>
-			<h1><a href='/'>MERN Template</a></h1>
-			<Options />
+			<h1><Link to='/'>MERN Template</Link></h1>
+			{ authTokens.accessToken ? <Member /> : <Visitor /> }
 		</header>
 	);
 };

@@ -1,31 +1,43 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
 
-//DOCS: props.uri is the address of a live news-server
-//DOCS: props.newsKey is the key of the live news-server
+import { TokenContext } from '../utilities/token-provider';
+
 const NewsPublisher = props => {
-	let titleElement, authorElement, bodyElement;
+	//context
+	const authTokens = useContext(TokenContext);
+
+	//refs
+	const titleRef = useRef();
+	const authorRef = useRef();
+	const bodyRef = useRef();
 
 	return (
 		<div>
 			<h2 className='centered'>News Publisher</h2>
-			<form onSubmit={async e => {
-				e.preventDefault();
-				await handleSubmit(titleElement.value, authorElement.value, bodyElement.value, props.uri, props.newsKey);
-				titleElement.value = authorElement.value = bodyElement.value = '';
+			<form onSubmit={async evt => {
+				//on submit
+				evt.preventDefault();
+				const [err, index] = await handleSubmit(titleRef.current.value, authorRef.current.value, bodyRef.current.value, authTokens.tokenFetch);
+				if (err) {
+					alert(err);
+				} else {
+					titleRef.current.value = authorRef.current.value = bodyRef.current.value = '';
+					alert(`Published as article index ${index}`);
+				}
 			}}>
 				<div>
 					<label htmlFor='title'>Title: </label>
-					<input type='text' name='title' ref={ e => titleElement = e } />
+					<input type='text' name='title' ref={titleRef} />
 				</div>
 
 				<div>
 					<label htmlFor='author'>Author: </label>
-					<input type='text' name='author' ref={ e => authorElement = e } />
+					<input type='text' name='author' ref={authorRef} />
 				</div>
 
 				<div>
 					<label htmlFor='body'>Body: </label>
-					<textarea name='body' rows='10' cols='150' ref={ e => bodyElement = e } />
+					<textarea name='body' rows='10' cols='150' ref={bodyRef} />
 				</div>
 
 				<button type='submit'>Publish</button>
@@ -34,37 +46,35 @@ const NewsPublisher = props => {
 	);
 };
 
-const handleSubmit = async (title, author, body, uri, newsKey) => {
+const handleSubmit = async (title, author, body, tokenFetch) => {
 	title = title.trim();
 	author = author.trim();
 	body = body.trim();
-	uri = uri.trim();
-	newsKey = newsKey.trim();
 
 	//fetch POST json data
-	const raw = await fetch(
-		uri,
+	const result = await tokenFetch(
+		`${process.env.NEWS_URI}`,
 		{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*'
 			},
-			body: JSON.stringify({ title: title, author: author, body: body, key: newsKey })
+			body: JSON.stringify({
+				title,
+				author,
+				body
+			})
 		}
 	);
 
-	if (raw.ok) {
-		const result = await raw.json();
-
-		if (result.ok) {
-			alert(`Published article index ${result.index}`);
-		} else {
-			alert(result.error);
-		}
-	} else {
-		alert(raw.statusText);
+	if (!result.ok) {
+		return [`${result.status}: ${await result.text()}`];
 	}
+
+	const json = await result.json();
+
+	return [null, json.index];
 };
 
 export default NewsPublisher;

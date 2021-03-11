@@ -1,31 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import Select from 'react-dropdown-select';
 
-//DOCS: props.uri is the address of a live news-server
-//DOCS: props.newsKey is the key of the live news-server
+import { TokenContext } from '../utilities/token-provider';
+
 const NewsEditor = props => {
-	let titleElement, authorElement, bodyElement;
-	const [articles, setArticles] = useState(null);
+	//context
+	const authTokens = useContext(TokenContext);
+
+	//refs
+	const titleRef = useRef();
+	const authorRef = useRef();
+	const bodyRef = useRef();
+
+	//state
+	const [articles, setArticles] = useState([]);
 	const [index, setIndex] = useState(null);
 
-	if (!articles) {
-		fetch(`${props.uri}/titles?limit=999`, {
+	//run once
+	useEffect(async () => {
+		const result = await fetch(`${process.env.NEWS_URI}/metadata?limit=999`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*'
 			},
-		})
-			.then(a => {
-				if (!a.ok) {
-					throw `Network error ${a.status}: ${a.statusText} ${a.url}`;
-				}
-				return a.json();
-			})
-			.then(a => setArticles(a))
-			.catch(e => console.error(e))
-		;
-	}
+		});
+
+		if (!result.ok) {
+			const err = `${result.status}: ${await result.text()}`;
+			console.log(err);
+			alert(err);
+		} else {
+			setArticles(await result.json());
+		}
+	}, []);
 
 	return (
 		<div>
@@ -33,28 +41,56 @@ const NewsEditor = props => {
 			<div>
 				<label htmlFor='article'>Article: </label>
 				<Select
-					options={(articles || []).map(article => { return { label: article.title, value: article.index }; })}
-					onChange={values => setIndex(fetchSelection(values[0].value, titleElement, authorElement, bodyElement, props.uri))}
+					options={(articles).map(article => { return { label: article.title, value: article.index }; })}
+					onChange={async values => {
+						//fetch this article
+						const index = values[0].value;
+
+						const result = await fetch(`${process.env.NEWS_URI}/archive/${index}`, {
+							headers: {
+								'Access-Control-Allow-Origin': '*'
+							}
+						});
+
+						if (!result.ok) {
+							const err = `${result.status}: ${await result.text()}`;
+							console.log(err);
+							alert(err);
+						} else {
+							const article = await result.json();
+							titleRef.current.value = article.title;
+							authorRef.current.value = article.author;
+							bodyRef.current.value = article.body;
+							setIndex(index);
+						}
+					}}
 				/>
 			</div>
-			<form onSubmit={async e => {
-				e.preventDefault();
-				await handleSubmit(index, titleElement.value, authorElement.value, bodyElement.value, props.uri, props.newsKey);
-				titleElement.value = authorElement.value = bodyElement.value = '';
+
+			<form onSubmit={async evt => {
+				//onSubmit
+				evt.preventDefault();
+				const [err] = await handleSubmit(titleRef.current.value, authorRef.current.value, bodyRef.current.value, index, authTokens.tokenFetch);
+				if (err) {
+					alert(err);
+				} else {
+					titleRef.current.value = authorRef.current.value = bodyRef.current.value = '';
+					alert(`Edited as article index ${index}`);
+				}
 			}}>
 				<div>
 					<label htmlFor='title'>Title: </label>
-					<input type='text' name='title' ref={ e => titleElement = e } />
+					<input type='text' name='title' ref={titleRef} />
 				</div>
 
 				<div>
 					<label htmlFor='author'>Author: </label>
-					<input type='text' name='author' ref={ e => authorElement = e } />
+					<input type='text' name='author' ref={authorRef} />
 				</div>
 
 				<div>
 					<label htmlFor='body'>Body: </label>
-					<textarea name='body' rows='10' cols='150' ref={ e => bodyElement = e } />
+					<textarea name='body' rows='10' cols='150' ref={bodyRef} />
 				</div>
 
 				<button type='submit'>Update</button>
@@ -63,54 +99,30 @@ const NewsEditor = props => {
 	);
 };
 
-const fetchSelection = (index, titleElement, authorElement, bodyElement, uri) => {
-	fetch(`${uri}/archive/${index}`, {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
-		})
-		.then(blob => blob.json())
-		.then(article => {
-			titleElement.value = article.title;
-			authorElement.value = article.author;
-			bodyElement.value = article.body;
-		})
-		.catch(e => console.error(e))
-	;
-
-	return index; //this is admittedly odd
-};
-
-const handleSubmit = async (index, title, author, body, uri, newsKey) => {
+const handleSubmit = async (title, author, body, index, tokenFetch) => {
 	title = title.trim();
 	author = author.trim();
 	body = body.trim();
-	uri = uri.trim();
-	newsKey = newsKey.trim();
 
 	//fetch POST json data
-	const raw = await fetch(
-		`${uri}/${index}`,
-		{
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*'
-			},
-			body: JSON.stringify({ title: title, author: author, body: body, key: newsKey })
-		}
-	);
+	const result = await tokenFetch(`${process.env.NEWS_URI}/${index}`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*'
+		},
+		body: JSON.stringify({
+			title,
+			author,
+			body
+		})
+	});
 
-	if (raw.ok) {
-		const result = await raw.json();
-
-		if (result.ok) {
-			alert(`Updated article index ${index}`);
-		} else {
-			alert(result.error);
-		}
-	} else {
-		alert(raw.statusText);
+	if (!result.ok) {
+		return [`${result.status}: ${await result.text()}`];
 	}
+
+	return [null];
 };
 
 export default NewsEditor;

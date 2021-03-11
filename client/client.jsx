@@ -1,16 +1,15 @@
 //polyfills
-import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CookiesProvider } from 'react-cookie';
 
 import App from './components/app';
+import TokenProvider from './components/utilities/token-provider';
 
 ReactDOM.render(
-	<CookiesProvider>
+	<TokenProvider>
 		<App />
-	</CookiesProvider>,
+	</TokenProvider>,
 	document.querySelector('#root')
 );

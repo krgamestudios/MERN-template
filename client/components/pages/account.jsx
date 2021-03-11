@@ -1,53 +1,66 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+
+import { TokenContext } from '../utilities/token-provider';
 
 import DeleteAccount from '../panels/delete-account';
 
 const Account = props => {
-	const [cookies, setCookie] = useCookies();
+	//context
+	const authTokens = useContext(TokenContext);
 
-	//check for logged in redirect
-	if (!cookies['loggedin']) {
+	//misplaced?
+	if (!authTokens.accessToken) {
 		return <Redirect to='/' />;
 	}
 
 	//refs
-	let contactElement, passwordElement, retypeElement;
+	const passwordRef = useRef();
+	const retypeRef = useRef();
+	const contactRef = useRef();
 
-	//once before render
+	//grab the user's info
 	useEffect(() => {
-		fetch('/api/accounts')
+		authTokens.tokenFetch(`${process.env.AUTH_URI}/account`, {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*'
+			}
+		})
 			.then(blob => blob.json())
-			.then(json => {
-				contactElement.checked = json.contact;
-			})
+			.then(json => contactRef.current.checked = json.contact)
 			.catch(e => console.error(e))
 		;
 	}, []);
 
+	//render the thing
 	return (
 		<div className='page'>
 			<h1 className='centered'>Account</h1>
 			<form className='constricted' onSubmit={async evt => {
 				evt.preventDefault();
-				await update(contactElement.checked, passwordElement.value, retypeElement.value);
-				passwordElement.value = retypeElement.value = '';
+				const [err, result] = await update(passwordRef.current.value, retypeRef.current.value, contactRef.current.checked, authTokens.tokenFetch);
+
+				if (err) {
+					alert(err);
+					return;
+				}
+				passwordRef.current.value = retypeRef.current.value = '';
 			}}>
 				<div>
 					<div>
-						<label htmlFor='contact'>Allow Promotional Emails:</label>
-						<input type='checkbox' name='contact' ref={e => contactElement = e} />
-					</div>
-
-					<div>
 						<label htmlFor='password'>Change Password:</label> 
-						<input type='password' name='password' ref={e => passwordElement = e} />
+						<input type='password' name='password' ref={passwordRef} />
 					</div>
 
 					<div>
 						<label htmlFor='retype'>Retype Password:</label> 
-						<input type='password' name='retype' ref={e => retypeElement = e} />
+						<input type='password' name='retype' ref={retypeRef} />
+					</div>
+
+					<div>
+						<label htmlFor='contact'>Allow Promotional Emails:</label>
+						<input type='checkbox' name='contact' ref={contactRef} />
 					</div>
 				</div>
 
@@ -59,26 +72,31 @@ const Account = props => {
 	);
 };
 
-const update = async (contact, password, retype) => {
+const update = async (password, retype, contact, tokenFetch) => {
 	if (password != retype) {
-		alert('Passwords do not match');
+		return ['Passwords do not match'];
 	}
 
-	//generate a new formdata payload
-	let formData = new FormData();
-
-	formData.append('contact', contact);
-
-	if (password) {
-		formData.append('password', password);
+	if (password && password.length < 8) {
+		return ['Password is too short'];
 	}
 
-	const result = await fetch('/api/accounts', { method: 'PATCH', body: formData });
+	const result = await tokenFetch(`${process.env.AUTH_URI}/update`, {
+		method: 'PATCH',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			password: password ? password : null,
+			contact
+		})
+	});
 
-	if (result.ok) {
-		alert(await result.text());
+	if (!result.ok) {
+		return [`${await result.status}: ${await result.text()}`];
 	} else {
-		alert(await result.text());
+		return [null];
 	}
 }
 
