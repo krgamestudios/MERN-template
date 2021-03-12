@@ -90,6 +90,10 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	}
 	const defaultPass = tmpPass;
 
+	if (defaultUser) {
+		console.log(`Default user email will be: ${$defaultUser}@${authWebAddress}`);
+	}
+
 	//traefic configuration
 	const supportEmail = await question('Support Email', emailUser);
 
@@ -156,7 +160,7 @@ services:
       - traefik
 
   ${authName}:
-    image: krgamestudios/news-server:latest
+    image: krgamestudios/auth-server:latest
     ports:
       - ${authPort}
     labels:
