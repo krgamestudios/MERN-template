@@ -1,103 +1,84 @@
-//TODO: update this README
-
 # MERN-template
 
-A website template using the MERN stack.
+A website template using the MERN stack. The primary technology involved is:
 
-# Setup Development
+* React
+* Nodejs
+* MariaDB (with Sequelize)
+* Docker
 
-To set up this template, please ensure mariadb is running on the host computer, and run `npm install` as normal.
+This template is designed to support the development of persistent browser based games (PBBGs), but it, and it's component microservices, can be used elsewhere.
 
-1. Run `sql/create_database.sql`
-2. Run `cp .envdev .env` and enter your details into the new file
-3. Execute `npm run dev`
-
-This should get the template working in development mode.
-
-# Setup Deployment
-
-Eventually, a clean install will be this easy:
-
-```
-git clone https://github.com/krgamestudios/MERN-template.git
-npm run configure
-docker-compose up --build
-```
+This template is released under the zlib license (see LICENSE).
 
 # Microservices
 
-There are external components to this template referred to as "microservices". These can be omitted entirely by simply removing the React component that accesses them.
+There are external components to this template referred to as "microservices". These can be omitted entirely by simply removing the React components that access them. These are also available via [docker hub](https://hub.docker.com/u/krgamestudios).
 
-* News Server: https://github.com/krgamestudios/news-server
 * Auth Server: https://github.com/krgamestudios/auth-server
+* News Server: https://github.com/krgamestudios/news-server
 * Chat Server: https://github.com/krgamestudios/chat-server
 
-# TODO list
+# Setup Deployment
 
-- Account system
-	- A separate authentication server
-- Administration Panel
-	- inspect aggregate user data
-	- Moderation tools for banning, suspending, or chat-banning users
-- Chat system (microservice)
-	- Based on usernames
-	- Chat logs
-	- Custom emoji
-	- Moderation tools
-	- Global chat channels
-	- User-created chat channels with an invite/search system
-	- Private messages
-	- Icons/roles next to username
-- Better compression for client files
-- Some form of bot/alt account detection?
-- A payment system
-- Backend for energy systems
-- Backend for trading and leaderboards
-- inventory 
-- stats
-- shop
-- currency
-- random events
-- Dcumentation and tutorials
-- Server-side actions to allow offline progress or progress on spotty internet connections
-- Full tutorial for setting up and using the site
-	- Start here page
-	- Security holes
-		- HTTPS
-		- Default admin account
-	- Information about legal requirements of the developers using this template
-		- Privacy policy & data collection notices
+A clean install is this easy:
 
-# DONE list
+```
+git clone https://github.com/krgamestudios/MERN-template.git
+node run configure-script.js
+docker-compose up --build
+```
 
-- Legal Requirements:
-	- ~~Physical Mailing Address Config (for emails)~~
-	- ~~Opt-out option (for emails)~~
-	- ~~Privacy policy & data collection notices~~
-	- ~~LICENSE file~~
-	- ~~annoying "This site uses cookies" message~~
-- Account system
-	- ~~sign up~~
-	- ~~validate email~~
-	- ~~login (with cookies)~~
-	- ~~logout (with cookies)~~
-	- ~~account deletion~~
-	- ~~Change passwords~~
-- Administration Panel
-	- ~~Default admin account~~
-	- ~~Exclusive to admin accounts~~
-- News blog system (microservice)
-	- ~~build the microservice to provide the news feed~~
-	- ~~access an external news feed~~
-	- ~~admin panel for publishing and editing news~~
-	- ~~"created at" and "updated at" in the response~~
-- Configuraton Script:
+# Setup Development
+
+To set up this template in development mode:
+
+1. Ensure mariadb is running in your development environment
+2. Run `mariadb sql/create_database.sql` as the root user
+3. Run `npm install`
+4. Run `cp .envdev .env` and enter your details into the `.env` file
+5. Execute `npm run dev`
+6. Navigate to `http://localhost:3001` in your web browser
+
+# Features List
+
+- Fully Featured Account System
+	- Email validation
+	- Logging in and out
+	- Account deletion
+	- Password management
+- Fully Featured Administration Panel
+	- A default admin account (if desired)
+- News Blog
+	- Optional microservice
+	- Secure publishing and editing of articles
+- Easy To Use Configuraton Script:
 	- ~~Default UUID keys~~
 	- ~~Docker, docker, docker.~~
 
-# Email settings
+# Coming Soon
 
-Some of the external requirements can be tricky, so let me outline what is needed. If you decide to use gmail as your email provider, then use the following `.env` settings:
+- Full documentation
+	- Setup tutorial
+- Fully Featured Chat System
+	- Optional microservice
+	- Chat logs
+	- Custom emoji
+	- Global and room-based chat
+	- Private messaging?
+	- Broadcasting to all channels
+	- Badges next to usernames?
+- Moderation tools for banning, suspending, or chat-banning users
+
+# Coming Eventually
+- Better compression for client files
+- Backend for energy systems
+- Backend for leaderboards
+- Backend for items, shops, trading and currency
+
+# Gmail Email Settings
+
+If you decide to use gmail as your email provider (as I do), then use the following `.env` settings:
 
 	MAIL_SMTP=smtp.gmail.com
 	MAIL_USERNAME=you@gmail.com

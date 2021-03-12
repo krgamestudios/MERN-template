@@ -1,5 +1,3 @@
-//TODO: update this file
-
 //setup
 const readline = require('readline');
 const fs = require('fs');
@@ -14,52 +12,92 @@ const rl = readline.createInterface({
 });
 
 //manually promisify this (util didn't work)
-const question = (prompt, def) => {
+const question = (prompt, def = null) => {
 	return new Promise((resolve, reject) => {
-		rl.question(`${prompt} (${def}): `, answer => {
-			resolve(answer || def);
+		rl.question(`${prompt}${def ? ` (${def})` : ''}: `, answer => {
+			//loop on required
+			if (def === null && !answer) {
+				return resolve(question(prompt, def));
+			}
+
+			return resolve(answer || def);
 		});
 	});
 };
 
 //questions
 (async () => {
+	console.log(
+`This configure script will generate the following files:
+
+* docker-compose.yml
+* Dockerfile
+* startup.sql
+
+Currently, all microservices are mandatory; you'll have to mess with the result
+and the source code if you wish to be more selective. Microservices currently
+impelented are:
+
+* auth-server
+* news-server
+
+See https://github.com/krgamestudios/MERN-template/wiki for help.
+`
+);
+
 	//project configuration
 	const projectName = await question('Project Name', 'template');
 	const projectWebAddress = await question('Project Web Address', 'example.com');
-	const projectMailSMTP = await question('Project Mail SMTP', 'smtp.example.com');
-	const projectMailUser = await question('Project Mail Username', 'foobar@example.com');
-	const projectMailPass = await question('Project Mail Password', 'foobar');
-	const projectMailPhysical = await question('Project Physical Mailing Address', '');
-	const projectDBUser = await question('Project Database Username', projectName);
-	const projectDBPass = await question('Project Database Password', 'pikachu');
+
+	const projectDBUser = await question('Project DB Username', projectName);
+	const projectDBPass = await question('Project DB Password', 'pikachu');
 
 	//news configuration
 	const newsName = await question('News Name', 'news');
-	const newsWebAddress = await question('News Web Address', 'news.example.com');
-	const newsDBUser = await question('News Database Username', newsName);
-	const newsDBPass = await question('News Database Password', 'charizard');
-	const newsKey = await question('News Query Key', uuid());
+	const newsWebAddress = await question('News Web Address', `${newsName}.${projectWebAddress}`);
+	const newsDBUser = await question('News DB Username', newsName);
+	const newsDBPass = await question('News DB Password', 'charizard');
 
-	//chat configuration
-	const chatName = await question('Chat Name', 'chat');
-	const chatWebAddress = await question('Chat Web Address', 'chat.example.com');
-	const chatDBUser = await question('Chat Database Username', chatName);
-	const chatDBPass = await question('Chat Database Password', 'blastoise');
-	const chatKey = await question('Chat Reservation Key', uuid());
+	//auth configuration
+	const authName = await question('Auth Name', 'auth');
+	const authWebAddress = await question('Auth Web Address', `${authName}.${projectWebAddress}`);
+	const authDBUser = await question('Auth DB Username', authName);
+	const authDBPass = await question('Auth DB Password', 'venusaur');
+
+	const emailSMTP = await question('Email SMTP', 'smtp.example.com');
+	const emailUser = await question('Email Address', 'foobar@example.com');
+	const emailPass = await question('Email Password', 'foobar');
+	const emailPhysical = await question('Physical Mailing Address', '');
+
+	//chat goes here
 
 	//database configuration
-	const databaseRootPassword = await question('Database Root Password', 'password');
-	const databaseTimeZone = await question('Database Timezone', 'Australia/Sydney');
+	const dbRootPassword = await question('Database Root Password', 'password');
+	const dbTimeZone = await question('Database Timezone', 'Australia/Sydney');
+
+	//joint configuration
+	const accessToken = await question('Access Token Secret', uuid(32));
+	const refreshToken = await question('Refresh Token Secret', uuid(32));
+
+	console.log('--Leave "Default User" blank if you don\'t want one--');
+	const defaultUser = await question('Default Admin User', '');
+
+	//MUST be at least 8 chars
+	let tmpPass = '';
+	while (defaultUser && tmpPass.length < 8) {
+		console.log('--All passwords must be at least 8 characters long--');
+		tmpPass = await question('Default Admin Pass', '');
+	}
+	const defaultPass = tmpPass;
 
 	//traefic configuration
-	const supportEmail = await question('Support Email', projectMailUser);
+	const supportEmail = await question('Support Email', emailUser);
 
-	//other random values
-	const sessionSecret = uuid(); //for session randomness
-	const sessionAdmin = uuid(128); //for checking if user is admin
-
-	//TODO: Implement chat-server as a docker container
+	//misc. configuration
+	const projectPort = 3000;
+	const newsPort = 3100;
+	const authPort = 3200;
+	//const chatPort = 3300;
 
 const ymlfile = `
 version: "3.6"
@@ -67,33 +105,24 @@ services:
   ${projectName}:
     build: .
     ports:
-      - "3000"
+      - "${projectPort}"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.${projectName}router.rule=Host(\`${projectWebAddress}\`)"
-      - "traefik.http.routers.${projectName}router.entrypoints=websecure"
-      - "traefik.http.routers.${projectName}router.tls.certresolver=myresolver"
-      - "traefik.http.routers.${projectName}router.service=${projectName}service@docker"
-      - "traefik.http.services.${projectName}service.loadbalancer.server.port=3000"
+      - traefik.enable=true
+      - traefik.http.routers.${projectName}router.rule=Host(\`${projectWebAddress}\`)
+      - traefik.http.routers.${projectName}router.entrypoints=websecure
+      - traefik.http.routers.${projectName}router.tls.certresolver=myresolver
+      - traefik.http.routers.${projectName}router.service=${projectName}service@docker
+      - traefik.http.services.${projectName}service.loadbalancer.server.port=${projectPort}
     environment:
-      - WEB_PROTOCOL=https
-      - WEB_ADDRESS=${projectWebAddress}
       - WEB_PORT=3000
-      - MAIL_SMTP=${projectMailSMTP}
-      - MAIL_USERNAME=${projectMailUser}
-      - MAIL_PASSWORD=${projectMailPass}
-      - MAIL_PHYSICAL=${projectMailPhysical}
       - DB_HOSTNAME=database
       - DB_DATABASE=${projectName}
       - DB_USERNAME=${projectDBUser}
       - DB_PASSWORD=${projectDBPass}
-      - DB_TIMEZONE=${databaseTimeZone}
-      - SESSION_SECRET=${sessionSecret}
-      - SESSION_ADMIN=${sessionAdmin}
+      - DB_TIMEZONE=${dbTimeZone}
       - NEWS_URI=https://${newsWebAddress}/news
-      - NEWS_KEY=${newsKey}
-      - CHAT_URI=https://${chatWebAddress}/chat
-      - CHAT_KEY=${chatKey}
+      - AUTH_URI=https://${authWebAddress}/auth
+      - SECRET_ACCESS=${accessToken}
     networks:
       - app-network
     depends_on:
@@ -103,64 +132,96 @@ services:
   ${newsName}:
     image: krgamestudios/news-server:latest
     ports:
-      - "3100"
+      - ${newsPort}
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.${newsName}router.rule=Host(\`${newsWebAddress}\`)"
-      - "traefik.http.routers.${newsName}router.entrypoints=websecure"
-      - "traefik.http.routers.${newsName}router.tls.certresolver=myresolver"
-      - "traefik.http.routers.${newsName}router.service=${newsName}service@docker"
-      - "traefik.http.services.${newsName}service.loadbalancer.server.port=3100"
+      - traefik.enable=true
+      - traefik.http.routers.${newsName}router.rule=Host(\`${newsWebAddress}\`)
+      - traefik.http.routers.${newsName}router.entrypoints=websecure
+      - traefik.http.routers.${newsName}router.tls.certresolver=myresolver
+      - traefik.http.routers.${newsName}router.service=${newsName}service@docker
+      - traefik.http.services.${newsName}service.loadbalancer.server.port=3100
     environment:
       - WEB_PORT=3100
       - DB_HOSTNAME=database
       - DB_DATABASE=${newsName}
       - DB_USERNAME=${newsDBUser}
       - DB_PASSWORD=${newsDBPass}
-      - DB_TIMEZONE=${databaseTimeZone}
+      - DB_TIMEZONE=${dbTimeZone}
       - QUERY_LIMIT=10
-      - QUERY_KEY=${newsKey}
+      - SECRET_ACCESS=${accessToken}
     networks:
       - app-network
     depends_on:
       - database
       - traefik
 
+  ${authName}:
+    image: krgamestudios/news-server:latest
+    ports:
+      - ${authPort}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${authName}router.rule=Host(\`${authWebAddress}\`)
+      - traefik.http.routers.${authName}router.entrypoints=websecure
+      - traefik.http.routers.${authName}router.tls.certresolver=myresolver
+      - traefik.http.routers.${authName}router.service=${authName}service@docker
+      - traefik.http.services.${authName}service.loadbalancer.server.port=${authPort}
+    environment:
+      - WEB_PROTOCOL=https
+      - WEB_ADDRESS=${authWebAddress}
+      - WEB_PORT=${authPort}
+      - DB_HOSTNAME=database
+      - DB_DATABASE=${authName}
+      - DB_USERNAME=${authDBUser}
+      - DB_PASSWORD=${authDBPass}
+      - DB_TIMEZONE=${dbTimeZone}
+      - MAIL_SMTP=${emailSMTP}
+      - MAIL_USERNAME=${emailUser}
+      - MAIL_PASSWORD=${emailPass}
+      - MAIL_PHYSICAL=${emailPhysical}
+      - ADMIN_DEFAULT_USERNAME=${defaultUser}
+      - ADMIN_DEFAULT_PASSWORD=${defaultPass}
+      - SECRET_ACCESS=${accessToken}
+      - SECRET_REFRESH=${refreshToken}
+    networks:
+      - app-network
+    depends_on:
+      - database
+      - traefik
+  
   #chat:
   #  image: krgamestudios/chat-server
-  #  ports:
-  #    - "3200:3200"
 
   database:
     image: mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${databaseRootPassword}
+      MYSQL_ROOT_PASSWORD: ${dbRootPassword}
     volumes:
-      - "./mysql:/var/lib/mysql"
-      - "./startup.sql:/docker-entrypoint-initdb.d/startup.sql:ro"
+      - ./mysql:/var/lib/mysql
+      - ./startup.sql:/docker-entrypoint-initdb.d/startup.sql:ro
     networks:
       - app-network
 
   traefik:
-    image: "traefik:v2.4"
-    container_name: "traefik"
+    image: traefik:v2.4
+    container_name: traefik
     command:
-      - "--log.level=ERROR"
-      - "--api.insecure=false"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=${supportEmail}"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      - " traefik.docker.network=app-network"
+      - --log.level=ERROR
+      - --api.insecure=false
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=${supportEmail}
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      -  traefik.docker.network=app-network
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     volumes:
-      - "./letsencrypt:/letsencrypt"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - ./letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - app-network
 
@@ -175,7 +236,7 @@ WORKDIR "/app"
 COPY package*.json ./
 RUN npm install
 COPY . /app
-EXPOSE 3000
+EXPOSE ${projectPort}
 ENTRYPOINT ["bash", "-c"]
 CMD ["sleep 10 && npm start"]
 `;
@@ -189,9 +250,9 @@ CREATE DATABASE IF NOT EXISTS ${newsName};
 CREATE USER IF NOT EXISTS '${newsDBUser}'@'%' IDENTIFIED BY '${newsDBPass}';
 GRANT ALL PRIVILEGES ON ${newsName}.* TO '${newsDBUser}'@'%';
 
-CREATE DATABASE IF NOT EXISTS ${chatName};
-CREATE USER IF NOT EXISTS '${chatDBUser}'@'%' IDENTIFIED BY '${chatDBPass}';
-GRANT ALL PRIVILEGES ON ${chatName}.* TO '${chatDBUser}'@'%';
+CREATE DATABASE IF NOT EXISTS ${authName};
+CREATE USER IF NOT EXISTS '${authDBUser}'@'%' IDENTIFIED BY '${authDBPass}';
+GRANT ALL PRIVILEGES ON ${authName}.* TO '${authDBUser}'@'%';
 
 FLUSH PRIVILEGES;
 `;
@@ -203,4 +264,3 @@ FLUSH PRIVILEGES;
 	.then(() => rl.close())
 	.catch(e => console.error(e))
 ;
-

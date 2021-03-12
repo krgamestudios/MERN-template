@@ -3,6 +3,8 @@ import { Redirect } from 'react-router-dom';
 
 import { TokenContext } from '../utilities/token-provider';
 
+const validateEmail = require('../../../common/utilities/validate-email');
+
 const LogIn = props => {
 	//context
 	const authTokens = useContext(TokenContext);
@@ -55,7 +57,13 @@ const LogIn = props => {
 
 //DOCS: returns two values: err and authTokens
 const handleSubmit = async (email, password) => {
-	email = email.trim(); //TODO: validate email on login
+	email = email.trim();
+
+	const err = handleValidation(email, password);
+
+	if (err) {
+		return [err, false];
+	}
 
 	//send to the auth server
 	const result = await fetch(`${process.env.AUTH_URI}/login`, {
@@ -81,5 +89,19 @@ const handleSubmit = async (email, password) => {
 	const newTokens = await result.json();
 	return [null, newTokens];
 };
+
+//returns an error message, or null on success
+const handleValidation = (email, password) => {
+	if (!validateEmail(email)) {
+		return 'invalid email';
+	}
+
+	if (password.length < 8) {
+		return 'invalid password (Must be at least 8 characters long)';
+	}
+
+	return null;
+};
+
 
 export default LogIn;

@@ -1,5 +1,3 @@
-//TODO: move this to the wiki?
-
 # Setup Tutorial
 
 Last Updated February 15th 2021

@@ -7,7 +7,7 @@ import LazyRoute from './lazy-route';
 import Markdown from './panels/markdown';
 
 //styling
-//TODO: styling import
+//import a styling template here
 
 //common components
 import Header from './panels/header.jsx';

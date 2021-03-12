@@ -4,8 +4,8 @@ import { Redirect } from 'react-router-dom';
 import { TokenContext } from '../utilities/token-provider';
 
 //utilities
-const validateEmail = require('../../../common/utilities/validate-email.js');
-const validateUsername = require('../../../common/utilities/validate-username.js');
+const validateEmail = require('../../../common/utilities/validate-email');
+const validateUsername = require('../../../common/utilities/validate-username');
 
 const SignUp = props => {
 	//context

@@ -1,5 +1,3 @@
-#TODO: move this into configure-script.js
-
 #This file only needs to be run once, during initial development setup
 #This file isnt needed for actual deployment
 
