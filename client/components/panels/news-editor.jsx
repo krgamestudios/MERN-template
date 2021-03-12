@@ -94,6 +94,20 @@ const NewsEditor = props => {
 				</div>
 
 				<button type='submit'>Update</button>
+				<button type='button' onClick={async evt => {
+					//onDelete
+					const [err, result] = await handleDelete(index, authTokens.tokenFetch);
+
+					if (err) {
+						alert(err);
+						return;
+					}
+
+					if (result) {
+						titleRef.current.value = authorRef.current.value = bodyRef.current.value = '';
+						alert(`Article deleted`);
+					}
+				}}>Delete</button>
 			</form>
 		</div>
 	);
@@ -123,6 +137,23 @@ const handleSubmit = async (title, author, body, index, tokenFetch) => {
 	}
 
 	return [null];
+};
+
+const handleDelete = async (index, tokenFetch) => {
+	const conf = confirm('Are you sure you want to delete this article?');
+
+	if (conf) {
+		const result = await tokenFetch(`${process.env.NEWS_URI}/${index}`, {
+			method: 'DELETE'
+		});
+
+		if (!result.ok) {
+			const err = `${result.status}: ${await result.text()}`;
+			return [err, false];
+		}
+	}
+
+	return [null, conf];
 };
 
 export default NewsEditor;

@@ -69,9 +69,9 @@ const TokenProvider = props => {
 
 		//finally, delegate to fetch
 		return fetch(url, {
-			...options,
+			...(options || {}),
 			headers: {
-				...options.headers,
+				...(options || { headers: {} }).headers,
 				'Authorization': `Bearer ${bearer}`
 			}
 		});
