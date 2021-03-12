@@ -33,8 +33,8 @@ const NewsFeed = props => {
 						<h2>{article.title}</h2>
 						<p>Written by <strong>{article.author}</strong>, {
 							article.edits > 0 ?
-							<span>Last Updated {dateFormat(articles.updatedAt, 'fullDate')} ({`${article.edits} edit${article.edits > 1 ? 's': ''}`})</span> :
-							<span>Published {dateFormat(articles.createdAt, 'fullDate')}</span>
+							<span>Last Updated {dateFormat(article.updatedAt, 'fullDate')} ({`${article.edits} edit${article.edits > 1 ? 's': ''}`})</span> :
+							<span>Published {dateFormat(article.createdAt, 'fullDate')}</span>
 						}</p>
 						<p style={{whiteSpace: 'pre-wrap'}}>{article.body}</p>
 					</div>
