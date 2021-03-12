@@ -78,7 +78,7 @@ const handleSubmit = async (email, username, password, retype, contact) => {
 	const err = handleValidation(email, username, password, retype);
 
 	if (err) {
-		return err;
+		return [err];
 	}
 
 	//send to the auth server
