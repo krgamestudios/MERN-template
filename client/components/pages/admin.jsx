@@ -5,6 +5,7 @@ import { TokenContext } from '../utilities/token-provider';
 
 import NewsPublisher from '../panels/news-publisher';
 import NewsEditor from '../panels/news-editor';
+import PrivilegeEditor from '../panels/privilege-editor';
 
 const Admin = props => {
 	//context
@@ -20,6 +21,7 @@ const Admin = props => {
 			<h1 className='centered'>Administration</h1>
 			<NewsPublisher />
 			<NewsEditor />
+			<PrivilegeEditor />
 		</div>
 	);
 };
