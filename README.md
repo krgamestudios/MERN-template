@@ -51,7 +51,7 @@ To set up this template in development mode:
 - News Blog
 	- Optional microservice
 	- Secure publishing and editing of articles via admin panel
-- Easy To Use Configuraton Script
+- Easy To Use Configuration Script
 	- Sets up everything via docker
 	- A default admin account (if desired)
 
