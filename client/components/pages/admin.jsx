@@ -11,7 +11,7 @@ const Admin = props => {
 	const authTokens = useContext(TokenContext);
 
 	//misplaced? (admin only)
-	if (!authTokens.accessToken || !authTokens.getPayload().privilege == 'administrator') {
+	if (!authTokens.accessToken || authTokens.getPayload().privilege != 'administrator') {
 		return <Redirect to='/' />;
 	}
 

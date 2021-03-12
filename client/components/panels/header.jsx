@@ -7,7 +7,7 @@ const Visitor = () => {
 	return (
 		<div>
 			<Link to='/signup'>Sign Up</Link>
-			<em> - </em>
+			<span> - </span>
 			<Link to='/login'>Log In</Link>
 		</div>
 	);
@@ -19,7 +19,16 @@ const Member = () => {
 	return (
 		<div>
 			<Link to='/account'>Account</Link>
-			<em> - </em>
+			<span> - </span>
+
+			{ authTokens.getPayload().privilege == 'administrator' ?
+				<span>
+					<Link to='/admin'>Admin</Link>
+					<span> - </span>
+				</span>:
+				<span />
+			}
+
 			{ /* Logout button logs you out of the server too */ }
 			<Link to='/' onClick={async () => {
 				const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/logout`, { //NOTE: this gets overwritten as a bugfix

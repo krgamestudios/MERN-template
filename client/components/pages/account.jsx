@@ -39,12 +39,14 @@ const Account = props => {
 			<h1 className='centered'>Account</h1>
 			<form className='constricted' onSubmit={async evt => {
 				evt.preventDefault();
-				const [err, result] = await update(passwordRef.current.value, retypeRef.current.value, contactRef.current.checked, authTokens.tokenFetch);
+				const [err] = await update(passwordRef.current.value, retypeRef.current.value, contactRef.current.checked, authTokens.tokenFetch);
 
 				if (err) {
 					alert(err);
 					return;
 				}
+
+				alert('Details updated');
 				passwordRef.current.value = retypeRef.current.value = '';
 			}}>
 				<div>

@@ -47,19 +47,19 @@ To set up this template in development mode:
 	- Logging in and out
 	- Account deletion
 	- Password management
-- Fully Featured Administration Panel
-	- A default admin account (if desired)
+	- JSON web token authentication
 - News Blog
 	- Optional microservice
-	- Secure publishing and editing of articles
-- Easy To Use Configuraton Script:
-	- ~~Default UUID keys~~
-	- ~~Docker, docker, docker.~~
+	- Secure publishing and editing of articles via admin panel
+- Easy To Use Configuraton Script
+	- Sets up everything via docker
+	- A default admin account (if desired)
 
 # Coming Soon
 
 - Full documentation
 	- Setup tutorial
+	- Modding tutorial
 - Fully Featured Chat System
 	- Optional microservice
 	- Chat logs
