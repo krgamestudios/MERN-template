@@ -91,7 +91,7 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	const defaultPass = tmpPass;
 
 	if (defaultUser) {
-		console.log(`Default user email will be: ${$defaultUser}@${authWebAddress}`);
+		console.log(`Default user email will be: ${defaultUser}@${authWebAddress}`);
 	}
 
 	//traefic configuration
