@@ -33,7 +33,7 @@ const DeleteAccount = props => {
 
 const handleSubmit = async (password, authTokens) => {
 	//schedule a deletion
-	const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/deletion`, {
+	const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/account`, {
 		method: 'DELETE',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -49,7 +49,7 @@ const handleSubmit = async (password, authTokens) => {
 	}
 
 	//force a logout
-	const result2 = await authTokens.tokenFetch(`${process.env.AUTH_URI}/logout`, {
+	const result2 = await authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/logout`, {
 		method: 'DELETE',
 		headers: {
 			'Access-Control-Allow-Origin': '*',

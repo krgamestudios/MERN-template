@@ -53,7 +53,7 @@ const handleSubmit = async (title, author, body, tokenFetch) => {
 
 	//fetch POST json data
 	const result = await tokenFetch(
-		`${process.env.NEWS_URI}`,
+		`${process.env.NEWS_URI}/news`,
 		{
 			method: 'POST',
 			headers: {

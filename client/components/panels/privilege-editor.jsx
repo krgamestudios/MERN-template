@@ -46,7 +46,7 @@ const PrivilegeEditor = props => {
 };
 
 const handleSubmit = async (username, privilege, tokenFetch) => {
-	const result = await tokenFetch(`${process.env.AUTH_URI}/account/privilege`, {
+	const result = await tokenFetch(`${process.env.AUTH_URI}/admin/privilege`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',

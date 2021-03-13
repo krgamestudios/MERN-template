@@ -31,7 +31,7 @@ const Member = () => {
 
 			{ /* Logout button logs you out of the server too */ }
 			<Link to='/' onClick={async () => {
-				const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/logout`, { //NOTE: this gets overwritten as a bugfix
+				const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/logout`, { //NOTE: this gets overwritten as a bugfix
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',

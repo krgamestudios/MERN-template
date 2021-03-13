@@ -21,7 +21,7 @@ const Account = props => {
 
 	//grab the user's info
 	useEffect(() => {
-		authTokens.tokenFetch(`${process.env.AUTH_URI}/account`, {
+		authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/account`, {
 			method: 'GET',
 			headers: {
 				'Access-Control-Allow-Origin': '*'
@@ -83,7 +83,7 @@ const update = async (password, retype, contact, tokenFetch) => {
 		return ['Password is too short'];
 	}
 
-	const result = await tokenFetch(`${process.env.AUTH_URI}/update`, {
+	const result = await tokenFetch(`${process.env.AUTH_URI}/auth/account`, {
 		method: 'PATCH',
 		headers: {
 			'Access-Control-Allow-Origin': '*',

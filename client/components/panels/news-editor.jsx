@@ -18,7 +18,7 @@ const NewsEditor = props => {
 
 	//run once
 	useEffect(async () => {
-		const result = await fetch(`${process.env.NEWS_URI}/metadata?limit=999`, {
+		const result = await fetch(`${process.env.NEWS_URI}/news/metadata?limit=999`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ const NewsEditor = props => {
 						//fetch this article
 						const index = values[0].value;
 
-						const result = await fetch(`${process.env.NEWS_URI}/archive/${index}`, {
+						const result = await fetch(`${process.env.NEWS_URI}/news/archive/${index}`, {
 							headers: {
 								'Access-Control-Allow-Origin': '*'
 							}
@@ -119,7 +119,7 @@ const handleSubmit = async (title, author, body, index, tokenFetch) => {
 	body = body.trim();
 
 	//fetch POST json data
-	const result = await tokenFetch(`${process.env.NEWS_URI}/${index}`, {
+	const result = await tokenFetch(`${process.env.NEWS_URI}/news/${index}`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ const handleDelete = async (index, tokenFetch) => {
 	const conf = confirm('Are you sure you want to delete this article?');
 
 	if (conf) {
-		const result = await tokenFetch(`${process.env.NEWS_URI}/${index}`, {
+		const result = await tokenFetch(`${process.env.NEWS_URI}/news/${index}`, {
 			method: 'DELETE'
 		});
 

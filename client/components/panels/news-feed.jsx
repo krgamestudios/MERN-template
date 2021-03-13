@@ -6,7 +6,7 @@ const NewsFeed = props => {
 	const [articles, setArticles] = useState([]);
 
 	useEffect(async () => {
-		const result = await fetch(props.uri, {
+		const result = await fetch(`${process.env.NEWS_URI}/news`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

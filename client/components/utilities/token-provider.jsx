@@ -28,7 +28,7 @@ const TokenProvider = props => {
 
 		if (expired) {
 			//ping the auth server for a new token
-			const response = await fetch(`${process.env.AUTH_URI}/token`, {
+			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -52,8 +52,8 @@ const TokenProvider = props => {
 			bearer = newAuth.accessToken;
 
 			//BUGFIX: logging out correctly requires the new refresh token
-			if (url == `${process.env.AUTH_URI}/logout`) {
-				return fetch(`${process.env.AUTH_URI}/logout`, {
+			if (url == `${process.env.AUTH_URI}/auth/logout`) {
+				return fetch(`${process.env.AUTH_URI}/auth/logout`, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',

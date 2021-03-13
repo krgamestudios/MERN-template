@@ -82,7 +82,7 @@ const handleSubmit = async (email, username, password, retype, contact) => {
 	}
 
 	//send to the auth server
-	const result = await fetch(`${process.env.AUTH_URI}/signup`, {
+	const result = await fetch(`${process.env.AUTH_URI}/auth/signup`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

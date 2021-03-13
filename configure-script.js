@@ -124,8 +124,8 @@ services:
       - DB_USERNAME=${projectDBUser}
       - DB_PASSWORD=${projectDBPass}
       - DB_TIMEZONE=${dbTimeZone}
-      - NEWS_URI=https://${newsWebAddress}/news
-      - AUTH_URI=https://${authWebAddress}/auth
+      - NEWS_URI=https://${newsWebAddress}
+      - AUTH_URI=https://${authWebAddress}
       - SECRET_ACCESS=${accessToken}
     networks:
       - app-network

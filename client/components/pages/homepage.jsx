@@ -6,7 +6,7 @@ const HomePage = props => {
 	return (
 		<div className='page'>
 			<p>This is the MERN template homepage.</p>
-			<NewsFeed uri={process.env.NEWS_URI} />
+			<NewsFeed />
 		</div>
 	);
 };
