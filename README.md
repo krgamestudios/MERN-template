@@ -42,6 +42,8 @@ To set up this template in development mode:
 
 # Features List
 
+- Full documentation
+	- Setup tutorial
 - Fully Featured Account System
 	- Email validation
 	- Logging in and out
@@ -58,7 +60,6 @@ To set up this template in development mode:
 # Coming Soon
 
 - Full documentation
-	- Setup tutorial
 	- Modding tutorial
 - Fully Featured Chat System
 	- Optional microservice
