@@ -38,6 +38,10 @@ module.exports = ({ production, analyzer }) => {
 					]
 				},
 				{
+					test: /\.(css)$/,
+					use: ['style-loader', 'css-loader']
+				},
+				{
 					test: /\.(md)$/,
 					use: [
 						{
@@ -53,7 +57,7 @@ module.exports = ({ production, analyzer }) => {
 					'PRODUCTION': production,
 					'NEWS_URI': production ? `"${process.env.NEWS_URI}"` : '"https://dev-news.eggtrainer.com"',
 					'AUTH_URI': production ? `"${process.env.AUTH_URI}"` : '"https://dev-auth.eggtrainer.com"',
-//					'CHAT_URI': production ? `"${process.env.CHAT_URI}"` : '"https://dev-chat.eggtrainer.com"',
+					'CHAT_URI': production ? `"${process.env.CHAT_URI}"` : '"http://localhost:3300"',
 				}
 			}),
 			new CleanWebpackPlugin({

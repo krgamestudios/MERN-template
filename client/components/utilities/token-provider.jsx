@@ -77,6 +77,11 @@ const TokenProvider = props => {
 		});
 	};
 
+	//access the refreshed token via callback
+	const tokenCallback = async (cb) => {
+		//TODO: tokenCallback
+	};
+
 	return (
 		<TokenContext.Provider value={{ accessToken, refreshToken, setAccessToken, setRefreshToken, tokenFetch, getPayload: () => decode(accessToken) }}>
 			{props.children}

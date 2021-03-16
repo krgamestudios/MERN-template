@@ -10,8 +10,9 @@ import Markdown from './panels/markdown';
 //import a styling template here
 
 //common components
-import Header from './panels/header.jsx';
-import Footer from './panels/footer.jsx';
+import Header from './panels/header';
+import Footer from './panels/footer';
+import PopupChat from './panels/popup-chat';
 
 const App = props => {
 	//default render
@@ -32,6 +33,7 @@ const App = props => {
 
 					<LazyRoute path='*' component={() => import('./pages/not-found')} />
 				</Switch>
+				<PopupChat />
 				<Footer />
 		</BrowserRouter>
 	);
