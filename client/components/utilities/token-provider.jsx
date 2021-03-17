@@ -11,7 +11,7 @@ const TokenProvider = props => {
 	useEffect(() => {
 		setAccessToken(localStorage.getItem("accessToken") || '');
 		setRefreshToken(localStorage.getItem("refreshToken") || '');
-	}, [])
+	}, []);
 
 	useEffect(() => {
 		localStorage.setItem("accessToken", accessToken);
@@ -79,11 +79,42 @@ const TokenProvider = props => {
 
 	//access the refreshed token via callback
 	const tokenCallback = async (cb) => {
-		//TODO: tokenCallback
+		//if expired (10 minutes, normally)
+		const expired = new Date(decode(accessToken).exp * 1000) < Date.now();
+
+		if (expired) {
+			//ping the auth server for a new token
+			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				},
+				body: JSON.stringify({
+					token: refreshToken
+				})
+			});
+
+			//any errors, throw them
+			if (!response.ok) {
+				throw `${response.status}: ${await response.text()}`;
+			}
+
+			//save the new auth stuff (setting bearer as well)
+			const newAuth = await response.json();
+
+			setAccessToken(newAuth.accessToken);
+			setRefreshToken(newAuth.refreshToken);
+
+			//finally
+			return cb(newAuth.accessToken);
+		} else {
+			return cb(accessToken);
+		}
 	};
 
 	return (
-		<TokenContext.Provider value={{ accessToken, refreshToken, setAccessToken, setRefreshToken, tokenFetch, getPayload: () => decode(accessToken) }}>
+		<TokenContext.Provider value={{ accessToken, refreshToken, setAccessToken, setRefreshToken, tokenFetch, tokenCallback, getPayload: () => decode(accessToken) }}>
 			{props.children}
 		</TokenContext.Provider>
 	)

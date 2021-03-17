@@ -1,6 +1,7 @@
 //react
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
+import { TokenContext } from './utilities/token-provider';
 
 //library components
 import LazyRoute from './lazy-route';
@@ -15,6 +16,8 @@ import Footer from './panels/footer';
 import PopupChat from './panels/popup-chat';
 
 const App = props => {
+	const authTokens = useContext(TokenContext);
+
 	//default render
 	return (
 		<BrowserRouter>
@@ -33,7 +36,7 @@ const App = props => {
 
 					<LazyRoute path='*' component={() => import('./pages/not-found')} />
 				</Switch>
-				<PopupChat />
+				{ authTokens.accessToken ? <PopupChat /> : <></> }
 				<Footer />
 		</BrowserRouter>
 	);
