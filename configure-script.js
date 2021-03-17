@@ -40,6 +40,7 @@ impelented are:
 
 * auth-server
 * news-server
+* chat-server
 
 See https://github.com/krgamestudios/MERN-template/wiki for help.
 `
