@@ -20,6 +20,7 @@ const PopupChat = props => {
 
 	useEffect(() => {
 		socket.on('message', message => pushChatlog(message));
+		socket.on('backlog', messages => setChatlog(prev => [...prev, ...messages]));
 		socket.on('disconnect', reason => pushChatlog({ emphasis: true, text: 'Lost connection' }));
 	}, []);
 
@@ -66,6 +67,10 @@ const handleClose = setOpen => {
 };
 
 const handleSend = (inputRef, pushChatlog, username, accessToken) => {
+	if (inputRef.current.value == '') {
+		return;
+	}
+
 	socket.emit('message', {
 		accessToken,
 		text: inputRef.current.value
