@@ -131,7 +131,7 @@ services:
       - DB_TIMEZONE=${dbTimeZone}
       - NEWS_URI=https://${newsWebAddress}
       - AUTH_URI=https://${authWebAddress}
-	  - CHAT_URI=https://${chatWebAddress}
+      - CHAT_URI=https://${chatWebAddress}
       - SECRET_ACCESS=${accessToken}
     networks:
       - app-network
@@ -200,29 +200,29 @@ services:
       - traefik
   
   ${chatName}:
-	  image: krgamestudios/chat-server:latest
-	  ports:
-		- ${chatPort}
-	  labels:
-		- traefik.enable=true
-		- traefik.http.routers.${chatName}router.rule=Host(\`${chatWebAddress}\`)
-		- traefik.http.routers.${chatName}router.entrypoints=websecure
-		- traefik.http.routers.${chatName}router.tls.certresolver=myresolver
-		- traefik.http.routers.${chatName}router.service=${chatName}service@docker
-		- traefik.http.services.${chatName}service.loadbalancer.server.port=${chatPort}
-	  environment:
-		- WEB_PORT=${chatPort}
-		- DB_HOSTNAME=database
-		- DB_DATABASE=${chatName}
-		- DB_USERNAME=${chatDBUser}
-		- DB_PASSWORD=${chatDBPass}
-		- DB_TIMEZONE=${dbTimeZone}
-		- SECRET_ACCESS=${accessToken}
-	  networks:
-		- app-network
-	  depends_on:
-		- database
-		- traefik
+      image: krgamestudios/chat-server:latest
+    ports:
+      - ${chatPort}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${chatName}router.rule=Host(\`${chatWebAddress}\`)
+      - traefik.http.routers.${chatName}router.entrypoints=websecure
+      - traefik.http.routers.${chatName}router.tls.certresolver=myresolver
+      - traefik.http.routers.${chatName}router.service=${chatName}service@docker
+      - traefik.http.services.${chatName}service.loadbalancer.server.port=${chatPort}
+    environment:
+      - WEB_PORT=${chatPort}
+      - DB_HOSTNAME=database
+      - DB_DATABASE=${chatName}
+      - DB_USERNAME=${chatDBUser}
+      - DB_PASSWORD=${chatDBPass}
+      - DB_TIMEZONE=${dbTimeZone}
+      - SECRET_ACCESS=${accessToken}
+    networks:
+      - app-network
+    depends_on:
+      - database
+      - traefik
 
   database:
     image: mariadb
