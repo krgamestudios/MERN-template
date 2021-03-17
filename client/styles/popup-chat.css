@@ -54,6 +54,7 @@
 	padding: 10px;
 	min-height: 280px;
 	max-height: calc(50vh - 23px - 20px - 6em);
+	overflow-x: wrap;
 	overflow-y: scroll;
 }
 

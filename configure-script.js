@@ -70,6 +70,10 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	const emailPhysical = await question('Physical Mailing Address', '');
 
 	//chat goes here
+	const chatName = await question('Chat Name', 'chat');
+	const chatWebAddress = await question('Chat Web Address', `${chatName}.${projectWebAddress}`);
+	const chatDBUser = await question('Chat DB Username', chatName);
+	const chatDBPass = await question('Chat DB Password', 'blastoise');
 
 	//database configuration
 	const dbRootPassword = await question('Database Root Password', 'password');
@@ -101,7 +105,7 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	const projectPort = 3000;
 	const newsPort = 3100;
 	const authPort = 3200;
-	//const chatPort = 3300;
+	const chatPort = 3300;
 
 const ymlfile = `
 version: "3.6"
@@ -126,6 +130,7 @@ services:
       - DB_TIMEZONE=${dbTimeZone}
       - NEWS_URI=https://${newsWebAddress}
       - AUTH_URI=https://${authWebAddress}
+	  - CHAT_URI=https://${chatWebAddress}
       - SECRET_ACCESS=${accessToken}
     networks:
       - app-network
@@ -143,9 +148,9 @@ services:
       - traefik.http.routers.${newsName}router.entrypoints=websecure
       - traefik.http.routers.${newsName}router.tls.certresolver=myresolver
       - traefik.http.routers.${newsName}router.service=${newsName}service@docker
-      - traefik.http.services.${newsName}service.loadbalancer.server.port=3100
+      - traefik.http.services.${newsName}service.loadbalancer.server.port=${newsPort}
     environment:
-      - WEB_PORT=3100
+      - WEB_PORT=${newsPort}
       - DB_HOSTNAME=database
       - DB_DATABASE=${newsName}
       - DB_USERNAME=${newsDBUser}
@@ -193,8 +198,30 @@ services:
       - database
       - traefik
   
-  #chat:
-  #  image: krgamestudios/chat-server
+  ${chatName}:
+	  image: krgamestudios/chat-server:latest
+	  ports:
+		- ${chatPort}
+	  labels:
+		- traefik.enable=true
+		- traefik.http.routers.${chatName}router.rule=Host(\`${chatWebAddress}\`)
+		- traefik.http.routers.${chatName}router.entrypoints=websecure
+		- traefik.http.routers.${chatName}router.tls.certresolver=myresolver
+		- traefik.http.routers.${chatName}router.service=${chatName}service@docker
+		- traefik.http.services.${chatName}service.loadbalancer.server.port=${chatPort}
+	  environment:
+		- WEB_PORT=${chatPort}
+		- DB_HOSTNAME=database
+		- DB_DATABASE=${chatName}
+		- DB_USERNAME=${chatDBUser}
+		- DB_PASSWORD=${chatDBPass}
+		- DB_TIMEZONE=${dbTimeZone}
+		- SECRET_ACCESS=${accessToken}
+	  networks:
+		- app-network
+	  depends_on:
+		- database
+		- traefik
 
   database:
     image: mariadb
@@ -257,6 +284,10 @@ GRANT ALL PRIVILEGES ON ${newsName}.* TO '${newsDBUser}'@'%';
 CREATE DATABASE IF NOT EXISTS ${authName};
 CREATE USER IF NOT EXISTS '${authDBUser}'@'%' IDENTIFIED BY '${authDBPass}';
 GRANT ALL PRIVILEGES ON ${authName}.* TO '${authDBUser}'@'%';
+
+CREATE DATABASE IF NOT EXISTS ${chatName};
+CREATE USER IF NOT EXISTS '${chatDBUser}'@'%' IDENTIFIED BY '${chatDBPass}';
+GRANT ALL PRIVILEGES ON ${chatName}.* TO '${chatDBUser}'@'%';
 
 FLUSH PRIVILEGES;
 `;

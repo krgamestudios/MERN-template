@@ -62,14 +62,13 @@ To set up this template in development mode:
 - Full documentation
 	- Modding tutorial
 - Fully Featured Chat System
-	- Optional microservice
 	- Chat logs
 	- Custom emoji
 	- Global and room-based chat
 	- Private messaging?
 	- Broadcasting to all channels
 	- Badges next to usernames?
-- Moderation tools for banning, suspending, or chat-banning users
+- Moderation tools for banning, suspending, chat-banning and reporting users
 
 # Coming Eventually
 - Better compression for client files
