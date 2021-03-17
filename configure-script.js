@@ -198,9 +198,9 @@ services:
     depends_on:
       - database
       - traefik
-  
+
   ${chatName}:
-      image: krgamestudios/chat-server:latest
+    image: krgamestudios/chat-server:latest
     ports:
       - ${chatPort}
     labels:
