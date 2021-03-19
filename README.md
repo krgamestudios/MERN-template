@@ -5,7 +5,7 @@ A website template using the MERN stack. The primary technology involved is:
 * React
 * Nodejs
 * MariaDB (with Sequelize)
-* Docker
+* Docker (with docker-compose)
 
 This template is designed to support the development of persistent browser based games (PBBGs), but it, and it's component microservices, can be used elsewhere.
 
@@ -15,8 +15,8 @@ This template is released under the zlib license (see LICENSE).
 
 There are external components to this template referred to as "microservices". These can be omitted entirely by simply removing the React components that access them. These are also available via [docker hub](https://hub.docker.com/u/krgamestudios).
 
-* Auth Server: https://github.com/krgamestudios/auth-server
 * News Server: https://github.com/krgamestudios/news-server
+* Auth Server: https://github.com/krgamestudios/auth-server
 * Chat Server: https://github.com/krgamestudios/chat-server
 
 # Setup Deployment
