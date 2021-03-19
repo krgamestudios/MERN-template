@@ -44,15 +44,20 @@ To set up this template in development mode:
 
 - Full documentation
 	- Setup tutorial
-- Fully Featured Account System
+- Fully Featured Account System (as a microservice)
 	- Email validation
 	- Logging in and out
 	- Account deletion
 	- Password management
 	- JSON web token authentication
-- News Blog
-	- Optional microservice
-	- Secure publishing and editing of articles via admin panel
+- Fully Featured News Blog (as a microservice)
+	- Publish, edit or delete articles as needed
+	- Secured via admin panel
+- Fully Featured Chat System (as a microservice)
+	- Available when logged in
+	- Chat logs saved to the database
+	- Room-based chat (type `/room name` to access a specific room)
+	- Mute specific users for X minutes
 - Easy To Use Configuration Script
 	- Sets up everything via docker
 	- A default admin account (if desired)
@@ -60,20 +65,22 @@ To set up this template in development mode:
 # Coming Soon
 
 - Full documentation
-	- Modding tutorial
-- Fully Featured Chat System
-	- Chat logs
-	- Custom emoji
-	- Global and room-based chat
-	- Private messaging?
-	- Broadcasting to all channels
-	- Badges next to usernames?
-- Moderation tools for banning, suspending, chat-banning and reporting users
+	- Modding tutorials
+- Moderation tools for banning/suspending, chat-banning and reporting users
 
 # Coming Eventually
+
+- Fully Featured News Blog (as a microservice)
+	- Restore deleted articles
+	- Undo edits
+- Fully Featured Chat System
+	- Custom emoji
+	- Private messaging?
+	- Broadcasting to all channels?
+	- Badges next to usernames?
 - Better compression for client files
-- Backend for energy systems
-- Backend for leaderboards
+- Backend for leaderboards (modding tutorial?)
+- Backend for energy systems (modding tutorial?)
 - Backend for items, shops, trading and currency
 
 # Gmail Email Settings
