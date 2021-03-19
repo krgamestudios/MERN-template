@@ -73,11 +73,11 @@ To set up this template in development mode:
 - Fully Featured News Blog (as a microservice)
 	- Restore deleted articles
 	- Undo edits
-- Fully Featured Chat System
+- Fully Featured Chat System (as a microservice)
 	- Custom emoji
-	- Private messaging?
-	- Broadcasting to all channels?
-	- Badges next to usernames?
+	- Private messaging
+	- Broadcasting to all channels
+	- Badges next to usernames
 - Better compression for client files
 - Backend for leaderboards (modding tutorial?)
 - Backend for energy systems (modding tutorial?)
