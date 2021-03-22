@@ -11,6 +11,8 @@ This template is designed to support the development of persistent browser based
 
 This template is released under the zlib license (see LICENSE).
 
+See the [github wiki](https://github.com/krgamestudios/MERN-template/wiki) for full documentation.
+
 # Microservices
 
 There are external components to this template referred to as "microservices". These can be omitted entirely by simply removing the React components that access them. These are also available via [docker hub](https://hub.docker.com/u/krgamestudios).
