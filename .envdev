@@ -4,6 +4,12 @@ DB_HOSTNAME=database
 DB_DATABASE=template
 DB_USERNAME=template
 DB_PASSWORD=pikachu
+
+# Select a "TZ database name" that suits your needs: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 DB_TIMEZONE=Australia/Sydney
 
+# Give this any value to enable database logging (such as "true")
+DB_LOGGING=
+
+# Make sure this value matches the system that you connect to
 SECRET_ACCESS=access
