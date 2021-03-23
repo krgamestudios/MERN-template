@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import dateFormat from 'dateformat';
 
-//DOCS: props.uri is the address of a live news-server
 const NewsFeed = props => {
 	const [articles, setArticles] = useState([]);
 
 	useEffect(async () => {
+		if (articles.length != 0) { //BUGFIX: There's an extra render called on unmounted components somewhere
+			return;
+		}
+
+		//NOTE: could this be improved with useMemo?
 		const result = await fetch(`${process.env.NEWS_URI}/news`, {
 			method: 'GET',
 			headers: {
