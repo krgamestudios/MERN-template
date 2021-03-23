@@ -42,7 +42,7 @@ const PopupChat = props => {
 		<div className='chat'>
 			<div className='log'>
 				<ul className='scrollable'>
-					{chatlog.map(processLine)}
+					{chatlog.map((line, index) => processLine(line, index, authTokens.accessToken))}
 					<li ref={endRef} />
 				</ul>
 			</div>
@@ -84,8 +84,8 @@ const handleSend = (inputRef, pushChatlog, username, accessToken) => {
 };
 
 //render each line
-const processLine = (line, index) => {
-	let content = <span>{line.username ? <span className='username'>{line.username}: </span> : ''}{line.text ? <span className='text'>{line.text}</span> : ''}</span>;
+const processLine = (line, index, accessToken) => {
+	let content = <div className='content'>{line.username ? <span className='username'>{line.username}: </span> : ''}{line.text ? <span className='text'>{line.text}</span> : ''}</div>;
 
 	//decorators
 	if (line.emphasis) {
@@ -96,7 +96,18 @@ const processLine = (line, index) => {
 		content = <strong>{content}</strong>;
 	}
 
-	return<li key={index} className='line'>{content}</li>;
+	return <li key={index} className='line'>{content}<div className='report'><a onClick={() => processReport(line, accessToken)} style={{ display: line.id && !line.notification ? 'flex' : 'none' }}>!!!</a></div></li>;
+};
+
+const processReport = (line, accessToken) => {
+	const yes = confirm('Report this message?');
+
+	if (yes) {
+		socket.emit('report', {
+			accessToken,
+			id: line.id
+		});
+	}
 };
 
 export default PopupChat;

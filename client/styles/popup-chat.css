@@ -45,11 +45,30 @@
 	min-height: 300px;
 }
 
-.chat > .log .username {
+.chat > .log > .scrollable > .line {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.chat > .log > .scrollable > .line > .report {
+	color: red;
+	display: none;
+}
+
+.chat > .log > .scrollable > .line:hover {
+	background-color: #BBB;
+}
+
+.chat > .log > .scrollable > .line:hover > .report {
+	display: flex;
+}
+
+.chat > .log > .scrollable > .line > .content > .username {
 	font-weight: bold;
 }
 
-.chat .scrollable {
+.chat > .log > .scrollable {
 	margin: 0;
 	padding: 10px;
 	min-height: 280px;
