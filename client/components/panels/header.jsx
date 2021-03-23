@@ -21,9 +21,17 @@ const Member = () => {
 			<Link to='/account'>Account</Link>
 			<span> - </span>
 
-			{ authTokens.getPayload().privilege == 'administrator' ?
+			{ authTokens.getPayload().admin ?
 				<span>
 					<Link to='/admin'>Admin</Link>
+					<span> - </span>
+				</span>:
+				<span />
+			}
+
+			{ authTokens.getPayload().mod ?
+				<span>
+					<Link to='/mod'>Moderation</Link>
 					<span> - </span>
 				</span>:
 				<span />

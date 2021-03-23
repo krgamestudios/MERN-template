@@ -5,23 +5,26 @@ import { TokenContext } from '../utilities/token-provider';
 
 import NewsPublisher from '../panels/news-publisher';
 import NewsEditor from '../panels/news-editor';
-import PrivilegeEditor from '../panels/privilege-editor';
+
+import GrantAdmin from '../panels/grant-admin';
+import GrantMod from '../panels/grant-mod';
 
 const Admin = props => {
 	//context
 	const authTokens = useContext(TokenContext);
 
 	//misplaced? (admin only)
-	if (!authTokens.accessToken || authTokens.getPayload().privilege != 'administrator') {
+	if (!authTokens.accessToken || !authTokens.getPayload().admin) {
 		return <Redirect to='/' />;
 	}
 
 	return (
 		<div className='page'>
-			<h1 className='centered'>Administration</h1>
+			<h1 className='centered'>Administration Tools</h1>
 			<NewsPublisher />
 			<NewsEditor />
-			<PrivilegeEditor />
+			<GrantAdmin />
+			<GrantMod />
 		</div>
 	);
 };
