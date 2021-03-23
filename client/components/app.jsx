@@ -4,7 +4,7 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import { TokenContext } from './utilities/token-provider';
 
 //library components
-import LazyRoute from './lazy-route';
+import LazyRoute from './utilities/lazy-route';
 import Markdown from './panels/markdown';
 
 //styling
