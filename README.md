@@ -59,16 +59,18 @@ To set up this template in development mode:
 	- Available when logged in
 	- Chat logs saved to the database
 	- Room-based chat (type `/room name` to access a specific room)
-	- Mute specific users for X minutes
 - Easy To Use Configuration Script
 	- Sets up everything via docker
 	- A default admin account (if desired)
 
 # Coming Soon
 
+- Moderation tools (in progress)
+	- Banning/suspending users for a time period
+	- Chat-muting users for a time period
+	- Users reporting offensive chat-content
 - Full documentation
-	- Modding tutorials
-- Moderation tools for banning/suspending, chat-banning and reporting users
+	- Modding tutorials	
 
 # Coming Eventually
 
@@ -84,14 +86,3 @@ To set up this template in development mode:
 - Backend for leaderboards (modding tutorial?)
 - Backend for energy systems (modding tutorial?)
 - Backend for items, shops, trading and currency
-
-# Gmail Email Settings
-
-If you decide to use gmail as your email provider (as I do), then use the following `.env` settings:
-
-	MAIL_SMTP=smtp.gmail.com
-	MAIL_USERNAME=you@gmail.com
-	MAIL_PASSWORD=yourpassword
-
-you'll also need to enable "less secure apps" for the specified email address. Remember - don't ever commit the `.env` file! You might even want to create a dedicated email address just for your project.
-
