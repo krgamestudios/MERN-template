@@ -60,18 +60,18 @@ To set up this template in development mode:
 	- Available when logged in
 	- Chat logs saved to the database
 	- Room-based chat (type `/room name` to access a specific room)
+- Moderation tools
+	- Permanently banning users
+	- Chat-muting users for a time period
+	- Users reporting offensive chat-content
 - Easy To Use Configuration Script
 	- Sets up everything via docker
 	- A default admin account (if desired)
 
 # Coming Soon
 
-- Moderation tools (in progress)
-	- Banning/suspending users for a time period
-	- Chat-muting users for a time period
-	- Users reporting offensive chat-content
 - Full documentation
-	- Modding tutorials	
+	- Modding tutorials
 
 # Coming Eventually
 
