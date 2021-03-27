@@ -1,30 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import dateFormat from 'dateformat';
 
 const NewsFeed = props => {
 	const [articles, setArticles] = useState([]);
+	const aborter = useRef(new AbortController()); //BUGFIX: double-renders = double fetches + react update after unmount
 
-	useEffect(async () => {
-		if (articles.length != 0) { //BUGFIX: There's an extra render called on unmounted components somewhere
-			return;
-		}
-
-		//NOTE: could this be improved with useMemo?
-		const result = await fetch(`${process.env.NEWS_URI}/news`, {
+	useEffect(() => {
+		//this... um...
+		fetch(`${process.env.NEWS_URI}/news`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*'
 			},
-		});
+			signal: aborter.current.signal //oh dear
+		})
+			.then(blob => blob.json())
+			.then(json => setArticles(json))
+			.catch(e => null) //swallow errors
+		;
 
-		if (!result.ok) {
-			const err = `${result.status}: ${await result.text()}`;
-			console.log(err);
-			alert(err);
-		} else {
-			setArticles(await result.json());
-		}
+		return () => aborter.current.abort(); //This is an ugly, ugly solution, but it's the only one that works
 	}, []);
 
 	return (
