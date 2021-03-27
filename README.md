@@ -44,6 +44,7 @@ To set up this template in development mode:
 
 # Features List
 
+- Mainly one language across the codebase (JavaScript)
 - Full documentation
 	- Setup tutorial
 - Fully Featured Account System (as a microservice)
