@@ -123,7 +123,7 @@ services:
       - traefik.http.routers.${projectName}router.service=${projectName}service@docker
       - traefik.http.services.${projectName}service.loadbalancer.server.port=${projectPort}
     environment:
-      - WEB_PORT=3000
+      - WEB_PORT=${projectPort}
       - DB_HOSTNAME=database
       - DB_DATABASE=${projectName}
       - DB_USERNAME=${projectDBUser}
