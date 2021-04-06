@@ -18,7 +18,7 @@ module.exports = ({ production, analyzer }) => {
 			filename: '[name].[chunkhash].js',
 			sourceMapFilename: '[name].[chunkhash].js.map'
 		},
-		devtool: 'eval-source-map',
+		devtool: production ? 'source-map' : 'eval-source-map',
 		resolve: {
 			extensions: ['.js', '.jsx']
 		},
