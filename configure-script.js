@@ -274,6 +274,13 @@ CMD ["sleep 10 && npm start"]
 `;
 
 	const sqlfile = `
+#BUGFIX: A bug with mysql
+DROP USER '${projectDBUser}'@'%';
+DROP USER '${newsDBUser}'@'%';
+DROP USER '${authDBUser}'@'%';
+DROP USER '${chatDBUser}'@'%';
+FLUSH PRIVILEGES;
+
 CREATE DATABASE IF NOT EXISTS ${projectName};
 CREATE USER IF NOT EXISTS '${projectDBUser}'@'%' IDENTIFIED BY '${projectDBPass}';
 GRANT ALL PRIVILEGES ON ${projectName}.* TO '${projectDBUser}'@'%';
