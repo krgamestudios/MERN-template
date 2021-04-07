@@ -1,6 +1,6 @@
 WEB_PORT=3000
 
-DB_HOSTNAME=database
+DB_HOSTNAME=localhost
 DB_DATABASE=template
 DB_USERNAME=template
 DB_PASSWORD=pikachu
