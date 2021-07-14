@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown/with-html';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 const Markdown = props => {
 	//content?
@@ -27,7 +28,7 @@ const Markdown = props => {
 	}
 
 	return (
-		<ReactMarkdown escapeHtml={false} props={{...props}}>{contentHook}</ReactMarkdown>
+		<ReactMarkdown rehypePlugins={[rehypeRaw]} escapeHtml={false} props={{...props}}>{contentHook}</ReactMarkdown>
 	);
 };
 
