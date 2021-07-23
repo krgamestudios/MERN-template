@@ -43,7 +43,7 @@ const ChatReports = props => {
 						<td>{report.chatlog.room}</td>
 						<td>{report.chatlog.text}</td>
 						<td>{report.reporter.join(', ')}</td>
-						<td><button onClick={() => deleteReportsFor(report.chatlogId, authTokens.tokenFetch, setReports)}>Delete</button></td>
+						<td><button onClick={() => deleteReportsFor(report.chatlogIndex, authTokens.tokenFetch, setReports)}>Delete</button></td>
 					</tr>
 				))}
 			</tbody>
@@ -51,17 +51,17 @@ const ChatReports = props => {
 	);
 };
 
-const deleteReportsFor = (chatlogId, tokenFetch, setReports) => {
+const deleteReportsFor = (chatlogIndex, tokenFetch, setReports) => {
 	tokenFetch(`${process.env.CHAT_URI}/admin/reports`, {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Origin': '*'
 		},
-		body: JSON.stringify({ chatlogId })
+		body: JSON.stringify({ chatlogIndex })
 	});
 
-	setReports(reports => reports.filter(report => report.chatlogId != chatlogId));
+	setReports(reports => reports.filter(report => report.chatlogIndex != chatlogIndex));
 };
 
 export default ChatReports;

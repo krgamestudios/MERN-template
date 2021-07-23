@@ -96,7 +96,7 @@ const processLine = (line, index, accessToken) => {
 		content = <strong>{content}</strong>;
 	}
 
-	return <li key={index} className='line'>{content}<div className='report'><a onClick={() => processReport(line, accessToken)} style={{ display: line.id && !line.notification ? 'flex' : 'none' }}>!!!</a></div></li>;
+	return <li key={index} className='line'>{content}<div className='report'><a onClick={() => processReport(line, accessToken)} style={{ display: line.index && !line.notification ? 'flex' : 'none' }}>!!!</a></div></li>;
 };
 
 const processReport = (line, accessToken) => {
@@ -105,7 +105,7 @@ const processReport = (line, accessToken) => {
 	if (yes) {
 		socket.emit('report', {
 			accessToken,
-			id: line.id
+			index: line.index
 		});
 	}
 };
