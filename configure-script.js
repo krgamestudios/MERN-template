@@ -265,10 +265,12 @@ networks:
 	const dockerfile = `
 FROM node:15
 WORKDIR "/app"
-COPY package*.json ./
-RUN npm install
 COPY . /app
+RUN mkdir /app/public
+RUN chown node:node /app/public
+RUN npm install --production
 EXPOSE ${projectPort}
+USER node
 ENTRYPOINT ["bash", "-c"]
 CMD ["sleep 10 && npm start"]
 `;
