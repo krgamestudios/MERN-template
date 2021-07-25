@@ -57,13 +57,13 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	const newsName = await question('News Name', 'news');
 	const newsWebAddress = await question('News Web Address', `${newsName}.${projectWebAddress}`);
 	const newsDBUser = await question('News DB Username', newsName);
-	const newsDBPass = await question('News DB Password', 'charizard');
+	const newsDBPass = await question('News DB Password', 'venusaur');
 
 	//auth configuration
 	const authName = await question('Auth Name', 'auth');
 	const authWebAddress = await question('Auth Web Address', `${authName}.${projectWebAddress}`);
 	const authDBUser = await question('Auth DB Username', authName);
-	const authDBPass = await question('Auth DB Password', 'venusaur');
+	const authDBPass = await question('Auth DB Password', 'charizard');
 
 	const emailSMTP = await question('Email SMTP', 'smtp.example.com');
 	const emailUser = await question('Email Address', 'foobar@example.com');
