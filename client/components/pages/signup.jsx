@@ -22,16 +22,19 @@ const SignUp = props => {
 	const passwordRef = useRef();
 	const retypeRef = useRef();
 	const contactRef = useRef();
+	const signupRef = useRef();
 
 	return (
 		<div className='page'>
 			<h1 className='centered'>Signup</h1>
 			<form className='constricted' onSubmit={
 				async evt => { //on submit
+					signupRef.current.disabled = true;
 					evt.preventDefault();
 					const [result, redirect] = await handleSubmit(emailRef.current.value, usernameRef.current.value, passwordRef.current.value, retypeRef.current.value, contactRef.current.checked);
 					if (result) {
 						alert(result);
+						signupRef.current.disabled = false;
 					}
 
 					//redirect
@@ -65,7 +68,7 @@ const SignUp = props => {
 					<input type='checkbox' name='contact' ref={contactRef} />
 				</div>
 
-				<button type='submit'>Signup</button>
+				<button type='submit' ref={signupRef}>Signup</button>
 			</form>
 		</div>
 	);
