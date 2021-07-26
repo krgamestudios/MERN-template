@@ -26,7 +26,21 @@ const NewsFeed = props => {
 	return (
 		<div>
 			<h1 className='centered'>News Feed</h1>
-			{articles.map((article, index) => {
+			{(articles || []).map((article, index) => {
+				//BUGFIX: check for empty data
+				if (!article.title) {
+					return article.title = '';
+				}
+
+				if (!article.author) {
+					return article.author = '';
+				}
+
+				if (!article.body) {
+					return article.body = '';
+				}
+
+				//render
 				return (
 					<div key={index}>
 						<hr />
