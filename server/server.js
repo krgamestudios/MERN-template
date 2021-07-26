@@ -8,10 +8,9 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-const bodyParser = require('body-parser');
 
 //config
-app.use(bodyParser.json());
+app.use(express.json());
 
 //database connection
 const database = require('./database');
