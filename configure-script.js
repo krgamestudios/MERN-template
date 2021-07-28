@@ -180,7 +180,7 @@ services:
     environment:
       - WEB_PROTOCOL=https
       - WEB_ADDRESS=${authWebAddress}
-	  - WEB_RESET_ADDRESS=${authResetAddress}
+      - WEB_RESET_ADDRESS=${authResetAddress}
       - WEB_PORT=${authPort}
       - DB_HOSTNAME=database
       - DB_DATABASE=${authName}
