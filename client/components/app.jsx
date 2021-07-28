@@ -29,6 +29,9 @@ const App = props => {
 					<LazyRoute path='/login' component={() => import('./pages/login')} />
 					<LazyRoute path='/account' component={() => import('./pages/account')} />
 
+					<LazyRoute path='/recover' component={() => import('./pages/recover')} />
+					<LazyRoute path='/reset' component={() => import('./pages/reset')} />
+
 					<LazyRoute path='/admin' component={() => import('./pages/admin')} />
 					<LazyRoute path='/mod' component={() => import('./pages/mod')} />
 
