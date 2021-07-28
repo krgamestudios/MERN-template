@@ -27,7 +27,7 @@ const Reset = props => {
 			<h1 className='centered'>Reset Password</h1>
 			<form className='constricted' onSubmit={async evt => {
 				evt.preventDefault();
-				const [err] = await update(passwordRef.current.value, retypeRef.current.value, query);
+				const [err, redirect] = await update(passwordRef.current.value, retypeRef.current.value, query);
 
 				if (err) {
 					alert(err);
@@ -82,7 +82,7 @@ const update = async (password, retype, query) => {
 	if (!result.ok) {
 		return [`${await result.status}: ${await result.text()}`];
 	} else {
-		return [null];
+		return [null, true];
 	}
 }
 
