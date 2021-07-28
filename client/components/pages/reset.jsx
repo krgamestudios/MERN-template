@@ -9,7 +9,7 @@ const Reset = props => {
 	const authTokens = useContext(TokenContext);
 
 	//query
-	query = queryString.parse(props.location.search);
+	const query = queryString.parse(props.location.search);
 
 	//misplaced?
 	if (authTokens.accessToken || !query.email || !query.token) {
@@ -55,8 +55,6 @@ const Reset = props => {
 
 				<button type='submit'>Update Information</button>
 			</form>
-
-			<DeleteAccount className='constricted' />
 		</div>
 	);
 };

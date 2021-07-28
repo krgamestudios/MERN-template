@@ -9,6 +9,8 @@ const Visitor = () => {
 			<Link to='/signup'>Sign Up</Link>
 			<span> - </span>
 			<Link to='/login'>Log In</Link>
+			<span> - </span>
+			<Link to='/recover'>Recover</Link>
 		</div>
 	);
 };
