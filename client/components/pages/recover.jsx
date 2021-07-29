@@ -22,7 +22,7 @@ const Recover = props => {
 	return (
 		<div className='page'>
 			<h1 className='centered'>Recover Password</h1>
-			<form className='constricted' onSubmit={
+			<form className='constrained panel' onSubmit={
 				async evt => { //on submit
 					recoverRef.current.disabled = true;
 					evt.preventDefault();

@@ -25,7 +25,7 @@ const Reset = props => {
 	return (
 		<div className='page'>
 			<h1 className='centered'>Reset Password</h1>
-			<form className='constricted' onSubmit={async evt => {
+			<form className='constrained panel' onSubmit={async evt => {
 				evt.preventDefault();
 				const [err, redirect] = await update(passwordRef.current.value, retypeRef.current.value, query);
 
