@@ -43,12 +43,12 @@ const Reset = props => {
 			}}>
 				<div>
 					<div>
-						<label htmlFor='password'>Enter New Password:</label> 
+						<label htmlFor='password'>Enter New Password:</label>
 						<input type='password' name='password' ref={passwordRef} />
 					</div>
 
 					<div>
-						<label htmlFor='retype'>Retype New Password:</label> 
+						<label htmlFor='retype'>Retype New Password:</label>
 						<input type='password' name='retype' ref={retypeRef} />
 					</div>
 				</div>
