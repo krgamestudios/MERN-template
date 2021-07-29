@@ -28,7 +28,7 @@ const Markdown = props => {
 	}
 
 	return (
-		<ReactMarkdown rehypePlugins={[rehypeRaw]} escapeHtml={false} props={{...props}}>{contentHook}</ReactMarkdown>
+		<ReactMarkdown rehypePlugins={[rehypeRaw]} props={{...props}}>{contentHook}</ReactMarkdown>
 	);
 };
 
