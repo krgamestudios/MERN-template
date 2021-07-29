@@ -37,7 +37,7 @@ const Account = props => {
 	return (
 		<div className='page'>
 			<h1 className='centered'>Account</h1>
-			<form className='constricted' onSubmit={async evt => {
+			<form className='constrained' onSubmit={async evt => {
 				evt.preventDefault();
 				const [err] = await update(passwordRef.current.value, retypeRef.current.value, contactRef.current.checked, authTokens.tokenFetch);
 
@@ -69,7 +69,7 @@ const Account = props => {
 				<button type='submit'>Update Information</button>
 			</form>
 
-			<DeleteAccount className='constricted' />
+			<DeleteAccount className='constrained' />
 		</div>
 	);
 };

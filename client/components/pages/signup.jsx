@@ -27,7 +27,7 @@ const SignUp = props => {
 	return (
 		<div className='page'>
 			<h1 className='centered'>Signup</h1>
-			<form className='constricted' onSubmit={
+			<form className='constrained' onSubmit={
 				async evt => { //on submit
 					signupRef.current.disabled = true;
 					evt.preventDefault();
