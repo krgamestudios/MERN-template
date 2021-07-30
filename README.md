@@ -1,6 +1,8 @@
 # MERN-template
 
-A website template using the MERN stack. The primary technology involved is:
+A website template using the MERN stack. It is geared towards Persistent Browser Based Games (think neopets), but is flexible enough for a number of different uses.
+
+The primary technology involved is:
 
 * React
 * Nodejs
