@@ -30,7 +30,6 @@ A clean install is this easy:
 ```
 git clone https://github.com/krgamestudios/MERN-template.git
 cd MERN-template
-npm install
 node configure-script.js
 docker-compose up --build
 ```
