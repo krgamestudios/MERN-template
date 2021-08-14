@@ -3,7 +3,10 @@ import decode from 'jwt-decode';
 
 export const TokenContext = createContext();
 
+//DOCS: tokenFetch() and tokenCallback() are actually closures here
+
 const TokenProvider = props => {
+	//state to be used
 	const [accessToken, setAccessToken] = useState('');
 	const [refreshToken, setRefreshToken] = useState('');
 
@@ -13,6 +16,7 @@ const TokenProvider = props => {
 		setRefreshToken(localStorage.getItem("refreshToken") || '');
 	}, []);
 
+	//update the stored copies
 	useEffect(() => {
 		localStorage.setItem("accessToken", accessToken);
 		localStorage.setItem("refreshToken", refreshToken);
@@ -27,6 +31,21 @@ const TokenProvider = props => {
 		const expired = new Date(decode(accessToken).exp * 1000) < Date.now();
 
 		if (expired) {
+			//BUGFIX: if logging out, just skip over the refresh token
+			if (url === `${process.env.AUTH_URI}/auth/logout`) {
+				return fetch(url, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+						'Authorization': `Bearer ${bearer}`
+					},
+					body: JSON.stringify({
+						token: refreshToken
+					})
+				});
+			}
+
 			//ping the auth server for a new token
 			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
 				method: 'POST',
@@ -50,21 +69,6 @@ const TokenProvider = props => {
 			setAccessToken(newAuth.accessToken);
 			setRefreshToken(newAuth.refreshToken);
 			bearer = newAuth.accessToken;
-
-			//BUGFIX: logging out correctly requires the new refresh token
-			if (url == `${process.env.AUTH_URI}/auth/logout`) {
-				return fetch(`${process.env.AUTH_URI}/auth/logout`, {
-					method: 'DELETE',
-					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*',
-						'Authorization': `Bearer ${bearer}`
-					},
-					body: JSON.stringify({
-						token: newAuth.refreshToken
-					})
-				});
-			}
 		}
 
 		//finally, delegate to fetch
