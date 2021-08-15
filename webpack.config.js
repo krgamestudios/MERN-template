@@ -15,6 +15,7 @@ module.exports = ({ production, analyzer }) => {
 		entry: path.resolve(__dirname, 'client', 'client.jsx'),
 		output: {
 			path: path.resolve(__dirname, 'public'),
+			publicPath: '/',
 			filename: '[name].[chunkhash].js',
 			sourceMapFilename: '[name].[chunkhash].js.map'
 		},
