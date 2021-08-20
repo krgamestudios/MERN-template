@@ -77,8 +77,7 @@ module.exports = ({ production, analyzer }) => {
 				filename: "[path][base].gz[query]",
 				algorithm: "gzip",
 				test: /\.js$|\.css$/,
-				minRatio: 0.8,
-				deleteOriginalAssets: true
+				minRatio: 0.8
 			}),
 			new BundleAnalyzerPlugin({
 				analyzerMode: analyzer ? 'server' : 'disabled'
