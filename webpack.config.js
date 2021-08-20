@@ -9,8 +9,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const path = require('path');
 
 //the exported config function
-module.exports = ({ production, analyzer }) => {
-
+module.exports = ({ production, analyze }) => {
 	return {
 		mode: production ? "production" : "development",
 		entry: path.resolve(__dirname, 'client', 'client.jsx'),
@@ -80,7 +79,7 @@ module.exports = ({ production, analyzer }) => {
 				minRatio: 0.8
 			}),
 			new BundleAnalyzerPlugin({
-				analyzerMode: analyzer ? 'server' : 'disabled'
+				analyzerMode: analyze ? 'server' : 'disabled'
 			})
 		],
 		devServer: {
