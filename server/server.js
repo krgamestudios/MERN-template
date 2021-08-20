@@ -12,6 +12,21 @@ const server = require('http').Server(app);
 //config
 app.use(express.json());
 
+//handle compressed files (middleware)
+app.get('*.js', (req, res, next) => {
+	req.url = req.url + '.gz';
+	res.set('Content-Encoding', 'gzip');
+	res.set('Content-Type', 'text/javascript');
+	next();
+});
+
+app.get('*.css', (req, res, next) => {
+	req.url = req.url + '.gz';
+	res.set('Content-Encoding', 'gzip');
+	res.set('Content-Type', 'text/css');
+	next();
+});
+
 //database connection
 const database = require('./database');
 

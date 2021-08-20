@@ -2,6 +2,7 @@
 const { DefinePlugin } = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 //libraries
@@ -71,6 +72,13 @@ module.exports = ({ production, analyzer }) => {
 					removeComments: production,
 					removeAttributeQuotes: production
 				}
+			}),
+			new CompressionPlugin({
+				filename: "[path][base].gz[query]",
+				algorithm: "gzip",
+				test: /\.js$|\.css$/,
+				minRatio: 0.8,
+				deleteOriginalAssets: true
 			}),
 			new BundleAnalyzerPlugin({
 				analyzerMode: analyzer ? 'server' : 'disabled'

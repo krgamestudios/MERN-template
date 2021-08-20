@@ -30,6 +30,7 @@
     "@loadable/component": "^5.15.0",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
+    "compression-webpack-plugin": "^8.0.1",
     "concurrently": "^6.2.0",
     "css-loader": "^6.2.0",
     "dateformat": "^4.5.1",
