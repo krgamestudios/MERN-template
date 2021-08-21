@@ -4,11 +4,12 @@ import { io } from 'socket.io-client';
 
 import '../../styles/popup-chat.css';
 
+//TODO: I very much need to move this out of global state
 const socket = io(`${process.env.CHAT_URI}/chat`);
 
 const PopupChat = props => {
 	const [open, setOpen] = useState(false);
-	const [chatlog, setChatlog] = useState([]);
+	const [chatlog, setChatlog] = useState([{ emphasis: true, text: 'If chat doesn\'t load, reload the page' }]);
 
 	const inputRef = useRef();
 	const sendRef = useRef();
@@ -96,7 +97,7 @@ const processLine = (line, index, accessToken) => {
 		content = <strong>{content}</strong>;
 	}
 
-	return <li key={index} className='line'>{content}<div className='report'><a onClick={() => processReport(line, accessToken)} style={{ display: line.index && !line.notification ? 'flex' : 'none' }}>!!!</a></div></li>;
+	return <li key={index} className='line'>{content}<a className='report' onClick={() => processReport(line, accessToken)}>!!!</a></li>;
 };
 
 const processReport = (line, accessToken) => {

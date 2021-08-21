@@ -1,9 +1,11 @@
 import React, { useEffect, useContext, useRef } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+
+import ApplyToBody from '../utilities/apply-to-body';
 
 import { TokenContext } from '../utilities/token-provider';
 
-import DeleteAccount from '../panels/delete-account';
+import DeleteAccount from './panels/delete-account';
 
 const Account = props => {
 	//context
@@ -35,42 +37,42 @@ const Account = props => {
 
 	//render the thing
 	return (
-		<div className='page'>
-			<h1 className='centered'>Account</h1>
-			<form className='constrained' onSubmit={async evt => {
-				evt.preventDefault();
-				const [err] = await update(passwordRef.current.value, retypeRef.current.value, contactRef.current.checked, authTokens.tokenFetch);
+		<>
+			<ApplyToBody className='dashboard' />
+			<div className='page'>
+				<div className='central panel centered middle'>
+					<div className='panel'>
+						<h1 className='text centered'>Account</h1>
+						<div className='panel'>
+							<form className='constrained' onSubmit={async evt => {
+								evt.preventDefault();
+								const [err] = await update(passwordRef.current.value, retypeRef.current.value, contactRef.current.checked, authTokens.tokenFetch);
 
-				if (err) {
-					alert(err);
-					return;
-				}
+								if (err) {
+									alert(err);
+									return;
+								}
 
-				alert('Details updated');
-				passwordRef.current.value = retypeRef.current.value = '';
-			}}>
-				<div>
-					<div>
-						<label htmlFor='password'>Change Password:</label> 
-						<input type='password' name='password' ref={passwordRef} />
-					</div>
+								alert('Details updated');
+								passwordRef.current.value = retypeRef.current.value = '';
+							}}>
+								<input type='password' name='password' placeholder='New Password' ref={passwordRef} />
+								<input type='password' name='retype'  placeholder='Retype New Password' ref={retypeRef} />
 
-					<div>
-						<label htmlFor='retype'>Retype Password:</label> 
-						<input type='password' name='retype' ref={retypeRef} />
-					</div>
+								<span>
+									<label htmlFor='contact'>Allow Promotional Emails:</label>
+									<input type='checkbox' name='contact' ref={contactRef} />
+								</span>
 
-					<div>
-						<label htmlFor='contact'>Allow Promotional Emails:</label>
-						<input type='checkbox' name='contact' ref={contactRef} />
+								<button type='submit'>Update Information</button>
+							</form>
+							<DeleteAccount />
+						</div>
+						<Link to='/' className='text centered'>Return Home</Link>\
 					</div>
 				</div>
-
-				<button type='submit'>Update Information</button>
-			</form>
-
-			<DeleteAccount className='constrained' />
-		</div>
+			</div>
+		</>
 	);
 };
 

@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from 'react';
 
-import { TokenContext } from '../utilities/token-provider';
+import { TokenContext } from '../../utilities/token-provider';
 
 const BanUser = props => {
 	//context
@@ -10,13 +10,10 @@ const BanUser = props => {
 	const usernameRef = useRef();
 
 	return (
-		<div>
-			<h2 className='centered'>Permanently Ban User</h2>
-			<form>
-				<div>
-					<label htmlFor='username'>Username:</label>
-					<input type='text' name='username' ref={usernameRef} />
-				</div>
+		<div className='panel'>
+			<h2 className='text centered'>Permanently Ban User</h2>
+			<form className='constrained'>
+				<input type='text' name='username' placeholder='Username' ref={usernameRef} />
 
 				<button type='button' onClick={async evt => {
 					evt.preventDefault();

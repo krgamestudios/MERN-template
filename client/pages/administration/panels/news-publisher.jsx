@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 
-import { TokenContext } from '../utilities/token-provider';
+import { TokenContext } from '../../utilities/token-provider';
 
 const NewsPublisher = props => {
 	//context
@@ -12,34 +12,23 @@ const NewsPublisher = props => {
 	const bodyRef = useRef();
 
 	return (
-		<div>
-			<h2 className='centered'>News Publisher</h2>
-			<form onSubmit={async evt => {
+		<div className='panel'>
+			<h2 className='text centered'>News Publisher</h2>
+			<form className='constrained' onSubmit={async evt => {
 				//on submit
 				evt.preventDefault();
 				const [err, index] = await handleSubmit(titleRef.current.value, authorRef.current.value, bodyRef.current.value, authTokens.tokenFetch);
 				if (err) {
 					alert(err);
 				} else {
-					titleRef.current.value = authorRef.current.value = bodyRef.current.value = '';
+					titleRef.current.value = authorRef.current.value = bodyRef.current.value = ''; //TODO: null bug here?
 					alert(`Published as article index ${index}`);
 				}
 			}}>
-				<div>
-					<label htmlFor='title'>Title: </label>
-					<input type='text' name='title' ref={titleRef} />
-				</div>
-
-				<div>
-					<label htmlFor='author'>Author: </label>
-					<input type='text' name='author' ref={authorRef} />
-				</div>
-
-				<div>
-					<label htmlFor='body'>Body: </label>
-					<textarea name='body' rows='10' cols='150' ref={bodyRef} />
-				</div>
-
+				<input type='text' name='title' placeholder='Title' ref={titleRef} />
+				<input type='text' name='author' placeholder='Author' ref={authorRef} />
+				<textarea name='body' rows='10' cols='150' placeholder='Body of the article goes here...' ref={bodyRef} />
+	
 				<button type='submit'>Publish</button>
 			</form>
 		</div>

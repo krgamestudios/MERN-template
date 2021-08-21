@@ -75,6 +75,8 @@ To set up this template in development mode:
 
 - Full documentation
 	- Modding tutorials
+- Fully Featured News Blog (as a microservice)
+	- Individual pages for news articles
 
 # Coming Eventually
 
@@ -86,7 +88,6 @@ To set up this template in development mode:
 	- Private messaging
 	- Broadcasting to all channels
 	- Badges next to usernames
-- Better compression for client files
 - Backend for leaderboards (modding tutorial?)
 - Backend for energy systems (modding tutorial?)
-- Backend for items, shops, trading and currency
+- Backend for items, shops, trading and currency (modding tutorial?)

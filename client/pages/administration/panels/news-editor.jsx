@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import Select from 'react-dropdown-select';
 
-import { TokenContext } from '../utilities/token-provider';
+import { TokenContext } from '../../utilities/token-provider';
 
 const NewsEditor = props => {
 	//context
@@ -36,38 +36,36 @@ const NewsEditor = props => {
 	}, []);
 
 	return (
-		<div>
-			<h2 className='centered'>News Editor</h2>
-			<div>
-				<label htmlFor='article'>Article: </label>
-				<Select
-					options={articles.map(article => { return { label: article.title, value: article.index }; })}
-					onChange={async values => {
-						//fetch this article
-						const index = values[0].value;
+		<div className='panel'>
+			<h2 className='text centered'>News Editor</h2>
+			<Select
+				options={articles.map(article => { return { label: article.title, value: article.index }; })}
+				onChange={async values => {
+					//fetch this article
+					const index = values[0].value;
 
-						const result = await fetch(`${process.env.NEWS_URI}/news/archive/${index}`, {
-							headers: {
-								'Access-Control-Allow-Origin': '*'
-							}
-						});
-
-						if (!result.ok) {
-							const err = `${result.status}: ${await result.text()}`;
-							console.log(err);
-							alert(err);
-						} else {
-							const article = await result.json();
-							titleRef.current.value = article.title;
-							authorRef.current.value = article.author;
-							bodyRef.current.value = article.body;
-							setIndex(index);
+					const result = await fetch(`${process.env.NEWS_URI}/news/archive/${index}`, {
+						headers: {
+							'Access-Control-Allow-Origin': '*'
 						}
-					}}
-				/>
-			</div>
+					});
 
-			<form onSubmit={async evt => {
+					if (!result.ok) {
+						const err = `${result.status}: ${await result.text()}`;
+						console.log(err);
+						alert(err);
+					} else {
+						const article = await result.json();
+						titleRef.current.value = article.title;
+						authorRef.current.value = article.author;
+						bodyRef.current.value = article.body;
+						setIndex(index);
+				}
+				}}
+				placeholder='Select Article'
+			/>
+
+			<form className='constrained' onSubmit={async evt => {
 				//onSubmit
 				evt.preventDefault();
 				const [err] = await handleSubmit(titleRef.current.value, authorRef.current.value, bodyRef.current.value, index, authTokens.tokenFetch);
@@ -78,20 +76,9 @@ const NewsEditor = props => {
 					alert(`Edited as article index ${index}`);
 				}
 			}}>
-				<div>
-					<label htmlFor='title'>Title: </label>
-					<input type='text' name='title' ref={titleRef} />
-				</div>
-
-				<div>
-					<label htmlFor='author'>Author: </label>
-					<input type='text' name='author' ref={authorRef} />
-				</div>
-
-				<div>
-					<label htmlFor='body'>Body: </label>
-					<textarea name='body' rows='10' cols='150' ref={bodyRef} />
-				</div>
+				<input type='text' name='title' placeholder='Title' ref={titleRef} />
+				<input type='text' name='author' placeholder='Author' ref={authorRef} />
+				<textarea name='body' rows='10' cols='150' placeholder='Body of the article goes here...' ref={bodyRef} />
 
 				<button type='submit'>Update</button>
 				<button type='button' onClick={async evt => {

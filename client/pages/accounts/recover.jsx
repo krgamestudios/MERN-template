@@ -1,5 +1,7 @@
 import React, { useContext, useRef } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+
+import ApplyToBody from '../utilities/apply-to-body';
 
 import { TokenContext } from '../utilities/token-provider';
 
@@ -20,32 +22,34 @@ const Recover = props => {
 	const recoverRef = useRef();
 
 	return (
-		<div className='page'>
-			<h1 className='centered'>Recover Password</h1>
-			<form className='constrained panel' onSubmit={
-				async evt => { //on submit
-					recoverRef.current.disabled = true;
-					evt.preventDefault();
-					const [result, redirect] = await handleSubmit(emailRef.current.value);
-					if (result) {
-						alert(result);
-						recoverRef.current.disabled = false;
-					}
+		<>
+			<ApplyToBody className='dashboard' />
+			<div className='page'>
+				<div className='central panel centered middle'>
+					<h1 className='text centered'>Forgot Password</h1>
+					<form className='constrained' onSubmit={
+						async evt => { //on submit
+							recoverRef.current.disabled = true;
+							evt.preventDefault();
+							const [result, redirect] = await handleSubmit(emailRef.current.value);
+							if (result) {
+								alert(result);
+								recoverRef.current.disabled = false;
+							}
 
-					//redirect
-					if (redirect) {
-						props.history.push('/');
-					}
-				}
-			}>
-				<div>
-					<label htmlFor='email'>Enter Your Email:</label>
-					<input type='email' name='email' ref={emailRef} />
+							//redirect
+							if (redirect) {
+								props.history.push('/');
+							}
+						}
+					}>
+						<input type='email' name='email' placeholder='your@email.com' ref={emailRef} />
+						<button type='submit' ref={recoverRef}>Recover Password</button>
+					</form>
+					<Link to='/' className='text centered'>Return Home</Link>
 				</div>
-
-				<button type='submit' ref={recoverRef}>Recover Password</button>
-			</form>
-		</div>
+			</div>
+		</>
 	);
 };
 

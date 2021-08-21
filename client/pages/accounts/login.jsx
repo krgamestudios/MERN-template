@@ -1,11 +1,13 @@
 import React, { useContext, useRef } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+
+import ApplyToBody from '../utilities/apply-to-body';
 
 import { TokenContext } from '../utilities/token-provider';
 
 const validateEmail = require('../../../common/utilities/validate-email');
 
-const LogIn = props => {
+const Login = props => {
 	//context
 	const authTokens = useContext(TokenContext);
 
@@ -19,39 +21,40 @@ const LogIn = props => {
 	const passwordRef = useRef();
 
 	return (
-		<div className='page'>
-			<h1 className='centered'>Login</h1>
-			<form className='constrained' onSubmit={
-				async evt => {
-					//on submit
-					evt.preventDefault();
-					const [err, newTokens] = await handleSubmit(emailRef.current.value, passwordRef.current.value);
-					if (err) {
-						alert(err);
-					}
+		<>
+			<ApplyToBody className='dashboard' />
+			<div className='page'>
+				<div className='central panel centered middle'>
+					<div className='panel'>
+						<h1 className='text centered'>Login</h1>
+						<form className='constrained' onSubmit={
+							async evt => {
+								//on submit
+								evt.preventDefault();
+								const [err, newTokens] = await handleSubmit(emailRef.current.value, passwordRef.current.value);
+								if (err) {
+									alert(err);
+								}
 
-					//save auth tokens and redirect
-					if (newTokens) {
-						authTokens.setAccessToken(newTokens.accessToken);
-						authTokens.setRefreshToken(newTokens.refreshToken);
+								//save auth tokens and redirect
+								if (newTokens) {
+									authTokens.setAccessToken(newTokens.accessToken);
+									authTokens.setRefreshToken(newTokens.refreshToken);
 
-						props.history.push('/');
-					}
-				}
-			}>
-				<div>
-					<label htmlFor="email">Email:</label>
-					<input type="email" name="email" ref={emailRef} />
+									props.history.push('/');
+								}
+							}
+						}>
+							<input type='email' name='email' placeholder='your@email.com' ref={emailRef} />
+							<input type='password' name='password' placeholder='********' ref={passwordRef} />
+							<button type='submit'>Login</button>
+						</form>
+						<Link to='/recover' className='text centered'>Forgot Password?</Link>
+						<Link to='/' className='text centered'>Return Home</Link>
+					</div>
 				</div>
-
-				<div>
-					<label htmlFor="password">Password:</label>
-					<input type="password" name="password" ref={passwordRef} />
-				</div>
-
-				<button type='submit'>Login</button>
-			</form>
-		</div>
+			</div>
+		</>
 	);
 };
 
@@ -104,4 +107,4 @@ const handleValidation = (email, password) => {
 };
 
 
-export default LogIn;
+export default Login;

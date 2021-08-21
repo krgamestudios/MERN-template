@@ -4,8 +4,8 @@ import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './components/app';
-import TokenProvider from './components/utilities/token-provider';
+import App from './pages/app';
+import TokenProvider from './pages/utilities/token-provider';
 
 ReactDOM.render(
 	<TokenProvider>

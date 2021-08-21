@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef } from 'react';
 
-import { TokenContext } from '../utilities/token-provider';
+import { TokenContext } from '../../utilities/token-provider';
 
 //DOCS: isolated the delete account button into it's own panel, so it can be easily moved as needed
 const DeleteAccount = props => {
@@ -9,25 +9,27 @@ const DeleteAccount = props => {
 	const passwordRef = useRef();
 
 	if (!open) {
-		return <button onClick={() => setOpen(true)} className={props.className}>Delete Account</button>
+		return (
+			<button onClick={() => setOpen(true)}>Delete Account</button>
+		);
 	}
 
 	return (
-		<form className={props.className} onSubmit={async evt => {
-			evt.preventDefault();
-			const [err] = await handleSubmit(passwordRef.current.value, authTokens);
-			if (err) {
-				alert(err);
-			}
-		}}>
-			<div>
-				<label htmlFor="password">Password:</label>
-				<input type="password" name="password" ref={passwordRef} />
-			</div>
+		<div className='panel centered middle'>
+			<h2 className='text centered'>Delete Your Account?</h2>
+			<form className='constrained' onSubmit={async evt => {
+				evt.preventDefault();
+				const [err] = await handleSubmit(passwordRef.current.value, authTokens);
+				if (err) {
+					alert(err);
+				}
+			}}>
+				<input type="password" name="password" placeholder='Password' ref={passwordRef} />
 
-			<button type='submit'>Delete Account</button>
-			<button type='cancel' onClick={() => { passwordRef.current.value = ''; setOpen(false); }}>Cancel</button>
-		</form>
+				<button type='submit' style={{backgroundColor: 'red'}}>Delete Account</button>
+				<button type='cancel' onClick={() => { passwordRef.current.value = ''; setOpen(false); }}>Cancel</button>
+			</form>
+		</div>
 	);
 };
 

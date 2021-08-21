@@ -1,5 +1,7 @@
 import React, { useContext, useRef } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+
+import ApplyToBody from '../utilities/apply-to-body';
 
 import { TokenContext } from '../utilities/token-provider';
 
@@ -7,7 +9,7 @@ import { TokenContext } from '../utilities/token-provider';
 const validateEmail = require('../../../common/utilities/validate-email');
 const validateUsername = require('../../../common/utilities/validate-username');
 
-const SignUp = props => {
+const Signup = props => {
 	//context
 	const authTokens = useContext(TokenContext);
 
@@ -25,52 +27,45 @@ const SignUp = props => {
 	const signupRef = useRef();
 
 	return (
-		<div className='page'>
-			<h1 className='centered'>Signup</h1>
-			<form className='constrained' onSubmit={
-				async evt => { //on submit
-					signupRef.current.disabled = true;
-					evt.preventDefault();
-					const [result, redirect] = await handleSubmit(emailRef.current.value, usernameRef.current.value, passwordRef.current.value, retypeRef.current.value, contactRef.current.checked);
-					if (result) {
-						alert(result);
-						signupRef.current.disabled = false;
-					}
+		<>
+			<ApplyToBody className='dashboard' />
+			<div className='page'>
+				<div className='central panel centered middle'>
+					<h1 className='text centered'>Signup</h1>
+					<form className='constrained' onSubmit={
+						async evt => { //on submit
+							signupRef.current.disabled = true;
+							evt.preventDefault();
+							const [result, redirect] = await handleSubmit(emailRef.current.value, usernameRef.current.value, passwordRef.current.value, retypeRef.current.value, contactRef.current.checked);
+							if (result) {
+								alert(result);
+								signupRef.current.disabled = false;
+							}
 
-					//redirect
-					if (redirect) {
-						props.history.push('/');
-					}
-				}
-			}>
-				<div>
-					<label htmlFor='email'>Email:</label>
-					<input type='email' name='email' ref={emailRef} />
+							//redirect
+							if (redirect) {
+								props.history.push('/');
+							}
+						}
+					}>
+
+						<input type='email' name='email' placeholder='your@email.com' ref={emailRef} />
+						<input type='text' name='username' placeholder='Username' ref={usernameRef} />
+						<input type='password' name='password' placeholder='********' ref={passwordRef} />
+						<input type='password' name='retype' placeholder='********' ref={retypeRef} />
+
+						<span>
+							<label htmlFor='contact'>Allow Emails:</label>
+							<input type='checkbox' name='contact' ref={contactRef} defaultChecked='true' />
+						</span>
+
+						<button type='submit' ref={signupRef}>Signup</button>
+					</form>
+					<Link to='/recover' className='text centered'>Forgot Password?</Link>
+					<Link to='/' className='text centered'>Return Home</Link>
 				</div>
-
-				<div>
-					<label htmlFor='username'>Username:</label>
-					<input type='text' name='username' ref={usernameRef} />
-				</div>
-
-				<div>
-					<label htmlFor='password'>Password:</label>
-					<input type='password' name='password' ref={passwordRef} />
-				</div>
-
-				<div>
-					<label htmlFor='retype'>Retype Password:</label>
-					<input type='password' name='retype' ref={retypeRef} />
-				</div>
-
-				<div>
-					<label htmlFor='contact'>Allow Promotional Emails:</label>
-					<input type='checkbox' name='contact' ref={contactRef} />
-				</div>
-
-				<button type='submit' ref={signupRef}>Signup</button>
-			</form>
-		</div>
+			</div>
+		</>
 	);
 };
 
@@ -129,4 +124,4 @@ const handleValidation = (email, username, password, retype) => {
 	return null;
 };
 
-export default SignUp;
+export default Signup;

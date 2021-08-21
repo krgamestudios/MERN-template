@@ -1,0 +1,323 @@
+/* global defaults */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body, #root {
+	font: 12pt Helvetica, Arial;
+	min-width: 100vw;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #fefefe;
+	color: #010101;
+}
+
+h1 {
+	font-size: 40pt;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 24pt;
+	font-weight: bold;
+}
+
+h3 {
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+ul {
+	list-style-type: disc;
+	list-style-position: inside;
+	padding-bottom: .5em;
+}
+
+p {
+	margin-bottom: 0 !important;
+	padding-bottom: 1em;
+}
+
+pre {
+	padding: 5px;
+	margin-bottom: 1em;
+	background-color: lightgray;
+	overflow-x: scroll;
+}
+
+a {
+	color: blue;
+	text-decoration: none;
+}
+
+blockquote {
+	padding-top: 0.5em;
+	padding-left: 1em;
+	margin-bottom: 1em;
+	border-left: 3px solid #ccc;
+}
+
+.text.left {
+	text-align: left;
+}
+
+.text.centered {
+	text-align: center;
+}
+
+.text.right {
+	text-align: right;
+}
+
+.centered {
+	justify-content: center;
+}
+
+.middle {
+	align-items: center;
+}
+
+/* header */
+header {
+	flex: 0 1 auto;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	justify-self: flex-start;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+/* footer */
+footer {
+	padding-top: 0.5em;
+	flex: 0 1 auto;
+	justify-self: flex-end;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+/* central display */
+.central {
+	padding: 0 10px;
+	margin: 0 20%;
+	min-height: calc(100vh - 3.6em);
+}
+
+@media screen and (max-width: 768px) {
+	.central {
+		margin: 0;
+	}
+}
+
+/* components */
+.page {
+	flex: 1 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.page.centered {
+	justify-content: center;
+}
+
+.page.middle {
+	align-items: center;
+}
+
+.panel {
+	flex: 0 1 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	padding-bottom: 1em;
+}
+
+.panel.centered {
+	justify-content: center;
+}
+
+.panel.middle {
+	align-items: middle;
+}
+
+button:disabled {
+	opacity: 0.5;
+}
+
+input, button {
+	text-indent: 0.3em;
+	border-radius: 0.2em;
+	font-size: 1.8em;
+	margin: 0.2em;
+	padding: 0.2em 0;
+}
+
+textarea {
+	margin-left: 0.5em;
+	margin-right: -0.4em;
+	max-height: none !important;
+	resize: vertical;
+	overflow: auto;
+}
+
+/* "constrained" means reusable input area */
+.constrained {
+	flex: 0 1 auto;
+	align-self: center;
+	max-width: 480px;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1em;
+}
+
+.constrained > * {
+	flex: 1 0 auto;
+	max-height: 2em;
+	display: flex;
+	flex-direction: row;
+}
+
+.constrained button, button.constrained {
+	display: inline-block;
+}
+
+.constrained label {
+	font-size: 1.8em;
+	text-indent: 0.4em;
+}
+
+@media screen and (max-width: 480px) {
+	.constrained {
+		max-width: 100vw;
+	}
+}
+
+/* flexbox tables */
+.table {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.table .row {
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+@media screen and (max-width: 480px) {
+	.table .row {
+		flex-direction: column;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.table .row.tabletCollapse {
+		flex-direction: column;
+	}
+}
+
+.table .row .col {
+	flex: 1 1 1%;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.table .row .col.double {
+	flex: 2 1 2%;
+}
+
+.table .row .col.half {
+	flex: 0.5 1 0.5%;
+}
+
+@media screen and (max-width: 480px) {
+	.table .row .col.double {
+		flex: 2 1 2.5%;
+	}
+}
+
+.table.noCollapse .row, .table .row.noCollapse {
+	flex-direction: row;
+}
+
+/* mobile control */
+.mobile.show {
+	display: none;
+}
+
+@media screen and (max-width: 480px) {
+	.mobile.centered {
+		text-align: initial;
+	}
+
+	.mobile.show {
+		display: inline-block;
+	}
+
+	.mobile.hide {
+		display: none;
+	}
+
+	.mobile.centered {
+		text-align: center;
+	}
+
+	/* hybrid of table and mobile control */
+	.mobile.hide.col {
+		display: none;
+	}
+
+	.mobile.col.half {
+		flex: 0.5;
+	}
+}
+
+/* tablet control */
+.tablet.show {
+	display: none;
+}
+
+@media screen and (max-width: 768px) {
+	.tablet.centered {
+		text-align: initial;
+	}
+
+	.tablet.show {
+		display: inline-block;
+	}
+
+	.tablet.hide {
+		display: none;
+	}
+
+	.tablet.centered {
+		text-align: center;
+	}
+
+	/* hybrid of table and tablet control */
+	.tablet.hide.col {
+		display: none;
+	}
+
+	.tablet.col.half {
+		flex: 0.5;
+	}
+}

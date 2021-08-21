@@ -1,6 +1,8 @@
 import React, { useContext, useRef } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import queryString from 'query-string';
+
+import ApplyToBody from '../utilities/apply-to-body';
 
 import { TokenContext } from '../utilities/token-provider';
 
@@ -19,43 +21,38 @@ const Reset = props => {
 	//refs
 	const passwordRef = useRef();
 	const retypeRef = useRef();
-	const resetRef = useRef();
 
 	//render the thing
 	return (
-		<div className='page'>
-			<h1 className='centered'>Reset Password</h1>
-			<form className='constrained panel' onSubmit={async evt => {
-				evt.preventDefault();
-				const [err, redirect] = await update(passwordRef.current.value, retypeRef.current.value, query);
+		<>
+			<ApplyToBody className='dashboard' />
+			<div className='page'>
+				<div className='central panel centered middle'>
+					<h1 className='text centered'>Reset Password</h1>
+					<form className='constrained' onSubmit={async evt => {
+						evt.preventDefault();
+						const [err, redirect] = await update(passwordRef.current.value, retypeRef.current.value, query);
 
-				if (err) {
-					alert(err);
-					return;
-				}
+						if (err) {
+							alert(err);
+							return;
+						}
 
-				alert('Details updated');
+						alert('Details updated'); //TODO: replace with a message from the auth server
 
-				//redirect
-				if (redirect) {
-					props.history.push('/');
-				}
-			}}>
-				<div>
-					<div>
-						<label htmlFor='password'>Enter New Password:</label>
-						<input type='password' name='password' ref={passwordRef} />
-					</div>
-
-					<div>
-						<label htmlFor='retype'>Retype New Password:</label>
-						<input type='password' name='retype' ref={retypeRef} />
-					</div>
+						//redirect
+						if (redirect) {
+							props.history.push('/');
+						}
+					}}>
+						<input type='password' name='password' placeholder='New Password' ref={passwordRef} />
+						<input type='password' name='retype' placeholder='Retype New Password' ref={retypeRef} />
+						<button type='submit'>Update Information</button>
+					</form>
+					<Link to='/' className='text centered'>Return Home</Link>
 				</div>
-
-				<button type='submit'>Update Information</button>
-			</form>
-		</div>
+			</div>
+		</>
 	);
 };
 

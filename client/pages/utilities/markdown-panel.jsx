@@ -20,10 +20,10 @@ const Markdown = props => {
 				.catch(e => console.error(e))
 			;
 		}, []);
-	} else
+	}
 
 	//assume raw info
-	if (!contentHook) {
+	else if (!contentHook) {
 		setContentHook(props.content);
 	}
 

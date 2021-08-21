@@ -1,6 +1,14 @@
+/* clear from the rest of the CSS files */
+
+.chat button, .chat input {
+	border-radius: unset !important;
+	font-size: unset !important;
+	margin: unset !important;
+}
+
 .chat {
 	position: fixed;
-	bottom: 23px;
+	bottom: 3.6em; /* Allow space for the footer */
 	right: 28px;
 	width: 280px;
 	border: solid;
@@ -8,75 +16,90 @@
 	border-width: 2px;
 	background-color: #CCC;
 	display: inline-block;
-	max-height: calc(50vh - 23px);
 }
 
-.chat > button.open {
+.chat button.open {
 	color: white;
 	background-color: grey;
 }
 
-.chat > button.send {
+.chat button.send {
 	color: white;
 	background-color: green;
+	border-style: solid;
+	border-width: 2px;
+	border-color: darkslategray;
 }
 
-.chat > button.close {
+.chat button.close {
 	color: black;
 	background-color: red;
+	border-color: maroon;
+	border-width: 2px;
 }
 
-.chat > button {
+.chat button {
 	width: 100%;
 	height: 2em;
 	opacity: 0.8;
+	border: unset;
 }
 
-.chat > button:hover {
+.chat button:hover {
 	opacity: 1;
 }
 
-.chat > .input {
-	width: calc(100% - 10px);
+.chat .input {
+	width: 100%;
 	height: 2em;
 }
 
-.chat > .log {
-	min-height: 300px;
+.chat .log {
+	min-height: 280px;
 }
 
-.chat > .log > .scrollable > .line {
+.chat .line {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 }
 
-.chat > .log > .scrollable > .line > .report {
+.chat .report {
 	color: red;
 	display: none;
 }
 
-.chat > .log > .scrollable > .line:hover {
+.chat .line:hover {
 	background-color: #BBB;
 }
 
-.chat > .log > .scrollable > .line:hover > .report {
+.chat .line:hover .report {
 	display: flex;
 }
 
-.chat > .log > .scrollable > .line > .content > .username {
+.chat .username {
 	font-weight: bold;
 }
 
-.chat > .log > .scrollable {
+.chat .scrollable {
 	margin: 0;
 	padding: 10px;
 	min-height: 280px;
-	max-height: calc(50vh - 23px - 20px - 6em);
+	max-height: 180px;
 	overflow-x: wrap;
 	overflow-y: scroll;
 }
 
 .chat ul {
 	list-style: none;
+}
+
+@media screen and (max-width: 768px) {
+	.chat {
+		position: unset;
+		bottom: unset;
+		right: unset;
+		width: calc(100% + 20px);
+		margin-left: -10px;
+	}
 }
