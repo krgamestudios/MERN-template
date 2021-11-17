@@ -265,7 +265,7 @@ networks:
 `;
 
 	const dockerfile = `
-FROM node:15
+FROM node:16
 WORKDIR "/app"
 COPY . /app
 RUN mkdir /app/public
