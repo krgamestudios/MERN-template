@@ -73,6 +73,8 @@ To set up this template in development mode:
 
 # Coming Soon
 
+- Fully Featured Account System (as a microservice)
+	- Optionally invoke commands on account creation
 - Full documentation
 	- Modding tutorials
 - Fully Featured News Blog (as a microservice)
