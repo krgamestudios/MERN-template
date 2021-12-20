@@ -99,7 +99,9 @@ module.exports = ({ production, analyze }) => {
 				}
 			},
 
-			static: '/public'
+			static: '/public',
+
+			historyApiFallback: true
 		}
 	}
 };
