@@ -1,6 +1,6 @@
 {
   "name": "mern-template",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "A website template using the MERN stack.",
   "main": "server/server.js",
   "scripts": {
@@ -57,6 +57,6 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.12",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.6.0"
   }
 }
