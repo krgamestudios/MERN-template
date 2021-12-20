@@ -28,7 +28,7 @@ const NewsPublisher = props => {
 				<input type='text' name='title' placeholder='Title' ref={titleRef} />
 				<input type='text' name='author' placeholder='Author' ref={authorRef} />
 				<textarea name='body' rows='10' cols='150' placeholder='Body of the article goes here...' ref={bodyRef} />
-	
+
 				<button type='submit'>Publish</button>
 			</form>
 		</div>

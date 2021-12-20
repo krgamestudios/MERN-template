@@ -93,6 +93,12 @@ module.exports = ({ production, analyze }) => {
 				},
 			},
 
+			proxy: {
+				'/api': {
+					target: 'http://localhost:3000'
+				}
+			},
+
 			static: '/public'
 		}
 	}
