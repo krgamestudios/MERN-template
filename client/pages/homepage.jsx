@@ -5,7 +5,6 @@ import ApplyToBody from './utilities/apply-to-body';
 
 import { TokenContext } from './utilities/token-provider';
 
-import MarkdownPanel from './utilities/markdown-panel';
 import NewsFeed from './panels/news-feed';
 
 const HomePage = props => {
