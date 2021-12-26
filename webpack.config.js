@@ -93,6 +93,12 @@ module.exports = ({ production, analyze }) => {
 				},
 			},
 
+			watchFiles: {
+				options: {
+					ignored: ['node_modules/**']
+				}
+			},
+
 			proxy: {
 				'/api': {
 					target: 'http://localhost:3000'
