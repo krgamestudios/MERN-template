@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import Select from 'react-dropdown-select';
+import Select from 'react-select';
 
 import { TokenContext } from '../../utilities/token-provider';
 
@@ -39,11 +39,9 @@ const NewsEditor = props => {
 		<div className='panel'>
 			<h2 className='text centered'>News Editor</h2>
 			<Select
-				options={articles.map(article => { return { label: article.title, value: article.index }; })}
-				onChange={async values => {
+				options={articles.map(article => { return { label: article.title, index: article.index }; })}
+				onChange={async ({index}) => {
 					//fetch this article
-					const index = values[0].value;
-
 					const result = await fetch(`${process.env.NEWS_URI}/news/archive/${index}`, {
 						headers: {
 							'Access-Control-Allow-Origin': '*'
