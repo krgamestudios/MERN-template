@@ -42,14 +42,6 @@ module.exports = ({ production, development, local, analyze }) => {
 					test: /\.(css)$/,
 					use: ['style-loader', 'css-loader']
 				},
-				{
-					test: /\.(md)$/,
-					use: [
-						{
-							loader: 'raw-loader'
-						},
-					],
-				},
 			]
 		},
 		plugins: [
