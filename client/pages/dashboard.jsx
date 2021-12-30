@@ -5,7 +5,6 @@ import ApplyToBody from './utilities/apply-to-body';
 
 import { TokenContext } from './utilities/token-provider';
 
-import MarkdownPanel from './utilities/markdown-panel';
 import Logout from './accounts/panels/logout';
 
 const Dashboard = props => {

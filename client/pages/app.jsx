@@ -5,7 +5,6 @@ import { TokenContext } from './utilities/token-provider';
 
 //library components
 import LazyRoute from './utilities/lazy-route';
-import MarkdownPage from './utilities/markdown-page';
 
 //styling
 import '../styles/styles.css';
@@ -34,8 +33,8 @@ const App = props => {
 					<LazyRoute path='/admin' component={() => import('./administration/admin')} />
 					<LazyRoute path='/mod' component={() => import('./administration/mod')} />
 
-					<LazyRoute path='/privacypolicy' component={async () => () => <MarkdownPage content={require('../markdown/privacy-policy.md').default} />} />
-					<LazyRoute path='/credits' component={async () => () => <MarkdownPage content={require('../markdown/credits.md').default} />} />
+					<LazyRoute path='/privacypolicy' component={() => import('./static/privacy-policy')} />
+					<LazyRoute path='/credits' component={() => import('./static/credits')} />
 
 					<LazyRoute path='*' component={() => import('./not-found')} />
 				</Switch>

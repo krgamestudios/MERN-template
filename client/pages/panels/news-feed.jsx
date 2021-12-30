@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import dateFormat from 'dateformat';
 
-import MarkdownPanel from '../utilities/markdown-panel';
-
 const NewsFeed = props => {
 	const [articles, setArticles] = useState([]);
 	const aborter = useRef(new AbortController()); //BUGFIX: double-renders = double fetches + react update after unmount
@@ -29,6 +27,7 @@ const NewsFeed = props => {
 		<div className='panel'>
 			<h1 className='text centered'>News Feed</h1>
 			{articles.map((article, index) => {
+				console.log(article)
 				return (
 					<div key={index} className='panel'>
 						<hr />
@@ -40,7 +39,7 @@ const NewsFeed = props => {
 							<span>Published {dateFormat(article.createdAt, 'fullDate')}</span>
 						}</em></p>
 						<br />
-						<MarkdownPanel style={{whiteSpace: 'pre-wrap'}} content={article.body} />
+						<div dangerouslySetInnerHTML={{ __html: article.rendered }} />
 					</div>
 				);
 			})}

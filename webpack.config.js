@@ -9,7 +9,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const path = require('path');
 
 //the exported config function
-module.exports = ({ production, analyze }) => {
+module.exports = ({ production, development, local, analyze }) => {
 	return {
 		mode: production ? "production" : "development",
 		entry: path.resolve(__dirname, 'client', 'client.jsx'),
@@ -56,9 +56,9 @@ module.exports = ({ production, analyze }) => {
 			new DefinePlugin({
 				'process.env': {
 					'PRODUCTION': production,
-					'NEWS_URI': production ? `"${process.env.NEWS_URI}"` : '"https://dev-news.krgamestudios.com"',
-					'AUTH_URI': production ? `"${process.env.AUTH_URI}"` : '"https://dev-auth.krgamestudios.com"',
-					'CHAT_URI': production ? `"${process.env.CHAT_URI}"` : '"https://dev-chat.krgamestudios.com"',
+					'NEWS_URI': production ? `"${process.env.NEWS_URI}"` : development ? '"https://dev-news.krgamestudios.com"' : '"http://localhost:3100"',
+					'AUTH_URI': production ? `"${process.env.AUTH_URI}"` : development ? '"https://dev-auth.krgamestudios.com"' : '"http://localhost:3200"',
+					'CHAT_URI': production ? `"${process.env.CHAT_URI}"` : development ? '"https://dev-chat.krgamestudios.com"' : '"http://localhost:3300"',
 				}
 			}),
 			new CleanWebpackPlugin({

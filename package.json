@@ -1,6 +1,6 @@
 {
   "name": "mern-template",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A website template using the MERN stack.",
   "main": "server/server.js",
   "scripts": {
@@ -8,9 +8,12 @@
     "build": "npm run build:server && npm run build:client",
     "build:server": "exit 0",
     "build:client": "webpack --env=production --config webpack.config.js",
-    "dev": "concurrently npm:watch:server npm:watch:client",
-    "watch:server": "nodemon ./* --ext js,jsx,json --ignore 'node_modules/*'",
-    "watch:client": "webpack serve --env=development --config webpack.config.js",
+    "dev": "concurrently npm:dev:server npm:dev:client",
+    "dev:server": "nodemon ./* --ext js,jsx,json --ignore 'node_modules/*'",
+    "dev:client": "webpack serve --env=development --config webpack.config.js",
+    "local": "concurrently npm:local:server npm:local:client",
+    "local:server": "nodemon ./* --ext js,jsx,json --ignore 'node_modules/*'",
+    "local:client": "webpack serve --env=local --config webpack.config.js",
     "analyze": "webpack --env=production --env=analyze --config webpack.config.js"
   },
   "repository": {
@@ -43,7 +46,6 @@
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-markdown": "^6.0.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-select": "^5.2.1",
