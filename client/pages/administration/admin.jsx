@@ -5,9 +5,6 @@ import ApplyToBody from '../utilities/apply-to-body';
 
 import { TokenContext } from '../utilities/token-provider';
 
-import NewsPublisher from './panels/news-publisher';
-import NewsEditor from './panels/news-editor';
-
 import GrantAdmin from './panels/grant-admin';
 import GrantMod from './panels/grant-mod';
 
@@ -26,9 +23,6 @@ const Admin = props => {
 			<div className='page panel'>
 				<div className='central panel'>
 					<h1 className='text centered'>Administration Tools</h1>
-					<NewsPublisher />
-					<br />
-					<NewsEditor />
 					<br />
 					<GrantAdmin />
 					<br />
