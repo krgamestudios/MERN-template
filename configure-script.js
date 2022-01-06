@@ -45,28 +45,16 @@ impelented are:
 See https://github.com/krgamestudios/MERN-template/wiki for help.
 `
 );
-  //determine local computer address for mac user vs everyone else
-	let macQuestion = '';
-	while (macQuestion !== true && macQuestion !== false) {
-		macQuestion = await question('Will the MERN Template be running locally on a MacOS system? (yes or no)', '');
-        if (macQuestion.toLowerCase() === 'yes') {
-            macQuestion = true;
-        }
-        else if (macQuestion.toLowerCase() === 'no') {
-            macQuestion = false;
-        }
-	} 
 
-  const macUser = macQuestion;
+	//determine local computer address for mac user vs everyone else
+	let macUser = '';
+	while (macUser.toLowerCase() !== 'yes' && macUser.toLowerCase() !== 'no') {
+		macUser = await question('Will the MERN Template be running locally on a MacOS system? (yes or no)', '');
+	}
 
-  let localComputerAddress = '%';
-  if (macUser === true) {
-    localComputerAddress = 'localhost';
-  }
+	const localAddress = macUser ? 'localhost' : '%';
 
-  const localAddress = localComputerAddress;
-
-  //project configuration
+	//project configuration
 	const projectName = await question('Project Name', 'template');
 	const projectWebAddress = await question('Project Web Address', 'example.com');
 
