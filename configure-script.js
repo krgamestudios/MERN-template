@@ -45,8 +45,28 @@ impelented are:
 See https://github.com/krgamestudios/MERN-template/wiki for help.
 `
 );
+  //determine local computer address for mac user vs everyone else
+	let macQuestion = '';
+	while (macQuestion !== true && macQuestion !== false) {
+		macQuestion = await question('Will the MERN Template be running locally on a MacOS system? (yes or no)', '');
+        if (macQuestion.toLowerCase() === 'yes') {
+            macQuestion = true;
+        }
+        else if (macQuestion.toLowerCase() === 'no') {
+            macQuestion = false;
+        }
+	} 
 
-	//project configuration
+  const macUser = macQuestion;
+
+  let localComputerAddress = '%';
+  if (macUser === true) {
+    localComputerAddress = 'localhost';
+  }
+
+  const localAddress = localComputerAddress;
+
+  //project configuration
 	const projectName = await question('Project Name', 'template');
 	const projectWebAddress = await question('Project Web Address', 'example.com');
 
@@ -284,23 +304,24 @@ CMD ["sleep 10 && npm start"]
 
 	const sqlfile = `
 CREATE DATABASE IF NOT EXISTS ${projectName};
-CREATE USER IF NOT EXISTS '${projectDBUser}'@'%' IDENTIFIED BY '${projectDBPass}';
-GRANT ALL PRIVILEGES ON ${projectName}.* TO '${projectDBUser}'@'%';
+CREATE USER IF NOT EXISTS '${projectDBUser}'@'${localAddress}' IDENTIFIED BY '${projectDBPass}';
+GRANT ALL PRIVILEGES ON ${projectName}.* TO '${projectDBUser}'@'${localAddress}';
 
 CREATE DATABASE IF NOT EXISTS ${newsName};
-CREATE USER IF NOT EXISTS '${newsDBUser}'@'%' IDENTIFIED BY '${newsDBPass}';
-GRANT ALL PRIVILEGES ON ${newsName}.* TO '${newsDBUser}'@'%';
+CREATE USER IF NOT EXISTS '${newsDBUser}'@'${localAddress}' IDENTIFIED BY '${newsDBPass}';
+GRANT ALL PRIVILEGES ON ${newsName}.* TO '${newsDBUser}'@'${localAddress}';
 
 CREATE DATABASE IF NOT EXISTS ${authName};
-CREATE USER IF NOT EXISTS '${authDBUser}'@'%' IDENTIFIED BY '${authDBPass}';
-GRANT ALL PRIVILEGES ON ${authName}.* TO '${authDBUser}'@'%';
+CREATE USER IF NOT EXISTS '${authDBUser}'@'${localAddress}' IDENTIFIED BY '${authDBPass}';
+GRANT ALL PRIVILEGES ON ${authName}.* TO '${authDBUser}'@'${localAddress}';
 
 CREATE DATABASE IF NOT EXISTS ${chatName};
-CREATE USER IF NOT EXISTS '${chatDBUser}'@'%' IDENTIFIED BY '${chatDBPass}';
-GRANT ALL PRIVILEGES ON ${chatName}.* TO '${chatDBUser}'@'%';
+CREATE USER IF NOT EXISTS '${chatDBUser}'@'${localAddress}' IDENTIFIED BY '${chatDBPass}';
+GRANT ALL PRIVILEGES ON ${chatName}.* TO '${chatDBUser}'@'${localAddress}';
 
 FLUSH PRIVILEGES;
 `;
+
 
 	fs.writeFileSync('docker-compose.yml', ymlfile);
 	fs.writeFileSync('Dockerfile', dockerfile);
