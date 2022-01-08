@@ -9,10 +9,10 @@
     "build:server": "exit 0",
     "build:client": "webpack --env=production --config webpack.config.js",
     "dev": "concurrently npm:dev:server npm:dev:client",
-    "dev:server": "nodemon ./* --ext js,jsx,json --ignore 'node_modules/*'",
+    "dev:server": "nodemon --ext js,jsx,json --ignore 'node_modules/*'",
     "dev:client": "webpack serve --env=development --config webpack.config.js",
     "local": "concurrently npm:local:server npm:local:client",
-    "local:server": "nodemon ./* --ext js,jsx,json --ignore 'node_modules/*'",
+    "local:server": "nodemon --ext js,jsx,json --ignore 'node_modules/*'",
     "local:client": "webpack serve --env=local --config webpack.config.js",
     "analyze": "webpack --env=production --env=analyze --config webpack.config.js"
   },
