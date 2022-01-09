@@ -106,7 +106,7 @@ const processLine = (line, index, accessToken) => {
 	const minutes = `${date.getMinutes()}`.padStart(2, '0');
 
 	//combine into the final timestamp
-	const timestamp = !isValidDate(date) ? '' : isToday(date) ? `${hours}:${minutes}` : `${day}/${month}` ;
+	const timestamp = !isValidDate(date) ? '' : isToday(date) ? `${hours}:${minutes}` : `${month}/${day}`;
 
 	//generate the content string
 	let content = <div className='content row'>{timestamp.length > 0 ? <span className='timestamp col'>{timestamp}</span> : null }<span className='inner col'>{line.username ? <span className='username'>{line.username}: </span> : ''}{line.text ? <span className='text'>{line.text}</span> : ''}</span></div>;
