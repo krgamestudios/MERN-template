@@ -77,6 +77,16 @@
 	display: flex;
 }
 
+.chat .timestamp {
+	max-width: 44px;
+}
+
+.chat .inner {
+	flex: 1 !important;
+	display: inline-block !important;
+	flex-direction: row !important;
+}
+
 .chat .username {
 	font-weight: bold;
 }

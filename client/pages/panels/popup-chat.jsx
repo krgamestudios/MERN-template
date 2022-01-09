@@ -78,7 +78,7 @@ const handleSend = (inputRef, pushChatlog, username, accessToken) => {
 	});
 
 	if (!inputRef.current.value.startsWith('/')) {
-		pushChatlog({ username: username, text: inputRef.current.value });
+		pushChatlog({ createdAt: (new Date(Date.now())).toISOString(), username: username, text: inputRef.current.value });
 	}
 
 	inputRef.current.value = '';
@@ -86,7 +86,30 @@ const handleSend = (inputRef, pushChatlog, username, accessToken) => {
 
 //render each line
 const processLine = (line, index, accessToken) => {
-	let content = <div className='content'>{line.username ? <span className='username'>{line.username}: </span> : ''}{line.text ? <span className='text'>{line.text}</span> : ''}</div>;
+	//utility functions
+	const isValidDate = d => {
+		return d instanceof Date && !isNaN(d);
+	};
+
+	const isToday = d => {
+		const now = new Date(Date.now());
+		return d.getDate() == now.getDate() && d.getMonth() == now.getMonth() && d.getFullYear() == now.getFullYear();
+	};
+
+	//parse the date
+	const date = new Date(line.createdAt);
+
+	//split it up so we can format each field individually
+	const month = `${date.getMonth() + 1}`;
+	const day = `${date.getDate()}`;
+	const hours = `${date.getHours()}`;
+	const minutes = `${date.getMinutes()}`.padStart(2, '0');
+
+	//combine into the final timestamp
+	const timestamp = !isValidDate(date) ? '' : isToday(date) ? `${hours}:${minutes}` : `${day}/${month}` ;
+
+	//generate the content string
+	let content = <div className='content row'>{timestamp.length > 0 ? <span className='timestamp col'>{timestamp}</span> : null }<span className='inner col'>{line.username ? <span className='username'>{line.username}: </span> : ''}{line.text ? <span className='text'>{line.text}</span> : ''}</span></div>;
 
 	//decorators
 	if (line.emphasis) {
@@ -97,7 +120,8 @@ const processLine = (line, index, accessToken) => {
 		content = <strong>{content}</strong>;
 	}
 
-	return <li key={index} className='line'>{content}<a className='report' onClick={() => processReport(line, accessToken)}>!!!</a></li>;
+
+	return <li key={index} className='line table noCollapse'>{content}<a className='report' onClick={() => processReport(line, accessToken)}>!!!</a></li>;
 };
 
 const processReport = (line, accessToken) => {
