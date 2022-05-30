@@ -13,7 +13,7 @@ const Break = () => {
 const Footer = () => {
 	return (
 		<footer>
-			<p className='text centered'>© <a href='https://krgamestudios.com'>KR Game Studios</a> 2020-2021<Break /><Link to='/privacypolicy'>Privacy Policy</Link><Break /><Link to='/credits'>Credits</Link></p>
+			<p className='text centered'>© <a href='https://krgamestudios.com'>KR Game Studios</a> 2020-2022<Break /><Link to='/privacypolicy'>Privacy Policy</Link><Break /><Link to='/credits'>Credits</Link></p>
 		</footer>
 	);
 };

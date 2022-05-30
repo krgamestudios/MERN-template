@@ -24,10 +24,7 @@ const Account = props => {
 	//grab the user's info
 	useEffect(() => {
 		authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/account`, {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*'
-			}
+			method: 'GET'
 		})
 			.then(blob => blob.json())
 			.then(json => contactRef.current.checked = json.contact)
@@ -88,7 +85,6 @@ const update = async (password, retype, contact, tokenFetch) => {
 	const result = await tokenFetch(`${process.env.AUTH_URI}/auth/account`, {
 		method: 'PATCH',
 		headers: {
-			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({

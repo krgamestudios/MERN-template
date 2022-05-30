@@ -38,7 +38,6 @@ const handleSubmit = async (password, authTokens) => {
 	const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/account`, {
 		method: 'DELETE',
 		headers: {
-			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
@@ -54,7 +53,6 @@ const handleSubmit = async (password, authTokens) => {
 	const result2 = await authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/logout`, {
 		method: 'DELETE',
 		headers: {
-			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({

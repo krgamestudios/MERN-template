@@ -68,7 +68,6 @@ const update = async (password, retype, query) => {
 	const result = await fetch(`${process.env.AUTH_URI}/auth/reset?email=${query.email}&token=${query.token}`, {
 		method: 'PATCH',
 		headers: {
-			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({

@@ -66,8 +66,7 @@ const handleSubmit = async (email) => {
 	const result = await fetch(`${process.env.AUTH_URI}/auth/recover`, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
+			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
 			email

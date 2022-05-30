@@ -8,8 +8,6 @@ const Static = props => {
 			</header>
 			<h2>MERN-template</h2>
 			<p>The <a href='https://github.com/krgamestudios/MERN-template'>MERN-template</a> developed by Kayne Ruse, KR Game Studios</p>
-			<br />
-			<p>Additional programming by Keith "prox" Campbell</p>
 		</>
 	);
 };

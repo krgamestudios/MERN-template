@@ -37,7 +37,6 @@ const TokenProvider = props => {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*',
 						'Authorization': `Bearer ${bearer}`
 					},
 					body: JSON.stringify({
@@ -50,8 +49,7 @@ const TokenProvider = props => {
 			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Origin': '*'
+					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
 					token: refreshToken
@@ -91,8 +89,7 @@ const TokenProvider = props => {
 			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Origin': '*'
+					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
 					token: refreshToken

@@ -8,12 +8,7 @@ const ChatReports = props => {
 	const authTokens = useContext(TokenContext);
 
 	useEffect(async () => {
-		const result = await authTokens.tokenFetch(`${process.env.CHAT_URI}/admin/reports`, {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*'
-			}
-		});
+		const result = await authTokens.tokenFetch(`${process.env.CHAT_URI}/admin/reports`);
 
 		if (!result.ok) {
 			const err = `${result.status}: ${await result.text()}`;
@@ -59,8 +54,7 @@ const deleteReportsFor = (chatlogIndex, tokenFetch, setReports) => {
 	tokenFetch(`${process.env.CHAT_URI}/admin/reports`, {
 		method: 'DELETE',
 		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
+			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({ chatlogIndex })
 	});

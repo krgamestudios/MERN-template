@@ -42,8 +42,7 @@ const handleButtonPress = async (username, tokenFetch) => {
 	const result = await tokenFetch(`${process.env.AUTH_URI}/admin/banuser`, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
+			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
 			username

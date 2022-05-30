@@ -51,8 +51,7 @@ const handleButtonPress = async (username, tokenFetch, method) => {
 	const result = await tokenFetch(`${process.env.AUTH_URI}/admin/admin`, {
 		method: method,
 		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
+			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
 			username

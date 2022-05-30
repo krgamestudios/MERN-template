@@ -21,8 +21,7 @@ const NewsEditor = props => {
 		const result = await fetch(`${process.env.NEWS_URI}/news/metadata?limit=999`, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*'
+				'Content-Type': 'application/json'
 			},
 		});
 
@@ -42,11 +41,7 @@ const NewsEditor = props => {
 				options={articles.map(article => { return { label: article.title, index: article.index }; })}
 				onChange={async ({index}) => {
 					//fetch this article
-					const result = await fetch(`${process.env.NEWS_URI}/news/archive/${index}`, {
-						headers: {
-							'Access-Control-Allow-Origin': '*'
-						}
-					});
+					const result = await fetch(`${process.env.NEWS_URI}/news/archive/${index}`);
 
 					if (!result.ok) {
 						const err = `${result.status}: ${await result.text()}`;
@@ -107,8 +102,7 @@ const handleSubmit = async (title, author, body, index, tokenFetch) => {
 	const result = await tokenFetch(`${process.env.NEWS_URI}/news/${index}`, {
 		method: 'PATCH',
 		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
+			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
 			title,

@@ -14,8 +14,7 @@ const Logout = () => {
 				const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/logout`, { //NOTE: this gets overwritten as a bugfix
 					method: 'DELETE',
 					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*'
+						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
 						token: authTokens.refreshToken

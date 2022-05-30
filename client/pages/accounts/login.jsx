@@ -72,8 +72,7 @@ const handleSubmit = async (email, password) => {
 	const result = await fetch(`${process.env.AUTH_URI}/auth/login`, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
+			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
 			email,
