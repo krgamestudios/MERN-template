@@ -96,17 +96,23 @@ const processLine = (line, index, accessToken) => {
 		return d.getDate() == now.getDate() && d.getMonth() == now.getMonth() && d.getFullYear() == now.getFullYear();
 	};
 
+	const isThisYear = d => {
+		const now = new Date(Date.now());
+		return d.getFullYear() == now.getFullYear();
+	};
+
 	//parse the date
 	const date = new Date(line.createdAt);
 
 	//split it up so we can format each field individually
+	const year = `${date.getFullYear()}`;
 	const month = `${date.getMonth() + 1}`;
 	const day = `${date.getDate()}`;
 	const hours = `${date.getHours()}`;
 	const minutes = `${date.getMinutes()}`.padStart(2, '0');
 
 	//combine into the final timestamp
-	const timestamp = !isValidDate(date) ? '' : isToday(date) ? `${hours}:${minutes}` : `${month}/${day}`;
+	const timestamp = !isValidDate(date) ? '' : isToday(date) ? `${hours}:${minutes}` : isThisYear(date) ? `${month}/${day}` : `${year}`;
 
 	//generate the content string
 	let content = <div className='content row'>{timestamp.length > 0 ? <span className='timestamp col'>{timestamp}</span> : null }<span className='inner col'>{line.username ? <span className='username'>{line.username}: </span> : ''}{line.text ? <span className='text'>{line.text}</span> : ''}</span></div>;
