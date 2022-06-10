@@ -18,12 +18,7 @@ const NewsEditor = props => {
 
 	//run once
 	useEffect(async () => {
-		const result = await fetch(`${process.env.NEWS_URI}/news/metadata?limit=999`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-		});
+		const result = await fetch(`${process.env.NEWS_URI}/news/metadata?limit=999`);
 
 		if (!result.ok) {
 			const err = `${result.status}: ${await result.text()}`;

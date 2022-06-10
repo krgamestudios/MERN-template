@@ -39,7 +39,7 @@ docker-compose up --build
 To set up this template in development mode:
 
 1. Ensure mariadb is running in your development environment
-2. Run `mariadb sql/create_database.sql` as the root user
+2. Run `mariadb tools/create_database.sql` as the root user
 3. Run `npm install`
 4. Run `cp .envdev .env` and enter your details into the `.env` file
 5. Execute `npm run dev`

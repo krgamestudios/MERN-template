@@ -8,10 +8,6 @@ const NewsFeed = props => {
 	useEffect(() => {
 		//this... um...
 		fetch(`${process.env.NEWS_URI}/news`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			},
 			signal: aborter.current.signal //oh dear
 		})
 			.then(blob => blob.json())
