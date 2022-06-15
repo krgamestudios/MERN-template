@@ -70,7 +70,7 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	//auth configuration
 	const authName = await question('Auth Name', 'auth');
 	const authWebAddress = await question('Auth Web Address', `${authName}.${projectWebAddress}`);
-	const authPostValidationHook = await question('Auth Post Validation Hook', '');
+	const authPostValidationHookArray = await question('Auth Post Validation Hook Array', '');
 	const authResetAddress = await question('Auth Reset Addr', `${projectWebAddress}/reset`);
 	const authDBUser = await question('Auth DB Username', authName);
 	const authDBPass = await question('Auth DB Password', 'charizard');
@@ -189,7 +189,7 @@ services:
     environment:
       - WEB_PROTOCOL=https
       - WEB_ADDRESS=${authWebAddress}
-      - HOOK_POST_VALIDATION=${authPostValidationHook}
+      - HOOK_POST_VALIDATION_ARRAY=${authPostValidationHookArray}
       - WEB_RESET_ADDRESS=${authResetAddress}
       - WEB_PORT=${authPort}
       - DB_HOSTNAME=database
