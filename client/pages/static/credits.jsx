@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Static = props => {
 	return (
@@ -8,6 +9,8 @@ const Static = props => {
 			</header>
 			<h2 className='text centered'>MERN-template</h2>
 			<p>The <a href='https://github.com/krgamestudios/MERN-template'>MERN-template</a> developed by Kayne Ruse, KR Game Studios</p>
+
+			<Link className='text centered' to='/'>Return Home</Link>
 		</div>
 	);
 };

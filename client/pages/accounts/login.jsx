@@ -31,15 +31,14 @@ const Login = props => {
 							async evt => {
 								//on submit
 								evt.preventDefault();
-								const [err, newTokens] = await handleSubmit(emailRef.current.value, passwordRef.current.value);
+								const [err, accessToken] = await handleSubmit(emailRef.current.value, passwordRef.current.value);
 								if (err) {
 									alert(err);
 								}
 
 								//save auth tokens and redirect
-								if (newTokens) {
-									authTokens.setAccessToken(newTokens.accessToken);
-									authTokens.setRefreshToken(newTokens.refreshToken);
+								if (accessToken) {
+									authTokens.setAccessToken(accessToken);
 
 									props.history.push('/');
 								}
@@ -77,7 +76,8 @@ const handleSubmit = async (email, password) => {
 		body: JSON.stringify({
 			email,
 			password,
-		})
+		}),
+		credentials: 'include'
 	});
 
 	//handle errors
@@ -88,8 +88,8 @@ const handleSubmit = async (email, password) => {
 	}
 
 	//return the new auth tokens
-	const newTokens = await result.json();
-	return [null, newTokens];
+	const accessToken = await result.text();
+	return [null, accessToken];
 };
 
 //returns an error message, or null on success

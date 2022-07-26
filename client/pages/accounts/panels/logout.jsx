@@ -12,13 +12,7 @@ const Logout = () => {
 			{ /* Logout logs you out of the server too */ }
 			<Link to='/' onClick={async () => {
 				const result = await authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/logout`, { //NOTE: this gets overwritten as a bugfix
-					method: 'DELETE',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						token: authTokens.refreshToken
-					})
+					method: 'DELETE'
 				});
 
 				//any problems?
@@ -26,7 +20,6 @@ const Logout = () => {
 					console.error(await result.text());
 				} else {
 					authTokens.setAccessToken('');
-					authTokens.setRefreshToken('');
 				}
 			}}>Logout</Link>
 		</>

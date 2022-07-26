@@ -51,13 +51,7 @@ const handleSubmit = async (password, authTokens) => {
 
 	//force a logout
 	const result2 = await authTokens.tokenFetch(`${process.env.AUTH_URI}/auth/logout`, {
-		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			token: authTokens.refreshToken
-		})
+		method: 'DELETE'
 	});
 
 	if (!result2.ok) {
@@ -65,7 +59,6 @@ const handleSubmit = async (password, authTokens) => {
 	}
 
 	authTokens.setAccessToken('');
-	authTokens.setRefreshToken('');
 
 	return [null];
 };

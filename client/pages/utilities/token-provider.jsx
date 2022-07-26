@@ -8,19 +8,16 @@ export const TokenContext = createContext();
 const TokenProvider = props => {
 	//state to be used
 	const [accessToken, setAccessToken] = useState('');
-	const [refreshToken, setRefreshToken] = useState('');
 
-	//make the access and refresh tokens persist between reloads
+	//make the access token persist between reloads
 	useEffect(() => {
 		setAccessToken(localStorage.getItem("accessToken") || '');
-		setRefreshToken(localStorage.getItem("refreshToken") || '');
 	}, []);
 
 	//update the stored copies
 	useEffect(() => {
 		localStorage.setItem("accessToken", accessToken);
-		localStorage.setItem("refreshToken", refreshToken);
-	}, [accessToken, refreshToken]);
+	}, [accessToken]);
 
 	//wrap the default fetch function
 	const tokenFetch = async (url, options) => {
@@ -36,24 +33,16 @@ const TokenProvider = props => {
 				return fetch(url, {
 					method: 'DELETE',
 					headers: {
-						'Content-Type': 'application/json',
 						'Authorization': `Bearer ${bearer}`
 					},
-					body: JSON.stringify({
-						token: refreshToken
-					})
+					credentials: 'include'
 				});
 			}
 
-			//ping the auth server for a new token
+			//ping the auth server for a new access token
 			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					token: refreshToken
-				})
+				credentials: 'include'
 			});
 
 			//any errors, throw them
@@ -65,7 +54,6 @@ const TokenProvider = props => {
 			const newAuth = await response.json();
 
 			setAccessToken(newAuth.accessToken);
-			setRefreshToken(newAuth.refreshToken);
 			bearer = newAuth.accessToken;
 		}
 
@@ -75,7 +63,8 @@ const TokenProvider = props => {
 			headers: {
 				...(options || { headers: {} }).headers,
 				'Authorization': `Bearer ${bearer}`
-			}
+			},
+			credentials: 'include'
 		});
 	};
 
@@ -88,12 +77,7 @@ const TokenProvider = props => {
 			//ping the auth server for a new token
 			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					token: refreshToken
-				})
+				credentials: 'include'
 			});
 
 			//any errors, throw them
@@ -105,7 +89,6 @@ const TokenProvider = props => {
 			const newAuth = await response.json();
 
 			setAccessToken(newAuth.accessToken);
-			setRefreshToken(newAuth.refreshToken);
 
 			//finally
 			return cb(newAuth.accessToken);
@@ -115,7 +98,7 @@ const TokenProvider = props => {
 	};
 
 	return (
-		<TokenContext.Provider value={{ accessToken, refreshToken, setAccessToken, setRefreshToken, tokenFetch, tokenCallback, getPayload: () => decode(accessToken) }}>
+		<TokenContext.Provider value={{ accessToken, setAccessToken, tokenFetch, tokenCallback, getPayload: () => decode(accessToken) }}>
 			{props.children}
 		</TokenContext.Provider>
 	)
