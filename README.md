@@ -56,6 +56,7 @@ To set up this template in development mode:
 	- Account deletion
 	- Password management
 	- JSON web token authentication
+	- HttpOnly cookies for security
 	- Optional post validation hook
 - Fully Featured News Blog (as a microservice)
 	- Publish, edit or delete articles as needed
