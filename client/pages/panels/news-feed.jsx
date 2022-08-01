@@ -22,7 +22,6 @@ const NewsFeed = props => {
 		<div className='panel'>
 			<h1 className='text centered'>News Feed</h1>
 			{articles.map((article, index) => {
-				console.log(article)
 				return (
 					<div key={index} className='panel'>
 						<hr />

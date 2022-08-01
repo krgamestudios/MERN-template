@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import queryString from 'query-string';
 
 import ApplyToBody from '../utilities/apply-to-body';
@@ -15,7 +15,7 @@ const Reset = props => {
 
 	//misplaced?
 	if (authTokens.accessToken || !query.email || !query.token) {
-		return <Redirect to='/' />;
+		return <Navigate to='/' />;
 	}
 
 	//refs

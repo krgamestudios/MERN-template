@@ -1,10 +1,7 @@
 //react
-import React, { useContext } from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import React, { useContext, Suspense, lazy } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TokenContext } from './utilities/token-provider';
-
-//library components
-import LazyRoute from './utilities/lazy-route';
 
 //styling
 import '../styles/styles.css';
@@ -13,33 +10,49 @@ import '../styles/styles.css';
 import Footer from './panels/footer';
 import PopupChat from './panels/popup-chat';
 
+//lazy wrappers
+const Homepage = lazy(() => import('./homepage'));
+const Signup = lazy(() => import('./accounts/signup'));
+const Login = lazy(() => import('./accounts/login'));
+const Account = lazy(() => import('./accounts/account'));
+const Dashboard = lazy(() => import('./dashboard'));
+const Recover = lazy(() => import('./accounts/recover'));
+const Reset = lazy(() => import('./accounts/reset'));
+const Admin = lazy(() => import('./administration/admin'));
+const Mod = lazy(() => import('./administration/mod'));
+const PrivacyPolicy = lazy(() => import('./static/privacy-policy'));
+const Credits = lazy(() => import('./static/credits'));
+const NotFound = lazy(() => import('./not-found'));
+
 const App = props => {
 	const authTokens = useContext(TokenContext);
 
 	//default render
 	return (
 		<BrowserRouter>
-				<Switch>
-					<LazyRoute exact path='/' component={() => import('./homepage')} />
+			<Suspense>
+				<Routes>
+					<Route exact path='/' element={<Homepage />} />
 
-					<LazyRoute path='/signup' component={() => import('./accounts/signup')} />
-					<LazyRoute path='/login' component={() => import('./accounts/login')} />
-					<LazyRoute path='/account' component={() => import('./accounts/account')} />
-					<LazyRoute path='/dashboard' component={() => import('./dashboard')} />
+					<Route path='/signup' element={<Signup />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/account' element={<Account />} />
+					<Route path='/dashboard' element={<Dashboard />} />
 
-					<LazyRoute path='/recover' component={() => import('./accounts/recover')} />
-					<LazyRoute path='/reset' component={() => import('./accounts/reset')} />
+					<Route path='/recover' element={<Recover />} />
+					<Route path='/reset' element={<Reset />} />
 
-					<LazyRoute path='/admin' component={() => import('./administration/admin')} />
-					<LazyRoute path='/mod' component={() => import('./administration/mod')} />
+					<Route path='/admin' element={<Admin />} />
+					<Route path='/mod' element={<Mod />} />
 
-					<LazyRoute path='/privacypolicy' component={() => import('./static/privacy-policy')} />
-					<LazyRoute path='/credits' component={() => import('./static/credits')} />
+					<Route path='/privacypolicy' element={<PrivacyPolicy />} />
+					<Route path='/credits' element={<Credits />} />
 
-					<LazyRoute path='*' component={() => import('./not-found')} />
-				</Switch>
-				{ authTokens.accessToken ? <PopupChat /> : <></> }
-				<Footer />
+					<Route path='*' element={<NotFound />} />
+				</Routes>
+			</Suspense>
+			{ authTokens.accessToken ? <PopupChat /> : <></> }
+			<Footer />
 		</BrowserRouter>
 	);
 };

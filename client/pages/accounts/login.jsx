@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import ApplyToBody from '../utilities/apply-to-body';
 
@@ -13,7 +13,7 @@ const Login = props => {
 
 	//misplaced?
 	if (authTokens.accessToken) {
-		return <Redirect to='/' />;
+		return <Navigate to='/' />;
 	}
 
 	//refs
@@ -40,7 +40,7 @@ const Login = props => {
 								if (accessToken) {
 									authTokens.setAccessToken(accessToken);
 
-									props.history.push('/');
+									return <Navigate to='/' />;
 								}
 							}
 						}>

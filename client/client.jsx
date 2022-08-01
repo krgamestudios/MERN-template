@@ -2,14 +2,16 @@
 import 'regenerator-runtime/runtime';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 import App from './pages/app';
 import TokenProvider from './pages/utilities/token-provider';
 
-ReactDOM.render(
-	<TokenProvider>
-		<App />
-	</TokenProvider>,
-	document.querySelector('#root')
-);
+ReactDOM
+	.createRoot(document.getElementById('root'))
+	.render(
+		<TokenProvider>
+			<App />
+		</TokenProvider>
+	)
+;

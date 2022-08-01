@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import ApplyToBody from '../utilities/apply-to-body';
 
@@ -14,7 +14,7 @@ const Recover = props => {
 
 	//misplaced?
 	if (authTokens.accessToken) {
-		return <Redirect to='/' />;
+		return <Navigate to='/' />;
 	}
 
 	//refs

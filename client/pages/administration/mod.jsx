@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import ApplyToBody from '../utilities/apply-to-body';
 
@@ -17,7 +17,7 @@ const Mod = props => {
 
 	//misplaced? (admin only)
 	if (!authTokens.accessToken || !(authTokens.getPayload().admin || authTokens.getPayload().mod)) {
-		return <Redirect to='/' />;
+		return <Navigate to='/' />;
 	}
 
 	return (
