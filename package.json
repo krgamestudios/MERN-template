@@ -1,6 +1,6 @@
 {
   "name": "mern-template",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "A website template using the MERN stack.",
   "main": "server/server.js",
   "scripts": {
