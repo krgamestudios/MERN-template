@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import ApplyToBody from '../utilities/apply-to-body';
 
@@ -9,12 +9,15 @@ import { TokenContext } from '../utilities/token-provider';
 const validateEmail = require('../../../common/utilities/validate-email');
 
 const Recover = props => {
+	//history
+	const navigate = useNavigate();
+
 	//context
 	const authTokens = useContext(TokenContext);
 
 	//misplaced?
 	if (authTokens.accessToken) {
-		return <Navigate to='/' />;
+		navigate("/");
 	}
 
 	//refs
@@ -39,7 +42,7 @@ const Recover = props => {
 
 							//redirect
 							if (redirect) {
-								props.history.push('/');
+								navigate("/");
 							}
 						}
 					}>

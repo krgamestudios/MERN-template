@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 
 import ApplyToBody from '../utilities/apply-to-body';
@@ -7,6 +7,9 @@ import ApplyToBody from '../utilities/apply-to-body';
 import { TokenContext } from '../utilities/token-provider';
 
 const Reset = props => {
+	//history
+	const navigate = useNavigate();
+
 	//context
 	const authTokens = useContext(TokenContext);
 
@@ -15,7 +18,7 @@ const Reset = props => {
 
 	//misplaced?
 	if (authTokens.accessToken || !query.email || !query.token) {
-		return <Navigate to='/' />;
+		navigate("/");
 	}
 
 	//refs
@@ -42,7 +45,7 @@ const Reset = props => {
 
 						//redirect
 						if (redirect) {
-							props.history.push('/');
+							navigate("/");
 						}
 					}}>
 						<input type='password' name='password' placeholder='New Password' ref={passwordRef} />
