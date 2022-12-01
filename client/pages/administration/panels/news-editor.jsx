@@ -17,16 +17,13 @@ const NewsEditor = props => {
 	const [index, setIndex] = useState(null);
 
 	//run once
-	useEffect(async () => {
-		const result = await fetch(`${process.env.NEWS_URI}/news/metadata?limit=999`);
-
-		if (!result.ok) {
-			const err = `${result.status}: ${await result.text()}`;
-			console.log(err);
-			alert(err);
-		} else {
-			setArticles(await result.json());
-		}
+	useEffect(() => {
+		fetch(`${process.env.NEWS_URI}/news/metadata?limit=999`)
+			.then(res => res.json())
+			.then(json => {
+				setArticles(json)
+			})
+		;
 	}, []);
 
 	return (

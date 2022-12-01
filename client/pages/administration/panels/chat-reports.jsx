@@ -7,16 +7,13 @@ const ChatReports = props => {
 
 	const authTokens = useContext(TokenContext);
 
-	useEffect(async () => {
-		const result = await authTokens.tokenFetch(`${process.env.CHAT_URI}/admin/reports`);
-
-		if (!result.ok) {
-			const err = `${result.status}: ${await result.text()}`;
-			console.log(err);
-			alert(err);
-		} else {
-			setReports(await result.json());
-		}
+	useEffect(() => {
+		authTokens.tokenFetch(`${process.env.CHAT_URI}/admin/reports`)
+			.then(res => res.json())
+			.then(json => {
+				setReports(json);
+			})
+		;
 	}, []);
 
 	return (
