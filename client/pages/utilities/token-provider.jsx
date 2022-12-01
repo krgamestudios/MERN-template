@@ -9,6 +9,12 @@ const TokenProvider = props => {
 	//state to be used
 	const [accessToken, setAccessToken] = useState('');
 
+	//force a logout under certain conditions
+	const forceLogout = () => {
+		localStorage.removeItem("accessToken");
+		setAccessToken("");
+	};
+
 	//make the access token persist between reloads
 	useEffect(() => {
 		setAccessToken(localStorage.getItem("accessToken") || '');
@@ -47,6 +53,9 @@ const TokenProvider = props => {
 
 			//any errors, throw them
 			if (!response.ok) {
+				if (response.status == 403) {
+					forceLogout();
+				}
 				throw `${response.status}: ${await response.text()}`;
 			}
 
@@ -82,6 +91,9 @@ const TokenProvider = props => {
 
 			//any errors, throw them
 			if (!response.ok) {
+				if (response.status == 403) {
+					forceLogout();
+				}
 				throw `${response.status}: ${await response.text()}`;
 			}
 
