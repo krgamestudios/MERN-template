@@ -6,17 +6,17 @@ import ApplyToBody from '../utilities/apply-to-body';
 import { TokenContext } from '../utilities/token-provider';
 
 const Reset = props => {
+	//params
+	const [params, setParams] = useSearchParams(); //the URLSearchParams API
+
 	//history
 	const navigate = useNavigate();
 
 	//context
 	const authTokens = useContext(TokenContext);
 
-	//params
-	const [params, setParams] = useSearchParams();
-
 	//misplaced?
-	if (authTokens.accessToken || !params.email || !params.token) {
+	if (authTokens.accessToken || !params.has('email') || !params.has('token')) {
 		navigate("/");
 	}
 
@@ -67,7 +67,7 @@ const update = async (password, retype, params) => {
 		return ['Password is too short'];
 	}
 
-	const result = await fetch(`${process.env.AUTH_URI}/auth/reset?email=${params.email}&token=${params.token}`, {
+	const result = await fetch(`${process.env.AUTH_URI}/auth/reset?email=${params.get('email')}&token=${params.get('token')}`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json'
