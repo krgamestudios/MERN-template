@@ -1,6 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import queryString from 'query-string';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import ApplyToBody from '../utilities/apply-to-body';
 
@@ -13,11 +12,11 @@ const Reset = props => {
 	//context
 	const authTokens = useContext(TokenContext);
 
-	//query
-	const query = queryString.parse(props.location.search);
+	//params
+	const [params, setParams] = useSearchParams();
 
 	//misplaced?
-	if (authTokens.accessToken || !query.email || !query.token) {
+	if (authTokens.accessToken || !params.email || !params.token) {
 		navigate("/");
 	}
 
@@ -34,7 +33,7 @@ const Reset = props => {
 					<h1 className='text centered'>Reset Password</h1>
 					<form className='constrained' onSubmit={async evt => {
 						evt.preventDefault();
-						const [err, redirect] = await update(passwordRef.current.value, retypeRef.current.value, query);
+						const [err, redirect] = await update(passwordRef.current.value, retypeRef.current.value, params);
 
 						if (err) {
 							alert(err);
@@ -59,7 +58,7 @@ const Reset = props => {
 	);
 };
 
-const update = async (password, retype, query) => {
+const update = async (password, retype, params) => {
 	if (password != retype) {
 		return ['Passwords do not match'];
 	}
@@ -68,7 +67,7 @@ const update = async (password, retype, query) => {
 		return ['Password is too short'];
 	}
 
-	const result = await fetch(`${process.env.AUTH_URI}/auth/reset?email=${query.email}&token=${query.token}`, {
+	const result = await fetch(`${process.env.AUTH_URI}/auth/reset?email=${params.email}&token=${params.token}`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json'
