@@ -278,7 +278,7 @@ networks:
 `;
 
 	const dockerfile = `
-FROM node:18
+FROM node:18-bullseye-slim
 WORKDIR "/app"
 COPY . /app
 RUN mkdir /app/public
