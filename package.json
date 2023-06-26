@@ -1,6 +1,6 @@
 {
   "name": "mern-template",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A website template using the MERN stack.",
   "main": "server/server.js",
   "scripts": {
@@ -27,34 +27,37 @@
   },
   "homepage": "https://github.com/KRGameStudios/MERN-template#readme",
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-react": "^7.18.6",
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-react": "^7.22.5",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
     "compression-webpack-plugin": "^10.0.0",
     "concurrently": "^7.6.0",
-    "css-loader": "^6.7.3",
+    "css-loader": "^6.8.1",
     "dateformat": "^5.0.3",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "html-webpack-plugin": "^5.5.1",
+    "html-webpack-plugin": "^5.5.3",
     "jwt-decode": "^3.1.2",
-    "mariadb": "^3.1.1",
+    "mariadb": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.3.0",
-    "react-router-dom": "^6.11.0",
+    "react-router-dom": "^6.14.0",
     "react-select": "^5.7.3",
-    "sequelize": "^6.31.1",
-    "socket.io-client": "^4.6.1",
-    "style-loader": "^3.3.2",
-    "webpack": "^5.81.0",
-    "webpack-bundle-analyzer": "^4.8.0",
-    "webpack-cli": "^5.0.2"
+    "sequelize": "^6.32.1",
+    "socket.io-client": "^4.7.0",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.0",
+    "webpack-bundle-analyzer": "^4.9.0",
+    "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
-    "webpack-dev-server": "^4.13.3"
+    "webpack-dev-server": "^4.15.1"
+  },
+  "overrides": {
+    "semver": "^7.5.2"
   }
 }
