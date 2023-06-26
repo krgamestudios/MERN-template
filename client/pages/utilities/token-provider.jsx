@@ -31,7 +31,7 @@ const TokenProvider = props => {
 		let bearer = accessToken;
 
 		//if expired (10 minutes, normally)
-		const expired = new Date(decode(accessToken).exp + 600) < Date.now();
+		const expired = new Date(decode(accessToken).exp * 1000) < Date.now();
 
 		if (expired) {
 			//BUGFIX: if logging out, just skip over the refresh token
