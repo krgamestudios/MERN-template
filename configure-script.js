@@ -119,7 +119,7 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	const chatPort = 3300;
 
 const ymlfile = `
-version: "3.6"
+version: "3.8"
 services:
   ${projectName}:
     build: .
@@ -278,7 +278,7 @@ networks:
 `;
 
 	const dockerfile = `
-FROM node:18-bullseye-slim
+FROM node:21-bookworm-slim
 WORKDIR "/app"
 COPY . /app
 RUN mkdir /app/public
