@@ -167,7 +167,7 @@ services:
       - DB_USERNAME=${newsDBUser}
       - DB_PASSWORD=${newsDBPass}
       - DB_TIMEZONE=${dbTimeZone}
-      - QUERY_LIMIT=10
+      - PAGE_SIZE=10
       - SECRET_ACCESS=${accessToken}
     networks:
       - app-network
@@ -248,7 +248,7 @@ services:
       - app-network
 
   traefik:
-    image: traefik:v2.4
+    image: traefik:v2.10
     container_name: traefik
     command:
       - --log.level=ERROR
