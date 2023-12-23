@@ -48,6 +48,9 @@ const TokenProvider = props => {
 			//ping the auth server for a new access token
 			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
 				method: 'POST',
+				headers: {
+					'Authorization': `Bearer ${bearer}`
+				},
 				credentials: 'include'
 			});
 
@@ -79,6 +82,9 @@ const TokenProvider = props => {
 
 	//access the refreshed token via callback
 	const tokenCallback = async (cb) => {
+		//use this?
+		let bearer = accessToken;
+
 		//if expired (10 minutes, normally)
 		const expired = new Date(decode(accessToken).exp) < Date.now() / 1000;
 
@@ -86,6 +92,9 @@ const TokenProvider = props => {
 			//ping the auth server for a new token
 			const response = await fetch(`${process.env.AUTH_URI}/auth/token`, {
 				method: 'POST',
+				headers: {
+					'Authorization': `Bearer ${bearer}`
+				},
 				credentials: 'include'
 			});
 
