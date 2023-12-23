@@ -18,7 +18,7 @@ const NewsEditor = props => {
 
 	//run once
 	useEffect(() => {
-		fetch(`${process.env.NEWS_URI}/news/metadata?limit=999`)
+		fetch(`${process.env.NEWS_URI}/news/metadata?page_size=999`)
 			.then(res => res.json())
 			.then(json => {
 				setArticles(json)
