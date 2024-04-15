@@ -36,7 +36,7 @@ const question = (prompt, def = null) => {
 
 Currently, all microservices are mandatory; you'll have to mess with the result
 and the source code if you wish to be more selective. Microservices currently
-impelented are:
+implemented are:
 
 * auth-server
 * news-server
@@ -49,7 +49,7 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	//determine local computer address for mac user vs everyone else
 	let macUser = '';
 	while (macUser.toLowerCase() !== 'yes' && macUser.toLowerCase() !== 'no') {
-		macUser = await question('Will the MERN Template be running locally on a MacOS system? (yes or no)', '');
+		macUser = await question('Will the MERN-Template be running locally on a MacOS system? (yes or no, this only alters startup.sql)', '');
 	}
 
 	const localAddress = macUser ? 'localhost' : '%';
@@ -58,13 +58,48 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	const projectName = await question('Project Name', 'template');
 	const projectWebAddress = await question('Project Web Address', 'example.com');
 
+  let projectDBLocation = '';
+  while (typeof projectDBLocation != 'string' || /^[le]/i.test(projectDBLocation[0]) == false) {
+    projectDBLocation = await question('Project [l]ocal or [e]xternal database?');
+  }
+
+  let projectDBHost = '';
+  let projectDBPort = '';
+
+  if (/^[l]/i.test(projectDBLocation[0])) {
+    projectDBHost = 'database';
+    projectDBPort = '3306';
+  }
+  else {
+    projectDBHost = await question('Project DB Host');
+    projectDBPort = await question('Project DB Port', '3306');
+  }
+
 	const projectDBUser = await question('Project DB Username', projectName);
 	const projectDBPass = await question('Project DB Password', 'pikachu');
 
 	//news configuration
 	const newsName = await question('News Name', 'news');
 	const newsWebAddress = await question('News Web Address', `${newsName}.${projectWebAddress}`);
-	const newsDBUser = await question('News DB Username', newsName);
+
+  let newsDBLocation = '';
+  while (typeof newsDBLocation != 'string' || /^[le]/i.test(newsDBLocation[0]) == false) {
+    newsDBLocation = await question('News [l]ocal or [e]xternal database?');
+  }
+
+  let newsDBHost = '';
+  let newsDBPort = '';
+
+  if (/^[l]/i.test(newsDBLocation[0])) {
+    newsDBHost = 'database';
+    newsDBPort = '3306';
+  }
+  else {
+    newsDBHost = await question('News DB Host');
+    newsDBPort = await question('News DB Port', '3306');
+  }
+
+  const newsDBUser = await question('News DB Username', newsName);
 	const newsDBPass = await question('News DB Password', 'venusaur');
 
 	//auth configuration
@@ -72,7 +107,25 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	const authWebAddress = await question('Auth Web Address', `${authName}.${projectWebAddress}`);
 	const authPostValidationHookArray = await question('Auth Post Validation Hook Array', '');
 	const authResetAddress = await question('Auth Reset Addr', `${projectWebAddress}/reset`);
-	const authDBUser = await question('Auth DB Username', authName);
+
+  let authDBLocation = '';
+  while (typeof authDBLocation != 'string' || /^[le]/i.test(authDBLocation[0]) == false) {
+    authDBLocation = await question('Auth [l]ocal or [e]xternal database?');
+  }
+
+  let authDBHost = '';
+  let authDBPort = '';
+
+  if (/^[l]/i.test(authDBLocation[0])) {
+    authDBHost = 'database';
+    authDBPort = '3306';
+  }
+  else {
+    authDBHost = await question('Auth DB Host');
+    authDBPort = await question('Auth DB Port', '3306');
+  }
+
+  const authDBUser = await question('Auth DB Username', authName);
 	const authDBPass = await question('Auth DB Password', 'charizard');
 
 	const emailSMTP = await question('Email SMTP', 'smtp.example.com');
@@ -83,7 +136,25 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	//chat goes here
 	const chatName = await question('Chat Name', 'chat');
 	const chatWebAddress = await question('Chat Web Address', `${chatName}.${projectWebAddress}`);
-	const chatDBUser = await question('Chat DB Username', chatName);
+
+  let chatDBLocation = '';
+  while (typeof chatDBLocation != 'string' || /^[le]/i.test(chatDBLocation[0]) == false) {
+    chatDBLocation = await question('Chat [l]ocal or [e]xternal database?');
+  }
+
+  let chatDBHost = '';
+  let chatDBPort = '';
+
+  if (/^[l]/i.test(chatDBLocation[0])) {
+    chatDBHost = 'database';
+    chatDBPort = '3306';
+  }
+  else {
+    chatDBHost = await question('Chat DB Host');
+    chatDBPort = await question('Chat DB Port', '3306');
+  }
+
+  const chatDBUser = await question('Chat DB Username', chatName);
 	const chatDBPass = await question('Chat DB Password', 'blastoise');
 
 	//database configuration
@@ -134,7 +205,8 @@ services:
       - traefik.http.services.${projectName}service.loadbalancer.server.port=${projectPort}
     environment:
       - WEB_PORT=${projectPort}
-      - DB_HOSTNAME=database
+      - DB_HOSTNAME=${projectDBHost}
+      - DB_PORTNAME=${projectDBPort}
       - DB_DATABASE=${projectName}
       - DB_USERNAME=${projectDBUser}
       - DB_PASSWORD=${projectDBPass}
@@ -145,8 +217,8 @@ services:
       - SECRET_ACCESS=${accessToken}
     networks:
       - app-network
-    depends_on:
-      - database
+    depends_on:${ projectDBHost != 'database' ? '' : `
+      - database`}
       - traefik
 
   ${newsName}:
@@ -162,7 +234,8 @@ services:
       - traefik.http.services.${newsName}service.loadbalancer.server.port=${newsPort}
     environment:
       - WEB_PORT=${newsPort}
-      - DB_HOSTNAME=database
+      - DB_HOSTNAME=${newsDBHost}
+      - DB_PORTNAME=${newsDBPort}
       - DB_DATABASE=${newsName}
       - DB_USERNAME=${newsDBUser}
       - DB_PASSWORD=${newsDBPass}
@@ -171,8 +244,8 @@ services:
       - SECRET_ACCESS=${accessToken}
     networks:
       - app-network
-    depends_on:
-      - database
+    depends_on:${ newsDBHost != 'database' ? '' : `
+      - database`}
       - traefik
 
   ${authName}:
@@ -192,7 +265,8 @@ services:
       - HOOK_POST_VALIDATION_ARRAY=${authPostValidationHookArray}
       - WEB_RESET_ADDRESS=${authResetAddress}
       - WEB_PORT=${authPort}
-      - DB_HOSTNAME=database
+      - DB_HOSTNAME=${authDBHost}
+      - DB_PORTNAME=${authDBPort}
       - DB_DATABASE=${authName}
       - DB_USERNAME=${authDBUser}
       - DB_PASSWORD=${authDBPass}
@@ -207,8 +281,8 @@ services:
       - SECRET_REFRESH=${refreshToken}
     networks:
       - app-network
-    depends_on:
-      - database
+    depends_on:${ authDBHost != 'database' ? '' : `
+      - database`}
       - traefik
 
   ${chatName}:
@@ -224,7 +298,8 @@ services:
       - traefik.http.services.${chatName}service.loadbalancer.server.port=${chatPort}
     environment:
       - WEB_PORT=${chatPort}
-      - DB_HOSTNAME=database
+      - DB_HOSTNAME=${chatDBHost}
+      - DB_PORTNAME=${chatDBPort}
       - DB_DATABASE=${chatName}
       - DB_USERNAME=${chatDBUser}
       - DB_PASSWORD=${chatDBPass}
@@ -232,10 +307,10 @@ services:
       - SECRET_ACCESS=${accessToken}
     networks:
       - app-network
-    depends_on:
-      - database
+    depends_on:${ chatDBHost != 'database' ? '' : `
+      - database`}
       - traefik
-
+${ [projectDBHost, newsDBHost, authDBHost, chatDBHost].some(x => x == "database") == false ? '' : `
   database:
     image: mariadb
     restart: always
@@ -246,7 +321,7 @@ services:
       - ./startup.sql:/docker-entrypoint-initdb.d/startup.sql:ro
     networks:
       - app-network
-
+`}
   traefik:
     image: traefik:v2.10
     container_name: traefik
