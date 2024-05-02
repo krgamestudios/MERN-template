@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export const TokenContext = createContext();
 
@@ -31,7 +31,7 @@ const TokenProvider = props => {
 		let bearer = accessToken;
 
 		//if expired (10 minutes, normally)
-		const expired = new Date(decode(accessToken).exp) < Date.now() / 1000;
+		const expired = new Date(jwtDecode(accessToken).exp) < Date.now() / 1000;
 
 		if (expired) {
 			//BUGFIX: if logging out, just skip over the refresh token
@@ -86,7 +86,7 @@ const TokenProvider = props => {
 		let bearer = accessToken;
 
 		//if expired (10 minutes, normally)
-		const expired = new Date(decode(accessToken).exp) < Date.now() / 1000;
+		const expired = new Date(jwtDecode(accessToken).exp) < Date.now() / 1000;
 
 		if (expired) {
 			//ping the auth server for a new token
@@ -119,7 +119,7 @@ const TokenProvider = props => {
 	};
 
 	return (
-		<TokenContext.Provider value={{ accessToken, setAccessToken, tokenFetch, tokenCallback, getPayload: () => decode(accessToken) }}>
+		<TokenContext.Provider value={{ accessToken, setAccessToken, tokenFetch, tokenCallback, getPayload: () => jwtDecode(accessToken) }}>
 			{props.children}
 		</TokenContext.Provider>
 	)

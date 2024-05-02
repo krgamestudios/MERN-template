@@ -184,18 +184,17 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	const supportEmail = await question('Support Email', emailUser);
 
 	//misc. configuration
-	const projectPort = 3000;
-	const newsPort = 3100;
-	const authPort = 3200;
-	const chatPort = 3300;
+	const projectPort = '3000';
+	const newsPort = '3100';
+	const authPort = '3200';
+	const chatPort = '3300';
 
 const ymlfile = `
-version: "3.8"
 services:
   ${projectName}:
     build: .
     ports:
-      - "${projectPort}"
+      - ${projectPort}
     labels:
       - traefik.enable=true
       - traefik.http.routers.${projectName}router.rule=Host(\`${projectWebAddress}\`)
@@ -215,6 +214,9 @@ services:
       - AUTH_URI=https://${authWebAddress}
       - CHAT_URI=https://${chatWebAddress}
       - SECRET_ACCESS=${accessToken}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
     depends_on:${ projectDBHost != 'database' ? '' : `
@@ -242,6 +244,9 @@ services:
       - DB_TIMEZONE=${dbTimeZone}
       - PAGE_SIZE=10
       - SECRET_ACCESS=${accessToken}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
     depends_on:${ newsDBHost != 'database' ? '' : `
@@ -279,6 +284,9 @@ services:
       - ADMIN_DEFAULT_PASSWORD=${defaultPass}
       - SECRET_ACCESS=${accessToken}
       - SECRET_REFRESH=${refreshToken}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
     depends_on:${ authDBHost != 'database' ? '' : `
@@ -305,11 +313,15 @@ services:
       - DB_PASSWORD=${chatDBPass}
       - DB_TIMEZONE=${dbTimeZone}
       - SECRET_ACCESS=${accessToken}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
     depends_on:${ chatDBHost != 'database' ? '' : `
       - database`}
       - traefik
+
 ${ [projectDBHost, newsDBHost, authDBHost, chatDBHost].some(x => x == "database") == false ? '' : `
   database:
     image: mariadb
@@ -319,11 +331,13 @@ ${ [projectDBHost, newsDBHost, authDBHost, chatDBHost].some(x => x == "database"
     volumes:
       - ./mysql:/var/lib/mysql
       - ./startup.sql:/docker-entrypoint-initdb.d/startup.sql:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
 `}
   traefik:
-    image: traefik:v2.10
+    image: traefik:latest
     container_name: traefik
     command:
       - --log.level=ERROR
@@ -344,6 +358,8 @@ ${ [projectDBHost, newsDBHost, authDBHost, chatDBHost].some(x => x == "database"
     volumes:
       - ./letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
 
@@ -353,7 +369,7 @@ networks:
 `;
 
 	const dockerfile = `
-FROM node:21-bookworm-slim
+FROM node:22-bookworm-slim
 WORKDIR "/app"
 COPY . /app
 RUN mkdir /app/public
