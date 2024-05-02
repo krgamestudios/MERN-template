@@ -7,7 +7,7 @@ The primary technology involved is:
 * React
 * Nodejs
 * MariaDB (with Sequelize)
-* Docker (with docker-compose)
+* Docker (with docker compose)
 
 This template is designed to support the development of persistent browser based games (PBBGs), but it, and it's component microservices, can be used elsewhere.
 
@@ -31,7 +31,7 @@ A clean install is this easy:
 git clone https://github.com/krgamestudios/MERN-template.git
 cd MERN-template
 node configure-script.js
-docker-compose up --build
+docker compose up --build
 ```
 
 # Setup Development

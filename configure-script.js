@@ -170,11 +170,14 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 
 	//MUST be at least 8 chars
 	let tmpPass = '';
+  let tmpHost = '';
 	while (defaultUser && tmpPass.length < 8) {
 		console.log('--All passwords must be at least 8 characters long--');
 		tmpPass = await question('Default Admin Pass', '');
+    tmpHost = await question('Default Admin Host', '');
 	}
 	const defaultPass = tmpPass;
+  const defaultHost = tmpHost;
 
 	if (defaultUser) {
 		console.log(`Default user email will be: ${defaultUser}@${authWebAddress}`);
@@ -281,6 +284,7 @@ services:
       - MAIL_PASSWORD=${emailPass}
       - MAIL_PHYSICAL=${emailPhysical}
       - ADMIN_DEFAULT_USERNAME=${defaultUser}
+      - ADMIN_DEFAULT_HOSTNAME=${defaultHost}
       - ADMIN_DEFAULT_PASSWORD=${defaultPass}
       - SECRET_ACCESS=${accessToken}
       - SECRET_REFRESH=${refreshToken}
