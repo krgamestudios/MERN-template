@@ -44,6 +44,7 @@ To set up this template in development mode:
 4. Run `cp .envdev .env` and enter your details into the `.env` file
 5. Execute `npm run dev`
 6. Navigate to `http://localhost:3001` in your web browser
+7. Repeat this process for each microservice (linked above)
 
 # Features List
 

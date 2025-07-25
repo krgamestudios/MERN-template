@@ -13,14 +13,14 @@ const server = require('http').Server(app);
 app.use(express.json());
 
 //handle compressed files (middleware)
-app.get('*.js', (req, res, next) => {
+app.get('/{*any}.js', (req, res, next) => {
 	req.url = req.url + '.gz';
 	res.set('Content-Encoding', 'gzip');
 	res.set('Content-Type', 'text/javascript');
 	next();
 });
 
-app.get('*.css', (req, res, next) => {
+app.get('/{*any}.css', (req, res, next) => {
 	req.url = req.url + '.gz';
 	res.set('Content-Encoding', 'gzip');
 	res.set('Content-Type', 'text/css');
@@ -34,7 +34,7 @@ const database = require('./database');
 app.use('/', express.static(path.resolve(__dirname, '..', 'public')));
 
 //fallback to the index file
-app.get('*', (req, res) => {
+app.get('/{*any}', (req, res) => {
 	res.sendFile(path.resolve(__dirname, '..', 'public' , 'index.html'));
 });
 

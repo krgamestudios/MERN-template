@@ -9,7 +9,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const path = require('path');
 
 //the exported config function
-module.exports = ({ production, development, local, analyze }) => {
+module.exports = ({ production, analyze }) => {
 	return {
 		mode: production ? "production" : "development",
 		entry: path.resolve(__dirname, 'client', 'client.jsx'),
@@ -33,7 +33,6 @@ module.exports = ({ production, development, local, analyze }) => {
 							loader: 'babel-loader',
 							options: {
 								presets: ['@babel/preset-env', '@babel/preset-react'],
-								plugins: ['@babel/plugin-syntax-dynamic-import']
 							}
 						}
 					]
@@ -48,9 +47,9 @@ module.exports = ({ production, development, local, analyze }) => {
 			new DefinePlugin({
 				'process.env': {
 					'PRODUCTION': production,
-					'NEWS_URI': production ? `"${process.env.NEWS_URI}"` : development ? '"https://dev-news.krgamestudios.com"' : '"http://localhost:3100"',
-					'AUTH_URI': production ? `"${process.env.AUTH_URI}"` : development ? '"https://dev-auth.krgamestudios.com"' : '"http://localhost:3200"',
-					'CHAT_URI': production ? `"${process.env.CHAT_URI}"` : development ? '"https://dev-chat.krgamestudios.com"' : '"http://localhost:3300"',
+					'NEWS_URI': production ? `"${process.env.NEWS_URI}"` : '"http://localhost:3100"',
+					'AUTH_URI': production ? `"${process.env.AUTH_URI}"` : '"http://localhost:3200"',
+					'CHAT_URI': production ? `"${process.env.CHAT_URI}"` : '"http://localhost:3300"',
 				}
 			}),
 			new CleanWebpackPlugin({
