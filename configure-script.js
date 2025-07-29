@@ -46,13 +46,14 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 `
 );
 
-	//determine local computer address for mac user vs everyone else
-	let macUser = '';
-	while (macUser.toLowerCase() !== 'yes' && macUser.toLowerCase() !== 'no') {
-		macUser = await question('Will the MERN-Template be running locally on a MacOS system? (yes or no, this only alters startup.sql)', '');
-	}
+	// //determine local computer address for mac user vs everyone else
+	// let macUser = '';
+	// while (macUser.toLowerCase() !== 'yes' && macUser.toLowerCase() !== 'no') {
+	// 	macUser = await question('Will the MERN-Template be running locally on a MacOS system? (yes or no, this only alters startup.sql)', '');
+	// }
 
-	const localAddress = macUser ? 'localhost' : '%';
+	// const localAddress = macUser === 'yes' ? 'localhost' : '%';
+  const localAddress = '%';
 
 	//project configuration
 	const projectName = await question('Project Name', 'template');
@@ -180,7 +181,7 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
   const defaultHost = tmpHost;
 
 	if (defaultUser) {
-		console.log(`Default user email will be: ${defaultUser}@${authWebAddress}`);
+		console.log(`Default user email will be: ${defaultUser}@${defaultHost}`);
 	}
 
 	//traefic configuration
@@ -376,7 +377,7 @@ networks:
 FROM node:22-bookworm-slim
 WORKDIR "/app"
 COPY . /app
-RUN mkdir /app/public
+RUN mkdir -p /app/public
 RUN chown node:node /app/public
 RUN npm install --production
 EXPOSE ${projectPort}
