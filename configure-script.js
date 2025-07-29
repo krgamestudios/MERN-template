@@ -53,11 +53,13 @@ See https://github.com/krgamestudios/MERN-template/wiki for help.
 	// }
 
 	// const localAddress = macUser === 'yes' ? 'localhost' : '%';
-  const localAddress = '%';
+	const localAddress = '%';
 
 	//project configuration
 	const projectName = await question('Project Name', 'template');
 	const projectWebAddress = await question('Project Web Address', 'example.com');
+
+	const corsWebOrigin = await question('CORS Web Origin', `https://${projectWebAddress}`);
 
   let projectDBLocation = '';
   while (typeof projectDBLocation != 'string' || /^[le]/i.test(projectDBLocation[0]) == false) {
@@ -207,6 +209,7 @@ services:
       - traefik.http.routers.${projectName}router.service=${projectName}service@docker
       - traefik.http.services.${projectName}service.loadbalancer.server.port=${projectPort}
     environment:
+      - WEB_ORIGIN=${corsWebOrigin}
       - WEB_PORT=${projectPort}
       - DB_HOSTNAME=${projectDBHost}
       - DB_PORTNAME=${projectDBPort}
@@ -239,6 +242,7 @@ services:
       - traefik.http.routers.${newsName}router.service=${newsName}service@docker
       - traefik.http.services.${newsName}service.loadbalancer.server.port=${newsPort}
     environment:
+      - WEB_ORIGIN=${corsWebOrigin}
       - WEB_PORT=${newsPort}
       - DB_HOSTNAME=${newsDBHost}
       - DB_PORTNAME=${newsDBPort}
@@ -269,6 +273,7 @@ services:
       - traefik.http.routers.${authName}router.service=${authName}service@docker
       - traefik.http.services.${authName}service.loadbalancer.server.port=${authPort}
     environment:
+      - WEB_ORIGIN=${corsWebOrigin}
       - WEB_PROTOCOL=https
       - WEB_ADDRESS=${authWebAddress}
       - HOOK_POST_VALIDATION_ARRAY=${authPostValidationHookArray}
@@ -310,6 +315,7 @@ services:
       - traefik.http.routers.${chatName}router.service=${chatName}service@docker
       - traefik.http.services.${chatName}service.loadbalancer.server.port=${chatPort}
     environment:
+      - WEB_ORIGIN=${corsWebOrigin}
       - WEB_PORT=${chatPort}
       - DB_HOSTNAME=${chatDBHost}
       - DB_PORTNAME=${chatDBPort}
