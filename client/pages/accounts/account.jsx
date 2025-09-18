@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useRef } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router';
 
 import ApplyToBody from '../utilities/apply-to-body';
 

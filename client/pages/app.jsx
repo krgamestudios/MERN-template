@@ -1,6 +1,6 @@
 //react
 import React, { useContext, Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router';
 import { TokenContext } from './utilities/token-provider';
 
 //styling
