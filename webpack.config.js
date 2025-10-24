@@ -50,6 +50,7 @@ module.exports = ({ production, analyze }) => {
 					'NEWS_URI': production ? `"${process.env.NEWS_URI}"` : '"http://localhost:3100"',
 					'AUTH_URI': production ? `"${process.env.AUTH_URI}"` : '"http://localhost:3200"',
 					'CHAT_URI': production ? `"${process.env.CHAT_URI}"` : '"http://localhost:3300"',
+					'GEMINI_API_KEY': '""'
 				}
 			}),
 			new CleanWebpackPlugin({

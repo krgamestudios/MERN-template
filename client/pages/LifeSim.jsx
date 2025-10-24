@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { TokenContext } from '../utilities/token-provider';
-import Dashboard from './Dashboard';
+import { TokenContext } from './utilities/token-provider';
+import Dashboard from './dashboard';
 
 // ... (initial states and functions)
 
