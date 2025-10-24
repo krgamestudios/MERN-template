@@ -1,21 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import dateFormat from 'dateformat';
 
 const NewsFeed = props => {
 	const [articles, setArticles] = useState([]);
-	const aborter = useRef(new AbortController()); //BUGFIX: double-renders = double fetches + react update after unmount
 
 	useEffect(() => {
-		//this... um...
-		fetch(`${process.env.NEWS_URI}/news`, {
-			signal: aborter.current.signal //oh dear
-		})
+		let isMounted = true;
+		fetch(`${process.env.NEWS_URI}/news`)
 			.then(blob => blob.json())
-			.then(json => setArticles(json))
-			.catch(e => null) //swallow errors
-		;
+			.then(json => {
+				if (isMounted) {
+					setArticles(json);
+				}
+			})
+			.catch(console.error);
 
-		return () => aborter.current.abort(); //This is an ugly, ugly solution, but it's the only one that works
+		return () => {
+			isMounted = false;
+		};
 	}, []);
 
 	return (

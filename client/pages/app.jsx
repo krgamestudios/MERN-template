@@ -1,10 +1,8 @@
+
 //react
 import React, { useContext, Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TokenContext } from './utilities/token-provider';
-
-//styling
-import '../styles/styles.css';
 
 //common components
 import Footer from './panels/footer';
@@ -23,6 +21,7 @@ const Mod = lazy(() => import('./administration/mod'));
 const PrivacyPolicy = lazy(() => import('./static/privacy-policy'));
 const Credits = lazy(() => import('./static/credits'));
 const NotFound = lazy(() => import('./not-found'));
+const LifeSim = lazy(() => import('./LifeSim'));
 
 const App = props => {
 	const authTokens = useContext(TokenContext);
@@ -47,6 +46,7 @@ const App = props => {
 
 					<Route path='/privacypolicy' element={<PrivacyPolicy />} />
 					<Route path='/credits' element={<Credits />} />
+					<Route path='/lifesim' element={<LifeSim />} />
 
 					<Route path='*' element={<NotFound />} />
 				</Routes>

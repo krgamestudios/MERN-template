@@ -12,6 +12,10 @@ const server = require('http').Server(app);
 //config
 app.use(express.json());
 
+//api routes
+const characterRoutes = require('./routes/character');
+app.use('/api/character', characterRoutes);
+
 //handle compressed files (middleware)
 app.get('/{*any}.js', (req, res, next) => {
 	req.url = req.url + '.gz';
