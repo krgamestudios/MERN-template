@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/KRGameStudios/MERN-template#readme",
   "dependencies": {
-    "@babel/core": "^7.28.4",
+    "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
     "babel-loader": "^10.0.0",
