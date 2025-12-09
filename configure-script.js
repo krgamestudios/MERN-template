@@ -385,7 +385,7 @@ WORKDIR "/app"
 COPY . /app
 RUN mkdir -p /app/public
 RUN chown node:node /app/public
-RUN npm install --production
+RUN npm install --omit=dev
 EXPOSE ${projectPort}
 USER node
 ENTRYPOINT ["bash", "-c"]
