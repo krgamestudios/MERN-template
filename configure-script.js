@@ -222,7 +222,6 @@ services:
       - CHAT_URI=https://${chatWebAddress}
       - SECRET_ACCESS=${accessToken}
     volumes:
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
@@ -253,7 +252,6 @@ services:
       - PAGE_SIZE=10
       - SECRET_ACCESS=${accessToken}
     volumes:
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
@@ -295,7 +293,6 @@ services:
       - SECRET_ACCESS=${accessToken}
       - SECRET_REFRESH=${refreshToken}
     volumes:
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
@@ -325,7 +322,6 @@ services:
       - DB_TIMEZONE=${dbTimeZone}
       - SECRET_ACCESS=${accessToken}
     volumes:
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
@@ -342,7 +338,6 @@ ${ [projectDBHost, newsDBHost, authDBHost, chatDBHost].some(x => x == "database"
     volumes:
       - ./mysql:/var/lib/mysql
       - ./startup.sql:/docker-entrypoint-initdb.d/startup.sql:ro
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
@@ -369,7 +364,6 @@ ${ [projectDBHost, newsDBHost, authDBHost, chatDBHost].some(x => x == "database"
     volumes:
       - ./letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
       - app-network
