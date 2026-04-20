@@ -35,7 +35,7 @@
     "dateformat": "^5.0.3",
     "dotenv": "^17.4.1",
     "express": "^5.2.1",
-    "html-webpack-plugin": "^5.6.6",
+    "html-webpack-plugin": "^5.6.7",
     "jwt-decode": "^4.0.0",
     "mariadb": "^3.5.2",
     "react": "^19.2.4",
