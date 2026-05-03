@@ -1,3 +1,5 @@
+(I am now *mirroring* to github from my private gitea, because mircrosoft is evil.)
+
 # MERN-template
 
 A website template using the MERN stack. It is geared towards Persistent Browser Based Games (think neopets), but is flexible enough for a number of different uses.
