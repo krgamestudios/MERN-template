@@ -51,6 +51,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
-    "webpack-dev-server": "^5.2.3"
+    "webpack-dev-server": "^6.0.0"
   }
 }
